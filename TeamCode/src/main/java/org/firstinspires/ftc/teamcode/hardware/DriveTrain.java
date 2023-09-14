@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import android.widget.Switch;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -7,6 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
 
+import org.firstinspires.ftc.teamcode.Tele_Op;
 import org.firstinspires.ftc.teamcode.common.CommonLogic;
 import org.firstinspires.ftc.teamcode.common.Settings;
 
@@ -31,6 +34,10 @@ public class DriveTrain extends BaseHardware {
      * Hardware Mappings
      */
     public HardwareMap hardwareMap = null; // will be set in Child class
+    public Mode Current_Mode;
+
+    private boolean cmdComplete = false;
+
 
 
     /**
@@ -83,7 +90,9 @@ public class DriveTrain extends BaseHardware {
         RDM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RDM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        telemetry.addData("Chassis_Test", "Initialized");
+        telemetry.addData("Drive Train", "Initialized");
+        Current_Mode = Mode.STOPPED;
+
     }
     /**
      * User defined init_loop method
@@ -108,6 +117,17 @@ public class DriveTrain extends BaseHardware {
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop() {
+        switch(Current_Mode){
+            case TELEOP:
+
+                break;
+            case STOPPED:
+
+                break;
+
+        }
+
+
     }
     /**
      * User defined stop method
@@ -119,8 +139,61 @@ public class DriveTrain extends BaseHardware {
     void stop(){
 }
 
+    public void cmdTeleOp(double Left_Y, double Left_X, double Right_X, double Current_Speed) {
+        cmdComplete = false;
+        drivetrain_mode_Current = Mode.TELEOP;
+        double Drive = Left_Y * Current_Speed;
+        double Strafe = Left_X * Current_Speed;
+        double Turn = Right_X * DRIVETRAIN_TURNSPEED;
+        double Heading = subGyro.getGyroHeadingRadian();
+        double NDrive = Strafe * Math.sin(Heading) + Drive * Math.cos(Heading);
+        double NStrafe = Strafe * Math.cos(Heading) - Drive * Math.sin(Heading);
+        // Adapted mecanum drive from link below
+        // https://github.com/brandon-gong/ftc-mecanum
+
+        LDM1Power = NDrive + NStrafe + Turn;
+        RDM1Power = NDrive - NStrafe - Turn;
+        LDM2Power = NDrive - NStrafe + Turn;
+        RDM2Power = NDrive + NStrafe - Turn;
+
+        RobotLog.aa(TAGChassis, "LDM1Power: " + LDM1Power +" LDM2Power: " + LDM2Power
+                + " RDM1Power: " + RDM1Power +" RDM2Power: " + RDM2Power);
+        RobotLog.aa(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
+                + " Right_X: " + Right_X + " Heading " + Heading);
 
 
+
+
+
+
+        doTeleop();
+    }
+    public void doTeleop() {
+        drivetrain_mode_Current = Mode.TELEOP;
+        //Cap the power limit for the wheels
+        double LDM1P = CommonLogic.CapValue(LDM1Power,
+                minPower, maxPower);
+
+        //Cap the power limit for the wheels
+        double LDM2P = CommonLogic.CapValue(LDM2Power,
+                minPower, maxPower);
+
+        double RDM1P = CommonLogic.CapValue(RDM1Power,
+                minPower, maxPower);
+
+        double RDM2P = CommonLogic.CapValue(RDM2Power,
+                minPower, maxPower);
+
+
+
+
+        LDM1.setPower(LDM1P);
+        RDM1.setPower(RDM1P);
+        LDM2.setPower(LDM2P);
+        RDM2.setPower(RDM2P);
+        RobotLog.aa(TAGChassis, "doTeleop: LDM1Power =" + LDM1P + " RDM1Power =" + RDM1P +
+                " LDM2Power =" + LDM2P + " RDM2Power =" + RDM2P);
+    }
 
 public enum Mode{
 
