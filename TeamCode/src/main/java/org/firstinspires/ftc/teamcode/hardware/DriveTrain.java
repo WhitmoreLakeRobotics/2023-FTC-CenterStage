@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 import org.firstinspires.ftc.teamcode.Tele_Op;
 import org.firstinspires.ftc.teamcode.common.CommonLogic;
 import org.firstinspires.ftc.teamcode.common.Settings;
+import org.firstinspires.ftc.teamcode.hardware.CommonGyro;
 
 
 /**
@@ -23,6 +24,7 @@ public class DriveTrain extends BaseHardware {
     private DcMotor RDM1 ;
     private DcMotor RDM2 ;
 
+    private CommonGyro Gyro;
     /**
      * The {@link #telemetry} field contains an object in which a user may accumulate data which
      * is to be transmitted to the driver station. This data is automatically transmitted to the
@@ -38,7 +40,12 @@ public class DriveTrain extends BaseHardware {
 
     private boolean cmdComplete = false;
 
+    private static double TURNSPEED_TELEOP = 0.5;
 
+    private double LDM1Power;
+    private double LDM2Power;
+    private double RDM1Power;
+    private double RDM2Power;
 
     /**
      * BaseHardware constructor
@@ -89,6 +96,8 @@ public class DriveTrain extends BaseHardware {
         LDM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RDM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RDM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        Gyro.init();
 
         telemetry.addData("Drive Train", "Initialized");
         Current_Mode = Mode.STOPPED;
@@ -141,11 +150,11 @@ public class DriveTrain extends BaseHardware {
 
     public void cmdTeleOp(double Left_Y, double Left_X, double Right_X, double Current_Speed) {
         cmdComplete = false;
-        drivetrain_mode_Current = Mode.TELEOP;
+        Current_Mode = Mode.TELEOP;
         double Drive = Left_Y * Current_Speed;
         double Strafe = Left_X * Current_Speed;
-        double Turn = Right_X * DRIVETRAIN_TURNSPEED;
-        double Heading = subGyro.getGyroHeadingRadian();
+        double Turn = Right_X * (1.0 -Left_Y) * TURNSPEED_TELEOP ;
+        double Heading = Gyro.getGyroHeadingRadian();
         double NDrive = Strafe * Math.sin(Heading) + Drive * Math.cos(Heading);
         double NStrafe = Strafe * Math.cos(Heading) - Drive * Math.sin(Heading);
         // Adapted mecanum drive from link below
@@ -194,8 +203,60 @@ public class DriveTrain extends BaseHardware {
         RobotLog.aa(TAGChassis, "doTeleop: LDM1Power =" + LDM1P + " RDM1Power =" + RDM1P +
                 " LDM2Power =" + LDM2P + " RDM2Power =" + RDM2P);
     }
+    public void setMaxPower(double newMax) {
 
-public enum Mode{
+        this.maxPower = Math.abs(newMax);
+        this.minPower = Math.abs(newMax)* -1;
+    }
+
+    private void scaleMotorPower(){
+        //figure out what was max
+        double MaxValue = 0;
+        if (Math.abs(LDM2Power)  > MaxValue){
+            MaxValue = LDM2Power;
+        }
+        if (Math.abs(RDM1Power)  > MaxValue){
+            MaxValue = RDM1Power;
+        }
+        if (Math.abs(RDM2Power)  > MaxValue) {
+            MaxValue = RDM2Power;
+        }
+        if (Math.abs(LDM1Power)  > MaxValue){
+            MaxValue = LDM1Power;
+        }
+        //divide each motor power by max power
+        if (maxPower > 1) {
+            scalePower(MaxValue);
+        }
+    }
+    private  void scalePower(double ScalePower){
+        LDM1Power=LDM1Power/ScalePower;
+        LDM2Power=LDM2Power/ScalePower;
+        RDM1Power=RDM1Power/ScalePower;
+        RDM2Power=RDM2Power/ScalePower;
+
+    }
+    private  void updateMotorPower(){
+        scaleMotorPower();
+        LDM1Power = CommonLogic.CapValue(LDM1Power,
+                Settings.REV_MIN_POWER, Settings.REV_MAX_POWER);
+
+        LDM2Power= CommonLogic.CapValue(LDM2Power,
+                Settings.REV_MIN_POWER, Settings.REV_MAX_POWER);
+        RDM1Power = CommonLogic.CapValue(RDM1Power,
+                Settings.REV_MIN_POWER, Settings.REV_MAX_POWER);
+
+        RDM2Power= CommonLogic.CapValue(RDM2Power,
+                Settings.REV_MIN_POWER, Settings.REV_MAX_POWER);
+
+        LDM1.setPower(LDM1Power);
+        LDM2.setPower(LDM2Power);
+        RDM1.setPower(RDM1Power);
+        RDM2.setPower(RDM2Power);
+
+    }
+
+    public enum Mode{
 
     STOPPED,
     TELEOP;
