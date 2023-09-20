@@ -47,6 +47,15 @@ public class DriveTrain extends BaseHardware {
     private double RDM1Power;
     private double RDM2Power;
 
+    private double minPower = -1.0;
+    private double maxPower = 1.0;
+
+    private static final String TAGChassis = "8492 ";
+
+    public static final double DTrain_NORMALSPEED = 0.5;
+    public static final double DTrain_SLOWSPEED = 0.3;
+    public static final double DTrain_FASTSPEED = 0.7;
+
     /**
      * BaseHardware constructor
      * <p>
@@ -97,6 +106,8 @@ public class DriveTrain extends BaseHardware {
         RDM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RDM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        Gyro.telemetry = telemetry;
+        Gyro.hardwareMap = hardwareMap;
         Gyro.init();
 
         telemetry.addData("Drive Train", "Initialized");
@@ -178,7 +189,7 @@ public class DriveTrain extends BaseHardware {
         doTeleop();
     }
     public void doTeleop() {
-        drivetrain_mode_Current = Mode.TELEOP;
+        Current_Mode = Mode.TELEOP;
         //Cap the power limit for the wheels
         double LDM1P = CommonLogic.CapValue(LDM1Power,
                 minPower, maxPower);
@@ -254,6 +265,17 @@ public class DriveTrain extends BaseHardware {
         RDM1.setPower(RDM1Power);
         RDM2.setPower(RDM2Power);
 
+    }
+
+
+    public void QuickAligenment() {
+   //The intention of this method is to return a turn value based upon a desired alingment direction
+        //this should override the right joystick
+    }
+
+
+    public void ResetGyro(){
+        Gyro.GyroInt();
     }
 
     public enum Mode{

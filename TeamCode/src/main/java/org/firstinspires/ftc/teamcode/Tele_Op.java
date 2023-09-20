@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.util.RobotLog;
 import org.firstinspires.ftc.teamcode.common.CommonLogic;
 import org.firstinspires.ftc.teamcode.common.Settings;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.hardware.Swing_Arm_And_Lift;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Tele_Op", group = "TeleOp")
 //@Disabled
@@ -59,19 +58,19 @@ public class Tele_Op extends OpMode {
         // the robot controller application is restarted. They SHOULD NOT be modified except as absolutely
         // necessary as poorly chosen values might inadvertently compromise safety.
         //----------------------------------------------------------------------------------------------
-        msStuckDetectInit = Settings.msStuckDetectInit;
-        msStuckDetectInitLoop = Settings.msStuckDetectInitLoop;
-        msStuckDetectStart = Settings.msStuckDetectStart;
-        msStuckDetectLoop = Settings.msStuckDetectLoop;
-        msStuckDetectStop = Settings.msStuckDetectStop;
+       // msStuckDetectInit = Settings.msStuckDetectInit;
+       // msStuckDetectInitLoop = Settings.msStuckDetectInitLoop;
+       //msStuckDetectStart = Settings.msStuckDetectStart;
+        //msStuckDetectLoop = Settings.msStuckDetectLoop;
+       // msStuckDetectStop = Settings.msStuckDetectStop;
 
-        telemetry.addData("Tele_Op_test", "Initialized");
+        telemetry.addData("Tele_Op", "Initialized");
 
         robot.hardwareMap = hardwareMap;
         robot.telemetry = telemetry;
         //robot.driveTrain.setMaxPower(DriveTrain.DRIVETRAIN_NORMALSPEED);
         robot.init();
-        robot.driveTrain.subGyro.GyroInt();
+        robot.driveTrain.ResetGyro();
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -100,9 +99,9 @@ public class Tele_Op extends OpMode {
     @Override
     public void start() {
         Runtime.getRuntime();
-        robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GOLD);
-        robot.signalSign.doUP();
-        robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.PICKUP);
+       // robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GOLD);
+        //robot.signalSign.doUP();
+        //robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.PICKUP);
     }
 
     //*********************************************************************************************
@@ -119,36 +118,36 @@ public class Tele_Op extends OpMode {
             if (gamepad1.right_bumper) {
                 robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                         CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                        CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DRIVETRAIN_TURBOSPEED);
+                        CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_FASTSPEED);
             } else if (gamepad1.left_bumper) {
                 robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                         CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                        CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DRIVETRAIN_SLOWSPEED);
+                        CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_SLOWSPEED);
 
 
             } else {
 
                 robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                         CommonLogic.joyStickMath(gamepad1.left_stick_x),
-                        CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DRIVETRAIN_NORMALSPEED);
+                        CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_NORMALSPEED);
             }
         }
         //***********   Pushers
         //if (CommonLogic.oneShot(gamepad1.a, gp1_prev_a)) {
         if (gamepad1.a) {
             //robot.subPushers.cmdMoveAllDown();
-            robot.cmdStrafeIntake();
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.CONFETTI);
+      //      robot.cmdStrafeIntake();
+        //    robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.CONFETTI);
         }
 
         if (gamepad1.b) {
             //robot.subPushers.cmdMoveAllUp();
-            robot.cmdStrafeDelivery();
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_PARTY_PALETTE);
+          //  robot.cmdStrafeDelivery();
+            //robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_PARTY_PALETTE);
         }
         if (CommonLogic.oneShot(gamepad1.back, gp1_prev_back)){
             //Initialize Gyro
-            robot.driveTrain.subGyro.GyroInt();
+            robot.driveTrain.ResetGyro();
         }
 
         // Bumpers high and lower Powers for the wheels,
@@ -182,28 +181,28 @@ public class Tele_Op extends OpMode {
             //if (RBTChassis.subGrabbers.getIsUpRight()) {
             //robot.subGrabbers.cmdMoveDownRight();
             //}
-            robot.driveTrain.cmdTurnByGyroMec(90);
+     //       robot.driveTrain.cmdTurnByGyroMec(90);
         }
 
         if (CommonLogic.oneShot(gamepad1.dpad_up, gp1_prev_dpad_up)) {
             // if (RBTChassis.subGrabbers.getIsDownRight()) {
             //robot.subGrabbers.cmdMoveUpRight();
             //}
-            robot.driveTrain.cmdTurnByGyroMec(0);
+          //  robot.driveTrain.cmdTurnByGyroMec(0);
         }
 
         if (CommonLogic.oneShot(gamepad1.dpad_left, gp1_prev_dpad_left)) {
             //if (robot.subGrabbers.getIsDownLeft()) {
             //    robot.subGrabbers.cmdMoveUpLeft();
             //}
-            robot.driveTrain.cmdTurnByGyroMec(-90);
+           // robot.driveTrain.cmdTurnByGyroMec(-90);
         }
 
         if (CommonLogic.oneShot(gamepad1.dpad_down, gp1_prev_dpad_down)) {
             //if (robot.subGrabbers.getIsUpLeft()) {
             //    robot.subGrabbers.cmdMoveDownLeft();
             //}
-            robot.driveTrain.cmdTurnByGyroMec(180);
+           // robot.driveTrain.cmdTurnByGyroMec(180);
         }
 
         //***********   Gamepad 2 controls ********
@@ -213,8 +212,8 @@ public class Tele_Op extends OpMode {
             //if (robot.subGripper.getIsOpen()) {
             //    robot.subGripper.cmd_close();
             //}
-            robot.intake.doIntake();
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.LIME);
+            //robot.intake.doIntake();
+         //   robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.LIME);
 
             RobotLog.aa(TAGTeleop, " gp2_prev_left_bumper : " + gp2_prev_left_bumper);
 
@@ -227,15 +226,15 @@ public class Tele_Op extends OpMode {
             //if (robot.subGripper.getIsClosed()) {
             //    robot.subGripper.cmd_open();
             // }
-            robot.intake.cmdDelivery();
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.FIRE_MEDIUM);
+       //     robot.intake.cmdDelivery();
+     //       robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.FIRE_MEDIUM);
         }
         if (CommonLogic.oneShot(gamepad2.back, gp2_prev_back)){
             //Initialize Gyro
             //robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.STACKPICKUP);
-            robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.STACKPICKUP);
-            robot.intake.doIntake();
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_FOREST_PALETTE);
+           // robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.STACKPICKUP);
+         //   robot.intake.doIntake();
+            //robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_FOREST_PALETTE);
         }
 
         if (CommonLogic.oneShot(gamepad2.start, gp2_prev_start)){
@@ -244,34 +243,34 @@ public class Tele_Op extends OpMode {
             //robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.AQUA);
         }
         if (gamepad2.start){
-            robot.cmdExcecuteBumpStack();   // this was SetPOS() not setting the mode
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.AQUA);
+//            robot.cmdExcecuteBumpStack();   // this was SetPOS() not setting the mode
+  //          robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.AQUA);
 
         }
 
 
 
         if (CommonLogic.oneShot(gamepad2.a, gp2_prev_a)) {
-            robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.GNDJCN);
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+    //        robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.GNDJCN);
+      //      robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GREEN);
             //robot.subExtender.decPositionIndex();
         }
 
         if (CommonLogic.oneShot(gamepad2.b, gp2_prev_b)) {
-            robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.LOWJCN);
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.RED);
+          //  robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.LOWJCN);
+        //    robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.RED);
             //robot.subLeg.pick();
         }
 
         if (CommonLogic.oneShot(gamepad2.y, gp2_prev_y)) {
-            robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.HIGHJCN);
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
+            //robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.HIGHJCN);
+//            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
             //robot.subExtender.incPositionIndex();
         }
 
         if (CommonLogic.oneShot(gamepad2.x, gp2_prev_x)) {
-            robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.MEDJCN);
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+    //        robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.MEDJCN);
+  //          robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE);
             //robot.subLeg.place();
         }
 
@@ -293,40 +292,40 @@ public class Tele_Op extends OpMode {
 
         if (CommonLogic.oneShot(gamepad2.dpad_up, gp2_prev_dpad_up)) {
             //robot.subLifter.incPositionIndex();
-            robot.intake.doStop();
+      //      robot.intake.doStop();
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_down, gp2_prev_dpad_down)) {
             //robot.subLifter.decPositionIndex();
-            robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.STOP);
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_OCEAN_PALETTE);
+//            robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.STOP);
+  //          robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_OCEAN_PALETTE);
         }
         if (CommonLogic.oneShot(gamepad2.dpad_right, gp2_prev_dpad_right)) {
-            robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.PICKUP);
-            robot.intake.doIntake();
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
+    //        robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.PICKUP);
+      //      robot.intake.doIntake();
+        //    robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
             //robot.subLifter.decPositionIndex();
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_left, gp2_prev_dpad_left)) {
 
-            robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.CARRY);
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
+//            robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.CARRY);
+  //          robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
             //robot.subLifter.decPositionIndex();
         }
 
         if (gamepad2.right_trigger > .8){
         }
         if ((gamepad2.right_trigger <= 1) && (gamepad2.right_trigger > .01)){
-            robot.swing_arm_and_lift.BumpLiftUp(gamepad2.right_trigger);
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
+    //        robot.swing_arm_and_lift.BumpLiftUp(gamepad2.right_trigger);
+      //      robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
             // robot.cmdReturnTo_Carry();
         }
         if (gamepad2.left_trigger > .8) {
         }
         if ((gamepad2.left_trigger <= 1) && (gamepad2.left_trigger > .01)) {
-            robot.swing_arm_and_lift.BumpLiftDown(gamepad2.left_trigger);
-            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE_VIOLET);
+        //    robot.swing_arm_and_lift.BumpLiftDown(gamepad2.left_trigger);
+          //  robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE_VIOLET);
         }
 
         // Update the previous status for gamepad1
