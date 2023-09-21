@@ -24,13 +24,13 @@ public class DriveTrain extends BaseHardware {
     private DcMotor RDM1 ;
     private DcMotor RDM2 ;
 
-    private CommonGyro Gyro;
+    private CommonGyro Gyro = new CommonGyro();
     /**
      * The {@link #telemetry} field contains an object in which a user may accumulate data which
      * is to be transmitted to the driver station. This data is automatically transmitted to the
      * driver station on a regular, periodic basis.
      */
-    public Telemetry telemetry = null;
+ //   public Telemetry telemetry = null;
 
     /**
      * Hardware Mappings
@@ -73,6 +73,10 @@ public class DriveTrain extends BaseHardware {
      */
     public void init() {
 
+        Gyro.telemetry = telemetry;
+        Gyro.hardwareMap = hardwareMap;
+        Gyro.init();
+
         RDM1 = hardwareMap.dcMotor.get("RDM1");
         LDM1 = hardwareMap.dcMotor.get("LDM1");
         LDM2 = hardwareMap.dcMotor.get("LDM2");
@@ -106,9 +110,7 @@ public class DriveTrain extends BaseHardware {
         RDM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RDM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        Gyro.telemetry = telemetry;
-        Gyro.hardwareMap = hardwareMap;
-        Gyro.init();
+
 
         telemetry.addData("Drive Train", "Initialized");
         Current_Mode = Mode.STOPPED;
