@@ -105,6 +105,11 @@ public class DriveTrain extends BaseHardware {
         RDM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         RDM2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
+        LDM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LDM2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RDM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RDM2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         LDM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         LDM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RDM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -183,6 +188,9 @@ public class DriveTrain extends BaseHardware {
         RobotLog.aa(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
                 + " Right_X: " + Right_X + " Heading " + Heading);
 
+        telemetry.addData(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
+                + " Right_X: " + Right_X + " Heading " + Heading);
+
 
 
 
@@ -214,6 +222,9 @@ public class DriveTrain extends BaseHardware {
         LDM2.setPower(LDM2P);
         RDM2.setPower(RDM2P);
         RobotLog.aa(TAGChassis, "doTeleop: LDM1Power =" + LDM1P + " RDM1Power =" + RDM1P +
+                " LDM2Power =" + LDM2P + " RDM2Power =" + RDM2P);
+
+        telemetry.addData(TAGChassis, "doTeleop: LDM1Power =" + LDM1P + " RDM1Power =" + RDM1P +
                 " LDM2Power =" + LDM2P + " RDM2Power =" + RDM2P);
     }
     public void setMaxPower(double newMax) {
