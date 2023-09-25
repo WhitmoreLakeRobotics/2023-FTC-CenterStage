@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.hardware;
 import android.widget.Switch;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -56,6 +57,14 @@ public class DriveTrain extends BaseHardware {
     public static final double DTrain_SLOWSPEED = 0.3;
     public static final double DTrain_FASTSPEED = 0.7;
 
+    private double Drive_Start;  //in inches
+    private double Drive_Target;  //in inches
+    private static final double Ticks_Per_Inch = Settings.REV_HD_HEX_MOTOR_TICKS_PER_REV / Gear_Ratio / Distance_Per_Rev;
+    private static final double Distance_Per_Rev = 2.95*3.14159;
+    private static final double Gear_Ratio = 1/10.4329;
+
+
+
     /**
      * BaseHardware constructor
      * <p>
@@ -95,10 +104,10 @@ public class DriveTrain extends BaseHardware {
             telemetry.log().add("RDM2 is null...");
         }
 
-        LDM1.setDirection(DcMotor.Direction.REVERSE);
-        LDM2.setDirection(DcMotor.Direction.REVERSE);
-        RDM1.setDirection(DcMotor.Direction.REVERSE);
-        RDM2.setDirection(DcMotor.Direction.FORWARD);
+        LDM1.setDirection(DcMotor.Direction.FORWARD);
+        LDM2.setDirection(DcMotor.Direction.FORWARD);
+        RDM1.setDirection(DcMotor.Direction.FORWARD);
+        RDM2.setDirection(DcMotor.Direction.REVERSE);
 
         LDM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LDM2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -151,7 +160,12 @@ public class DriveTrain extends BaseHardware {
             case STOPPED:
 
                 break;
+            case COMMAND_AA:
 
+                break;
+            case DRIVE_AA:
+
+                break;
         }
 
 
@@ -280,7 +294,28 @@ public class DriveTrain extends BaseHardware {
 
     }
 
+    public void CmdDrive(double Target,double Bearing){
+    Drive_Target = Target;
+    // reset encoders
+        // store Bearing
 
+    }
+
+    private double getPosInches(){
+        double values = Math.abs(LDM1.getCurrentPosition());
+        values += Math.abs(LDM2.getCurrentPosition());
+        values += Math.abs(RDM1.getCurrentPosition());
+        values += Math.abs(RDM2.getCurrentPosition());
+        values = values/4;
+
+        values = values*Ticks_Per_Inch;
+
+        return values;
+
+
+
+
+    }
     public void QuickAligenment() {
    //The intention of this method is to return a turn value based upon a desired alingment direction
         //this should override the right joystick
@@ -292,8 +327,10 @@ public class DriveTrain extends BaseHardware {
     }
 
     public enum Mode{
-
+    DRIVE_AA,
+        COMMAND_AA,
     STOPPED,
     TELEOP;
+
 }
 }

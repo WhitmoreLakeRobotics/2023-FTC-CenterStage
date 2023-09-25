@@ -10,7 +10,7 @@ public class Settings extends Object {
     public static final int REV_HD_20_MOTOR_TICKS_PER_REV = 560;
     public static final double REV_MAX_POWER = 1.0;
     public static final double REV_MIN_POWER = -1.0;
-
+    public static final int REV_HD_HEX_MOTOR_TICKS_PER_REV = 28;
     public static final double JOYSTICK_DEADBAND_TRIGGER = 0.1;
     public static final double JOYSTICK_DEADBAND_STICK = 0.1;
 
