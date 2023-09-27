@@ -58,13 +58,13 @@ public class CommonLogic extends Object {
 
     //*********************************************************************************************
 
-    public static double goToPosition(int CurrentPos, int TargetPos, int Tol, double NegPower, double PosPower, double HoldPower) {
+    public static double goToPosition(int CurrentPos, int TargetPos, int Tol, double NegPower, double PosPower, double HoldPower, int stag) {
        double Power = HoldPower;
         //If current pos greater than target pos then add negative power,
-        if (CurrentPos > (TargetPos + 200)) {
+        if (CurrentPos > (TargetPos + stag)) {
             Power = NegPower;
             //else if current pos less than target pos add positive power,
-        } else if (CurrentPos < (TargetPos - 200)) {
+        } else if (CurrentPos < (TargetPos - stag)) {
             Power = PosPower;
         } else if (CurrentPos > (TargetPos + Tol)) {
             Power = NegPower * .65;

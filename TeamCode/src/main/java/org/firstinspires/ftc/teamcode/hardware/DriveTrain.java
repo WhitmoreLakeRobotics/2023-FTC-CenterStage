@@ -62,6 +62,10 @@ public class DriveTrain extends BaseHardware {
     private static final double Ticks_Per_Inch = Settings.REV_HD_HEX_MOTOR_TICKS_PER_REV / Gear_Ratio / Distance_Per_Rev;
     private static final double Distance_Per_Rev = 2.95*3.14159;
     private static final double Gear_Ratio = 1/10.4329;
+    private  static final int Gyro_Tol  = 3;
+    private double bearing_AA = 0;
+    private double speed_AA = 0;
+    private int Target_Heading;
 
 
 
@@ -294,13 +298,112 @@ public class DriveTrain extends BaseHardware {
 
     }
 
-    public void CmdDrive(double Target,double Bearing){
+    public void CmdDrive(double Target,double Bearing, double speed, int Heading){
+        //drive target needs to account turn distance
     Drive_Target = Target;
+
     // reset encoders
+     resetEncoders();
         // store Bearing
+        bearing_AA = Bearing;
+        //store speed
+        speed_AA = speed;
+        Target_Heading = Heading;
+        cmdComplete = false;
+        Current_Mode = Mode.DRIVE_AA;
+        startDrive();
+    }
+    public double calcTurn(int tHeading){
+       return CommonLogic.goToPosition(Gyro.getGyroHeading(),tHeading, Gyro_Tol,
+               -1.0, 1.0, 0, 45);
+
 
     }
 
+
+    private void startDrive(){
+        double Left_Y = Math.sin(bearing_AA);
+        double Drive = Left_Y * speed_AA;
+        double Strafe = Math.cos(bearing_AA) * speed_AA;
+        double Turn = calcTurn(Target_Heading) * (1.0 -Left_Y) * TURNSPEED_TELEOP ;
+        double Heading = Gyro.getGyroHeadingRadian();
+        double NDrive = Strafe * Math.sin(Heading) + Drive * Math.cos(Heading);
+        double NStrafe = Strafe * Math.cos(Heading) - Drive * Math.sin(Heading);
+        // Adapted mecanum drive from link below
+        // https://github.com/brandon-gong/ftc-mecanum
+
+        LDM1Power = NDrive + NStrafe + Turn;
+        RDM1Power = NDrive - NStrafe - Turn;
+        LDM2Power = NDrive - NStrafe + Turn;
+        RDM2Power = NDrive + NStrafe - Turn;
+
+       /* RobotLog.aa(TAGChassis, "LDM1Power: " + LDM1Power +" LDM2Power: " + LDM2Power
+           //     + " RDM1Power: " + RDM1Power +" RDM2Power: " + RDM2Power);
+        RobotLog.aa(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
+                + " Right_X: " + Right_X + " Heading " + Heading);
+
+        telemetry.addData(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
+                + " Right_X: " + Right_X + " Heading " + Heading);
+
+        */
+
+        //Cap the power limit for the wheels
+      scaleMotorPower();
+       /* double LDM1P = CommonLogic.CapValue(LDM1Power,
+                minPower, maxPower);
+
+        //Cap the power limit for the wheels
+        double LDM2P = CommonLogic.CapValue(LDM2Power,
+                minPower, maxPower);
+
+        double RDM1P = CommonLogic.CapValue(RDM1Power,
+                minPower, maxPower);
+
+        double RDM2P = CommonLogic.CapValue(RDM2Power,
+                minPower, maxPower);
+
+
+        */
+
+
+
+        LDM1.setPower(LDM1Power);
+        RDM1.setPower(RDM1Power);
+        LDM2.setPower(LDM2Power);
+        RDM2.setPower(RDM2Power);
+        RobotLog.aa(TAGChassis, "doTeleop: LDM1Power =" + LDM1Power + " RDM1Power =" + RDM1Power +
+                " LDM2Power =" + LDM2Power + " RDM2Power =" + RDM2Power);
+
+        telemetry.addData(TAGChassis, "doTeleop: LDM1Power =" + LDM1Power + " RDM1Power =" + RDM1Power +
+                " LDM2Power =" + LDM2Power + " RDM2Power =" + RDM2Power);
+
+    }
+    private void doDrive(){
+    //check to see if we have driven the target distance
+
+        //if we have reached our target distance
+        //stop drive
+        //mark command complete
+        //set current mode stop
+        //if not keep driving
+
+    }
+
+
+    private void resetEncoders(){
+        LDM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LDM2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RDM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RDM2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        LDM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LDM2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RDM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RDM2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+
+    }
     private double getPosInches(){
         double values = Math.abs(LDM1.getCurrentPosition());
         values += Math.abs(LDM2.getCurrentPosition());
