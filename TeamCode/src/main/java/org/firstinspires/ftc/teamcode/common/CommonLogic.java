@@ -29,7 +29,7 @@ public class CommonLogic extends Object {
     }
 
     //*********************************************************************************************
-    public static boolean inRange(int value, int targetValue, int tol) {
+    public static boolean inRange(double value, double targetValue, double tol) {
         // function to tell if an encoder is within tolerance
 
         boolean retValue = false;

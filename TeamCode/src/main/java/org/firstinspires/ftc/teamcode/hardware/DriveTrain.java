@@ -59,15 +59,16 @@ public class DriveTrain extends BaseHardware {
 
     private double Drive_Start;  //in inches
     private double Drive_Target;  //in inches
-    private static final double Ticks_Per_Inch = Settings.REV_HD_HEX_MOTOR_TICKS_PER_REV / Gear_Ratio / Distance_Per_Rev;
     private static final double Distance_Per_Rev = 2.95*3.14159;
     private static final double Gear_Ratio = 1/10.4329;
     private  static final int Gyro_Tol  = 3;
+    private static final double Ticks_Per_Inch = Settings.REV_HD_HEX_MOTOR_TICKS_PER_REV / Gear_Ratio / Distance_Per_Rev;
     private double bearing_AA = 0;
     private double speed_AA = 0;
     private int Target_Heading;
-
-
+    private static final double driveTolAA = 1.5; //in inches
+    private static final double diaTurnRaid = 23; //in inches
+    private static final double turnDistPerDeg = (3.14159 * diaTurnRaid)/360;
 
     /**
      * BaseHardware constructor
@@ -162,13 +163,13 @@ public class DriveTrain extends BaseHardware {
 
                 break;
             case STOPPED:
-
+                stopMotors();
                 break;
             case COMMAND_AA:
 
                 break;
             case DRIVE_AA:
-
+                doDrive();
                 break;
         }
 
@@ -298,9 +299,12 @@ public class DriveTrain extends BaseHardware {
 
     }
 
-    public void CmdDrive(double Target,double Bearing, double speed, int Heading){
+    public void CmdDrive(double TargetDist,double Bearing, double speed, int Heading){
         //drive target needs to account turn distance
-    Drive_Target = Target;
+
+        Target_Heading = Heading;
+
+    Drive_Target = TargetDist + ((Math.abs(Gyro.getGyroHeading() - Target_Heading))*turnDistPerDeg);
 
     // reset encoders
      resetEncoders();
@@ -308,7 +312,7 @@ public class DriveTrain extends BaseHardware {
         bearing_AA = Bearing;
         //store speed
         speed_AA = speed;
-        Target_Heading = Heading;
+
         cmdComplete = false;
         Current_Mode = Mode.DRIVE_AA;
         startDrive();
@@ -380,11 +384,16 @@ public class DriveTrain extends BaseHardware {
     }
     private void doDrive(){
     //check to see if we have driven the target distance
-
+    if(Drive_Target <= getPosInches()) {
         //if we have reached our target distance
         //stop drive
+        stopMotors();
         //mark command complete
+            cmdComplete = true;
         //set current mode stop
+        Current_Mode = Mode.STOPPED;
+    }
+
         //if not keep driving
 
     }
@@ -424,11 +433,23 @@ public class DriveTrain extends BaseHardware {
         //this should override the right joystick
     }
 
+    private void stopMotors(){
+        LDM1.setPower(0);
+        LDM2.setPower(0);
+        RDM1.setPower(0);
+        RDM2.setPower(0);
+    }
 
     public void ResetGyro(){
         Gyro.GyroInt();
     }
 
+
+    public boolean getCmdComplete(){
+
+
+        return cmdComplete;
+    }
     public enum Mode{
     DRIVE_AA,
         COMMAND_AA,
