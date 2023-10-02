@@ -60,9 +60,9 @@ public class DriveTrain extends BaseHardware {
     private double Drive_Start;  //in inches
     private double Drive_Target;  //in inches
     private static final double Distance_Per_Rev = 2.95*3.14159;
-    private static final double Gear_Ratio = 1/10.4329;
+    private static final double Gear_Ratio = 1 / 10.4329;
     private  static final int Gyro_Tol  = 3;
-    private static final double Ticks_Per_Inch = Settings.REV_HD_HEX_MOTOR_TICKS_PER_REV / Gear_Ratio / Distance_Per_Rev;
+    private static final double Ticks_Per_Inch = Settings.REV_HD_HEX_MOTOR_TICKS_PER_REV *  Gear_Ratio * Distance_Per_Rev;
     private double bearing_AA = 0;
     private double speed_AA = 0;
     private int Target_Heading;
@@ -304,7 +304,7 @@ public class DriveTrain extends BaseHardware {
 
         Target_Heading = Heading;
 
-    Drive_Target = TargetDist + ((Math.abs(Gyro.getGyroHeading() - Target_Heading))*turnDistPerDeg);
+    Drive_Target = (TargetDist) + ((Math.abs(Gyro.getGyroHeading() - Target_Heading))*turnDistPerDeg);
 
     // reset encoders
      resetEncoders();
@@ -326,9 +326,9 @@ public class DriveTrain extends BaseHardware {
 
 
     private void startDrive(){
-        double Left_Y = Math.sin(bearing_AA);
+        double Left_Y = Math.cos(bearing_AA);
         double Drive = Left_Y * speed_AA;
-        double Strafe = Math.cos(bearing_AA) * speed_AA;
+        double Strafe = Math.sin(bearing_AA) * speed_AA;
         double Turn = calcTurn(Target_Heading) * (1.0 -Left_Y) * TURNSPEED_TELEOP ;
         double Heading = Gyro.getGyroHeadingRadian();
         double NDrive = Strafe * Math.sin(Heading) + Drive * Math.cos(Heading);
@@ -383,8 +383,10 @@ public class DriveTrain extends BaseHardware {
 
     }
     private void doDrive(){
+        double distance = getPosInches();
+        telemetry.addData(TAGChassis,"distance driven " + distance);
     //check to see if we have driven the target distance
-    if(Drive_Target <= getPosInches()) {
+    if(Drive_Target <= distance) {
         //if we have reached our target distance
         //stop drive
         stopMotors();
@@ -420,7 +422,7 @@ public class DriveTrain extends BaseHardware {
         values += Math.abs(RDM2.getCurrentPosition());
         values = values/4;
 
-        values = values*Ticks_Per_Inch;
+        values = values/Ticks_Per_Inch;
 
         return values;
 

@@ -52,7 +52,7 @@ public class AutonBase extends OpMode {
         robot.hardwareMap = hardwareMap;
         robot.telemetry = telemetry;
         robot.init();
-        telemetry.addData("A_B_C_Duck", "Initialized");
+        telemetry.addData("Test Auton", "Initialized");
 
         //Initialize Gyro
         robot.driveTrain.ResetGyro();
@@ -89,13 +89,13 @@ public class AutonBase extends OpMode {
 
         switch (currentStage){
             case  _unknown:
-
+                currentStage = stage._00_preStart;
                 break;
             case _00_preStart:
-
+                currentStage = stage._10_Drive_Out;
                 break;
             case _10_Drive_Out:
-                robot.driveTrain.CmdDrive(12,0,0.25,0);
+                robot.driveTrain.CmdDrive(10,0,0.35,0);
                 currentStage = stage._20_Turn_To_Backdrop;
                 break;
             case _20_Turn_To_Backdrop:
