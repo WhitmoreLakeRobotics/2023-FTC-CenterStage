@@ -39,7 +39,7 @@ public class DriveTrain extends BaseHardware {
     public HardwareMap hardwareMap = null; // will be set in Child class
     public Mode Current_Mode;
 
-    private boolean cmdComplete = false;
+    private boolean cmdComplete = true;
 
     private static double TURNSPEED_TELEOP = 0.5;
 
@@ -68,7 +68,10 @@ public class DriveTrain extends BaseHardware {
     private int Target_Heading;
     private static final double driveTolAA = 1.5; //in inches
     private static final double diaTurnRaid = 23; //in inches
-    private static final double turnDistPerDeg = (3.14159 * diaTurnRaid)/360;
+    private static final double turnDistPerDeg = ((3.14159 * diaTurnRaid)/360) * Ticks_Per_Inch; //inches per deg
+
+
+
 
     /**
      * BaseHardware constructor
@@ -158,6 +161,7 @@ public class DriveTrain extends BaseHardware {
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop() {
+        telemetry.addData("Gyro","Gyro "+Gyro.getGyroHeading());
         switch(Current_Mode){
             case TELEOP:
 
@@ -304,7 +308,7 @@ public class DriveTrain extends BaseHardware {
 
         Target_Heading = Heading;
 
-    Drive_Target = (TargetDist) + ((Math.abs(Gyro.getGyroHeading() - Target_Heading))*turnDistPerDeg);
+    Drive_Target = (TargetDist) + ((Math.abs(Gyro.getGyroHeading() - Target_Heading))/turnDistPerDeg);
 
     // reset encoders
      resetEncoders();
@@ -318,18 +322,19 @@ public class DriveTrain extends BaseHardware {
         startDrive();
     }
     public double calcTurn(int tHeading){
-       return CommonLogic.goToPosition(Gyro.getGyroHeading(),tHeading, Gyro_Tol,
+
+       double turn = CommonLogic.goToPosition(Gyro.getGyroHeading(),tHeading, Gyro_Tol,
                -1.0, 1.0, 0, 45);
-
-
+        telemetry.addData(TAGChassis,"turn power " + turn);
+        return turn;
     }
 
 
     private void startDrive(){
-        double Left_Y = Math.cos(bearing_AA);
+        double Left_Y = Math.cos(Math.toRadians(bearing_AA));
         double Drive = Left_Y * speed_AA;
-        double Strafe = Math.sin(bearing_AA) * speed_AA;
-        double Turn = calcTurn(Target_Heading) * (1.0 -Left_Y) * TURNSPEED_TELEOP ;
+        double Strafe = Math.sin(Math.toRadians(bearing_AA)) * speed_AA;
+        double Turn = calcTurn(Target_Heading) * (1.01 -Left_Y) * TURNSPEED_TELEOP ;
         double Heading = Gyro.getGyroHeadingRadian();
         double NDrive = Strafe * Math.sin(Heading) + Drive * Math.cos(Heading);
         double NStrafe = Strafe * Math.cos(Heading) - Drive * Math.sin(Heading);
@@ -385,6 +390,7 @@ public class DriveTrain extends BaseHardware {
     private void doDrive(){
         double distance = getPosInches();
         telemetry.addData(TAGChassis,"distance driven " + distance);
+        startDrive();
     //check to see if we have driven the target distance
     if(Drive_Target <= distance) {
         //if we have reached our target distance

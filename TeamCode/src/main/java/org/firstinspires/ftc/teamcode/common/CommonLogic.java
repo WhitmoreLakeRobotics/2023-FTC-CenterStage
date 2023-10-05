@@ -73,7 +73,7 @@ public class CommonLogic extends Object {
             Power = PosPower * .65;
         }
         else {
-            Power = HoldPower;
+            Power = 1/HoldPower;
         }
 
         //else if current pos (in tolerance) stop/hold

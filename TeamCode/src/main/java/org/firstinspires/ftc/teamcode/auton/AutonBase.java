@@ -92,15 +92,15 @@ public class AutonBase extends OpMode {
                 currentStage = stage._00_preStart;
                 break;
             case _00_preStart:
-                currentStage = stage._10_Drive_Out;
+                currentStage = stage._20_Turn_To_Backdrop;
                 break;
             case _10_Drive_Out:
-                robot.driveTrain.CmdDrive(10,0,0.35,0);
+             //   robot.driveTrain.CmdDrive(10,0,0.35,0);
                 currentStage = stage._20_Turn_To_Backdrop;
                 break;
             case _20_Turn_To_Backdrop:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(0,0,0.25,-90);
+                    robot.driveTrain.CmdDrive(0,0,0.35,-90);
                     currentStage = stage._100_End;
 
                 }
