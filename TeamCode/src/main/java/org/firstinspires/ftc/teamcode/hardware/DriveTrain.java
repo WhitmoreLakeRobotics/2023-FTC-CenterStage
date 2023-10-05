@@ -66,7 +66,7 @@ public class DriveTrain extends BaseHardware {
     private double bearing_AA = 0;
     private double speed_AA = 0;
     private int Target_Heading;
-    private static final double driveTolAA = 1.5; //in inches
+    private static final double driveTolAA = 0.25; //in inches
     private static final double diaTurnRaid = 23; //in inches
     private static final double turnDistPerDeg = ((3.14159 * diaTurnRaid)/360) * Ticks_Per_Inch; //inches per deg
 
@@ -323,8 +323,8 @@ public class DriveTrain extends BaseHardware {
     }
     public double calcTurn(int tHeading){
 
-       double turn = CommonLogic.goToPosition(Gyro.getGyroHeading(),tHeading, Gyro_Tol,
-               -1.0, 1.0, 0, 45);
+       double turn = CommonLogic.goToPosStag(Gyro.getGyroHeading(),tHeading, Gyro_Tol,
+               1.0, 25, 0.65);
         telemetry.addData(TAGChassis,"turn power " + turn);
         return turn;
     }
@@ -334,7 +334,7 @@ public class DriveTrain extends BaseHardware {
         double Left_Y = Math.cos(Math.toRadians(bearing_AA));
         double Drive = Left_Y * speed_AA;
         double Strafe = Math.sin(Math.toRadians(bearing_AA)) * speed_AA;
-        double Turn = calcTurn(Target_Heading) * (1.01 -Left_Y) * TURNSPEED_TELEOP ;
+        double Turn = calcTurn(Target_Heading) * (1.01 -Drive) * TURNSPEED_TELEOP ;
         double Heading = Gyro.getGyroHeadingRadian();
         double NDrive = Strafe * Math.sin(Heading) + Drive * Math.cos(Heading);
         double NStrafe = Strafe * Math.cos(Heading) - Drive * Math.sin(Heading);
