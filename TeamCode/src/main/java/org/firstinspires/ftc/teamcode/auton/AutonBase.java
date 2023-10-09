@@ -100,14 +100,14 @@ public class AutonBase extends OpMode {
                 break;
             case _20_Turn_To_Backdrop:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(0,0,0.0,90);
+                    robot.driveTrain.CmdDrive(0,0,0.0,0);
                     currentStage = stage._30_Strafe_Left;
 
                 }
                 break;
             case _30_Strafe_Left:
                 if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(12,-90,0.35,90);
+                    robot.driveTrain.CmdDrive(12,-90,0.35,0);
                     currentStage = stage._40_Strafe_Right;
                 }
                 break;

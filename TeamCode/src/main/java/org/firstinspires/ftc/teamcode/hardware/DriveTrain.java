@@ -61,15 +61,16 @@ public class DriveTrain extends BaseHardware {
     private double Drive_Target;  //in inches
     private static final double Distance_Per_Rev = 2.95*3.14159;
     private static final double Gear_Ratio = 1 / 10.4329;
-    private  static final int Gyro_Tol  = 3;
+    private  static final int Gyro_Tol  = 2; //was 3
     private static final double Ticks_Per_Inch = Settings.REV_HD_HEX_MOTOR_TICKS_PER_REV *  Gear_Ratio * Distance_Per_Rev;
     private double bearing_AA = 0;
     private double speed_AA = 0;
     private int Target_Heading;
     private static final double driveTolAA = 0.25; //in inches
-    private static final double diaTurnRaid = 23; //in inches
+    private static final double diaTurnRaid = 23; //in inches //was 23
     private static final double turnDistPerDeg = ((3.14159 * diaTurnRaid)/360) * Ticks_Per_Inch; //inches per deg
-
+    private static final double stagPos = 10;
+    private static final double stagPow = 0.60;
 
 
 
@@ -308,7 +309,7 @@ public class DriveTrain extends BaseHardware {
 
         Target_Heading = Heading;
 
-    Drive_Target = (TargetDist) + ((Math.abs(Gyro.getGyroHeading() - Target_Heading))/turnDistPerDeg);
+    Drive_Target = (TargetDist) + ((Math.abs(Gyro.getGyroHeading() - Target_Heading)*Math.sqrt(2))/turnDistPerDeg);
 
     // reset encoders
      resetEncoders();
@@ -324,7 +325,7 @@ public class DriveTrain extends BaseHardware {
     public double calcTurn(int tHeading){
 
        double turn = CommonLogic.goToPosStag(Gyro.getGyroHeading(),tHeading, Gyro_Tol,
-               1.0, 25, 0.65);
+               1.0, stagPos, stagPow);
         telemetry.addData(TAGChassis,"turn power " + turn);
         return turn;
     }

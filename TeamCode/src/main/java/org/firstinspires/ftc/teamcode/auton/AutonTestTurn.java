@@ -112,7 +112,7 @@ public class AutonTestTurn extends OpMode {
                 break;
             case _40_Strafe_Right:
                 if (robot.driveTrain.getCmdComplete())  {
-                    robot.driveTrain.CmdDrive(12,90,0.35,90);
+                    robot.driveTrain.CmdDrive(12,90,0.35,0);
                     currentStage = stage._50_Turn_Away_From_Backdrop;
                 }
                 break;
