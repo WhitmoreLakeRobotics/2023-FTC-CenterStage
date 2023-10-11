@@ -48,8 +48,8 @@ public class DriveTrain extends BaseHardware {
     private double RDM1Power;
     private double RDM2Power;
 
-    private double minPower = -1.0;
-    private double maxPower = 1.0;
+    public final double minPower = -1.0;
+    public final double maxPower = 1.0;
 
     private static final String TAGChassis = "8492 ";
 
@@ -188,6 +188,9 @@ public class DriveTrain extends BaseHardware {
      * The stop method is optional. By default this method takes no action.
      */
     void stop(){
+        Current_Mode = Mode.STOPPED;
+        cmdComplete = true;
+        stopMotors();
 }
 
     public void cmdTeleOp(double Left_Y, double Left_X, double Right_X, double Current_Speed) {
@@ -251,11 +254,11 @@ public class DriveTrain extends BaseHardware {
         telemetry.addData(TAGChassis, "doTeleop: LDM1Power =" + LDM1P + " RDM1Power =" + RDM1P +
                 " LDM2Power =" + LDM2P + " RDM2Power =" + RDM2P);
     }
-    public void setMaxPower(double newMax) {
+    /*public void setMaxPower(double newMax) {
 
         this.maxPower = Math.abs(newMax);
         this.minPower = Math.abs(newMax)* -1;
-    }
+    } */
 
     private void scaleMotorPower(){
         //figure out what was max
