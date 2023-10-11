@@ -225,6 +225,39 @@ public class DriveTrain extends BaseHardware {
 
         doTeleop();
     }
+
+    public void visDrive(double Left_Y, double Left_X, double Right_X, double Current_Speed) {
+        cmdComplete = false;
+        Current_Mode = Mode.TELEOP;
+        double Drive = Left_Y * Current_Speed;
+        double Strafe = Left_X * Current_Speed;
+        double Turn = Right_X * (1.0 -Left_Y) * TURNSPEED_TELEOP ;
+        double Heading = Gyro.getGyroHeadingRadian();
+       // double NDrive = Strafe * Math.sin(Heading) + Drive * Math.cos(Heading);
+        //double NStrafe = Strafe * Math.cos(Heading) - Drive * Math.sin(Heading);
+        // Adapted mecanum drive from link below
+        // https://github.com/brandon-gong/ftc-mecanum
+
+        LDM1Power = Drive + Strafe + Turn;
+        RDM1Power = Drive - Strafe - Turn;
+        LDM2Power = Drive - Strafe + Turn;
+        RDM2Power = Drive + Strafe - Turn;
+
+        RobotLog.aa(TAGChassis, "LDM1Power: " + LDM1Power +" LDM2Power: " + LDM2Power
+                + " RDM1Power: " + RDM1Power +" RDM2Power: " + RDM2Power);
+        RobotLog.aa(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
+                + " Right_X: " + Right_X + " Heading " + Heading);
+
+        telemetry.addData(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
+                + " Right_X: " + Right_X + " Heading " + Heading);
+
+
+
+
+
+
+        doTeleop();
+    }
     public void doTeleop() {
         Current_Mode = Mode.TELEOP;
         //Cap the power limit for the wheels
