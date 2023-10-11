@@ -128,7 +128,7 @@ public class DriveTrain extends BaseHardware {
         RDM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RDM2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        LDM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LDM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LDM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RDM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RDM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
