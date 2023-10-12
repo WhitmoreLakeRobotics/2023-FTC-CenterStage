@@ -222,6 +222,9 @@ public class Vision extends BaseHardware {
     public double getTurn(){
         return turn;
     }
+    public void setTargetTag(int TargetTag ){
+        desiredTagId = TargetTag;
+    }
 }
 
 
