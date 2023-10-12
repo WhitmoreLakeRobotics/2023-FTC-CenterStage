@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Tele_Op;
 import org.firstinspires.ftc.teamcode.common.CommonLogic;
 import org.firstinspires.ftc.teamcode.common.Settings;
 import org.firstinspires.ftc.teamcode.hardware.CommonGyro;
-
+import org.firstinspires.ftc.teamcode.hardware.Vision;
 
 /**
  * Base class for FTC Team 8492 defined hardware
@@ -26,6 +26,7 @@ public class DriveTrain extends BaseHardware {
     private DcMotor RDM2 ;
 
     private CommonGyro Gyro = new CommonGyro();
+    private Vision vision = new Vision();
     /**
      * The {@link #telemetry} field contains an object in which a user may accumulate data which
      * is to be transmitted to the driver station. This data is automatically transmitted to the
@@ -71,6 +72,7 @@ public class DriveTrain extends BaseHardware {
     private static final double turnDistPerDeg = ((3.14159 * diaTurnRaid)/360) * Ticks_Per_Inch; //inches per deg
     private static final double stagPos = 10;
     private static final double stagPow = 0.60;
+    private final long visionThreshHold = 1000;
 
 
     /**
@@ -93,6 +95,9 @@ public class DriveTrain extends BaseHardware {
         Gyro.telemetry = telemetry;
         Gyro.hardwareMap = hardwareMap;
         Gyro.init();
+        vision.telemetry = telemetry;
+        vision.hardwareMap = hardwareMap;
+        vision.init();
 
         RDM1 = hardwareMap.dcMotor.get("RDM1");
         LDM1 = hardwareMap.dcMotor.get("LDM1");
@@ -174,6 +179,9 @@ public class DriveTrain extends BaseHardware {
                 break;
             case DRIVE_AA:
                 doDrive();
+                break;
+            case VISION:
+                aprilDrive();
                 break;
         }
 
@@ -494,11 +502,21 @@ public class DriveTrain extends BaseHardware {
 
         return cmdComplete;
     }
+    public void aprilDrive(){
+        if (vision.getDesiredTag_staleTime_mSec() < visionThreshHold){
+
+        }
+
+    }
+
+
+
+
     public enum Mode{
     DRIVE_AA,
         COMMAND_AA,
     STOPPED,
-    TELEOP;
-
+    TELEOP,
+VISION;
 }
 }
