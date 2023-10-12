@@ -73,7 +73,6 @@ public class DriveTrain extends BaseHardware {
     private static final double stagPow = 0.60;
 
 
-
     /**
      * BaseHardware constructor
      * <p>

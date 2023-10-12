@@ -28,6 +28,10 @@ public class Vision extends BaseHardware {
     private double drive = 0.0;
     private double strafe = 0.0;
     private double turn = 0.0;
+    public final double SPEED_GAIN = 0.02;
+    public final double TURN_GAIN = 0.02;
+    public final double STRAFE_GAIN = 0.02;
+
 
     // This value is a guess of how far back the camera is from the front of the robot
     private double desiredDistanceInches = 8.5;
@@ -105,17 +109,17 @@ public class Vision extends BaseHardware {
                     double headingError = desiredTag.ftcPose.bearing;
                     double yawError = desiredTag.ftcPose.yaw;
                     // Use the speed and turn "gains" to calculate how we want the robot to move.
-                    /*
-                    TODO: define SPEED_GAIN, TURN_GAIN, STRAFE_GAIN in drivetrain class and make them public
-                    TODO: get minPower and maxPower from drivetrain
 
-                    drive = Range.clip(rangeError * SPEED_GAIN, robot.driveTrain.minPower, robot.driveTrain.maxPower);
-                    turn = Range.clip(headingError * TURN_GAIN, robot.driveTrain.minPower, robot.driveTrain.maxPower);
-                    strafe = Range.clip(-yawError * STRAFE_GAIN, robot.driveTrain.minPower, robot.driveTrain.maxPower);
+                    //TODO: define SPEED_GAIN, TURN_GAIN, STRAFE_GAIN in drivetrain class and make them public
+                   // TODO: get minPower and maxPower from drivetrain
 
-                    TODO: create setter for drive, turn, and strafe for drive train to call and get in loop
-                    TODO:
-                    */
+                    drive = rangeError * SPEED_GAIN;
+                    turn = headingError * TURN_GAIN;
+                    strafe = -yawError * STRAFE_GAIN;
+
+                   // TODO: create setter for drive, turn, and strafe for drive train to call and get in loop
+                    //TODO:
+
                 }
                 break;
             }
@@ -124,6 +128,7 @@ public class Vision extends BaseHardware {
                 break;
             }
         }
+
     }
 
     public void doStop(){
@@ -208,7 +213,17 @@ public class Vision extends BaseHardware {
         VISION_ON,
         VISION_OFF
     }
+    public double getDrive(){
+        return drive;
+    }
+    public double getStrafe(){
+        return strafe;
+    }
+    public double getTurn(){
+        return turn;
+    }
 }
+
 
 
 
