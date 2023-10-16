@@ -9,6 +9,8 @@ public class Robot extends BaseHardware {
     public DriveTrain driveTrain = new DriveTrain();
   //  public Lighting lighting = new Lighting();
     //public Sensors sensors = new Sensors();
+    public Lift lift = new Lift();
+
     @Override
     public void init() {
         // Must set Hardware Map and telemetry before calling init
@@ -23,6 +25,10 @@ public class Robot extends BaseHardware {
         //sensors.hardwareMap = this.hardwareMap;
         //sensors.telemetry = this.telemetry;
         //sensors.init();
+
+        lift.hardwareMap = this.hardwareMap;
+        lift.telemetry = this.telemetry;
+        lift.init();
 
     }
 

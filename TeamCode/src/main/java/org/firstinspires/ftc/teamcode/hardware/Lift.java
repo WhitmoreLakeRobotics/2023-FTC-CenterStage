@@ -23,7 +23,6 @@ public class Lift extends BaseHardware {
     //private ColorRangeSensor IntakeSensor;
     //private DistanceSensor RearLeftSensor;
     private boolean cmdComplete = true;
-    private Mode CurrentMode = Mode.STOP;
 
     private DcMotor LF1;
     private DcMotor LF2;
@@ -43,6 +42,7 @@ public class Lift extends BaseHardware {
     private final static double stagSpeed = 0.45;
     private final static int stagPos  = 30;
     private final static int tol = 10;
+    private Mode CurrentMode = Mode.START;
 
 
 
@@ -108,7 +108,27 @@ public class Lift extends BaseHardware {
      */
     public void loop(){
         //GoToPos
-        CommonLogic.goToPosition(LF1.getCurrentPosition(), targetPos,tol,-liftSpeed,liftSpeed,0,stagPos);
+        CommonLogic.goToPosStagint(LF1.getCurrentPosition(), targetPos,tol,liftSpeed,stagPos,stagSpeed);
+
+        switch (CurrentMode){
+            case START:
+            targetPos = startPos;
+                break;
+            case CARRY:
+            targetPos = carryPos;
+                break;
+            case CLIMBPREP:
+                targetPos = climbStartPos;
+                break;
+            case CLIMBEND:
+                targetPos = climbEnd;
+                break;
+            case STOP:
+
+                break;
+
+            default:
+        }
 
     }
 
@@ -134,21 +154,20 @@ public class Lift extends BaseHardware {
         LF1.setPower(newPower);
         LF2.setPower(newPower);
     }
-
-
-private enum Mode{
-    STOP,
-    READ,
-    UP,
-    READPOS,
-    COLORFOUND
+public void setCurrentMode (Mode newMode){
+        CurrentMode = newMode;
 }
-    public enum Color{
-        UNKNOWN,
-        GREEN,
-        RED,
-        BLUE
-    }
+
+public enum Mode{
+    STOP,
+    START,
+    CARRY,
+    CLIMBPREP,
+    CLIMBEND,
+
+
+}
+
 
 
 

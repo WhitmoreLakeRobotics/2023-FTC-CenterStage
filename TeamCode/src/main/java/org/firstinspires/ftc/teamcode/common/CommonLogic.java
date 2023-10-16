@@ -105,6 +105,30 @@ public class CommonLogic extends Object {
         }
     }
 
+    public static double goToPosStagint(int currentPos, int targetPos, int tol, double power, double stagStart, double stagPower){
+
+
+        //if in range stop
+        if(inRange(currentPos, targetPos, tol)){
+            return 0;
+        }
+        else if(currentPos<=(targetPos+stagStart)&&currentPos>targetPos){
+            return -stagPower;
+        }
+        else if(currentPos>=(targetPos-stagStart)&&currentPos<targetPos){
+            return stagPower;
+        }
+        else if((currentPos < targetPos)) {
+            return power;
+        }
+        //if after pos. subract power
+        else if(currentPos > targetPos) {
+            return -1*power;
+        }
+        else {
+            return 0;
+        }
+    }
 
 
 }
