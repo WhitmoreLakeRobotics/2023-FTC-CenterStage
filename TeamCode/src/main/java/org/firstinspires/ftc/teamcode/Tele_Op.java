@@ -43,6 +43,8 @@ public class Tele_Op extends OpMode {
     private double LeftMotorPower = 0;
     private double RightMotorPower = 0;
     private boolean gp2_prev_start = false;
+    private int tHeading = 0;
+
 
     //*********************************************************************************************
     /*
@@ -112,9 +114,9 @@ public class Tele_Op extends OpMode {
     public void loop() {
         robot.loop();
         write2Log();
-
+        tHeading = getTurnDirection();
         //***********   Gamepad 1 controls ********
-        if (!gamepad1.x){
+        if (gamepad1.right_trigger < 0.6){
             if (gamepad1.right_bumper) {
                 robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
                         CommonLogic.joyStickMath(gamepad1.left_stick_x),
@@ -131,6 +133,24 @@ public class Tele_Op extends OpMode {
                         CommonLogic.joyStickMath(gamepad1.left_stick_x),
                         CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_NORMALSPEED);
             }
+        }else {
+            if (gamepad1.right_bumper) {
+                robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
+                        CommonLogic.joyStickMath(gamepad1.left_stick_x),
+                        CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_FASTSPEED);
+            } else if (gamepad1.left_bumper) {
+                robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
+                        CommonLogic.joyStickMath(gamepad1.left_stick_x),
+                        CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_SLOWSPEED);
+
+
+            } else {
+
+                robot.driveTrain.cmdTeleOp(CommonLogic.joyStickMath(gamepad1.left_stick_y * -1),
+                        CommonLogic.joyStickMath(gamepad1.left_stick_x),
+                        CommonLogic.joyStickMath(gamepad1.right_stick_x), robot.driveTrain.DTrain_NORMALSPEED);
+            }
+
         }
         //***********   Pushers
         //if (CommonLogic.oneShot(gamepad1.a, gp1_prev_a)) {
@@ -368,6 +388,45 @@ public class Tele_Op extends OpMode {
         robot.stop();
 
     }
+
+    private int getTurnDirection(){
+        boolean a = gamepad1.a;
+        boolean b = gamepad1.b;
+        boolean x = gamepad1.x;
+        boolean y = gamepad1.y;
+    if(a){
+        if(x){
+           return -135;
+        }else  if(b){
+            return 135;
+        }else {
+            return 180;
+        }
+    }
+    else if (b){
+        if (y){
+            return 45;
+        }else {
+            return 90;
+        }
+    }
+    else if (y){
+        if(x){
+            return -45;
+        }else{
+            return 0;
+        }
+    }
+    else if(x){
+       return -90;
+    }
+    }
+
+
+
+
+
+
 
     //*********************************************************************************************
     private void  write2Log() {

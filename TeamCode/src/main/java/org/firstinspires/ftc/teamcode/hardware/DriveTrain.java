@@ -232,6 +232,14 @@ public class DriveTrain extends BaseHardware {
 
         doTeleop();
     }
+    public double autoTurn(int newHeading){
+       return calcTurn(newHeading);
+
+
+    }
+
+
+
 
     public void visDrive(double Left_Y, double Left_X, double Right_X, double Current_Speed) {
         cmdComplete = false;
