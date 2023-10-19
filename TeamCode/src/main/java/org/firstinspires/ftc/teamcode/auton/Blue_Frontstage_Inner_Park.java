@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.Settings;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.hardware.Sweeper;
 
 //@Disabled
 @Autonomous(name = "Blue_Frontstage_Inner_Park", group = "Auton")
@@ -30,7 +31,7 @@ public class Blue_Frontstage_Inner_Park extends OpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-
+    private int sweepTime = 1000;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -99,7 +100,7 @@ public class Blue_Frontstage_Inner_Park extends OpMode {
                 break;
 
             case _10_Drive_Out:
-                robot.driveTrain.CmdDrive(52,0,0.35,0);
+                robot.driveTrain.CmdDrive(62,0,0.35,0);
                 currentStage = stage._20_Strafe_Left;
 
 
@@ -107,15 +108,23 @@ public class Blue_Frontstage_Inner_Park extends OpMode {
 
             case _20_Strafe_Left:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(87,-90,0.35,0);
-                    currentStage = stage._30_Strafe_Right;
+                    robot.driveTrain.CmdDrive(102,-90,0.35,90);
+                    currentStage = stage._25_Eject;
 
                 }
                 break;
 
+            case _25_Eject:
+                if(robot.driveTrain.getCmdComplete()){
+                    robot.sweeper.setCurrentMode(Sweeper.Mode.REVERSE);
+                    currentStage = stage._30_Strafe_Right;
+                    runtime.reset();
+                }
+                break;
 
             case _30_Strafe_Right:
-                if (robot.driveTrain.getCmdComplete())     {
+                if (runtime.milliseconds() > sweepTime)     {
+                    robot.sweeper.setCurrentMode(Sweeper.Mode.STOP);
                     robot.driveTrain.CmdDrive(2,90,0.35,0);
                     currentStage = stage._100_End;
                 }
@@ -154,6 +163,7 @@ public class Blue_Frontstage_Inner_Park extends OpMode {
         _00_preStart,
         _10_Drive_Out,
         _20_Strafe_Left,
+        _25_Eject,
         _30_Strafe_Right,
         _100_End
 

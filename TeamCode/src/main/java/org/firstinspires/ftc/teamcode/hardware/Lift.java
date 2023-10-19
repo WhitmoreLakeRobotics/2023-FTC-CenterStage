@@ -38,8 +38,8 @@ public class Lift extends BaseHardware {
     public final int climbStartPos = 685;
     public final int climbEnd = 260;
     private int targetPos = startPos;
-    private final double liftSpeed = 0.65;
-    private final static double stagSpeed = 0.45;
+    private final double liftSpeed = 0.95;
+    private final static double stagSpeed = 0.30;
     private final static int stagPos  = 30;
     private final static int tol = 10;
     private Mode CurrentMode = Mode.START;
@@ -111,7 +111,7 @@ public class Lift extends BaseHardware {
      */
     public void loop(){
         //GoToPos
-        CommonLogic.goToPosStagint(LF1.getCurrentPosition(), targetPos,tol,liftSpeed,stagPos,stagSpeed);
+       setMPower(CommonLogic.goToPosStagint(LF1.getCurrentPosition(), targetPos,tol,liftSpeed,stagPos,stagSpeed));
 
         switch (CurrentMode){
             case START:
