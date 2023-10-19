@@ -105,8 +105,8 @@ public class Sweeper extends BaseHardware {
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop(){
-        //GoToPos
-        switch (CurrentMode){
+        //set motor power
+         switch (CurrentMode){
             case FORWARD:
                 targetPow = forwardPow;
                 break;
