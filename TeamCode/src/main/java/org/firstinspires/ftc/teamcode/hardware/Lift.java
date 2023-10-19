@@ -111,6 +111,7 @@ public class Lift extends BaseHardware {
      */
     public void loop(){
         //GoToPos
+        // need to set power...
         CommonLogic.goToPosStagint(LF1.getCurrentPosition(), targetPos,tol,liftSpeed,stagPos,stagSpeed);
 
         switch (CurrentMode){
