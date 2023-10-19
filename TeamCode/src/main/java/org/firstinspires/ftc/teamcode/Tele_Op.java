@@ -7,7 +7,9 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.teamcode.common.CommonLogic;
 import org.firstinspires.ftc.teamcode.common.Settings;
+import org.firstinspires.ftc.teamcode.hardware.Lift;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.hardware.Sweeper;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "Tele_Op", group = "TeleOp")
 //@Disabled
@@ -311,16 +313,19 @@ public class Tele_Op extends OpMode {
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_up, gp2_prev_dpad_up)) {
+            robot.lift.setCurrentMode(Lift.Mode.CLIMBPREP);
             //robot.subLifter.incPositionIndex();
       //      robot.intake.doStop();
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_down, gp2_prev_dpad_down)) {
+            robot.lift.setCurrentMode(Lift.Mode.START);
             //robot.subLifter.decPositionIndex();
 //            robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.STOP);
   //          robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.RAINBOW_OCEAN_PALETTE);
         }
         if (CommonLogic.oneShot(gamepad2.dpad_right, gp2_prev_dpad_right)) {
+            robot.lift.setCurrentMode(Lift.Mode.CLIMBEND);
     //        robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.PICKUP);
       //      robot.intake.doIntake();
         //    robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.VIOLET);
@@ -334,16 +339,20 @@ public class Tele_Op extends OpMode {
             //robot.subLifter.decPositionIndex();
         }
 
-        if (gamepad2.right_trigger > .8){
+        if (gamepad2.right_trigger > 0.8){
+            robot.sweeper.setCurrentMode(Sweeper.Mode.FORWARD);
         }
-        if ((gamepad2.right_trigger <= 1) && (gamepad2.right_trigger > .01)){
+        if ((gamepad2.right_trigger <= 0.79) && (gamepad2.right_trigger > 0.10)){
+            robot.sweeper.setCurrentMode(Sweeper.Mode.STOP);
     //        robot.swing_arm_and_lift.BumpLiftUp(gamepad2.right_trigger);
       //      robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
             // robot.cmdReturnTo_Carry();
         }
-        if (gamepad2.left_trigger > .8) {
+        if (gamepad2.left_trigger > 0.8) {
+            robot.sweeper.setCurrentMode(Sweeper.Mode.REVERSE);
         }
-        if ((gamepad2.left_trigger <= 1) && (gamepad2.left_trigger > .01)) {
+        if ((gamepad2.left_trigger <= 0.79) && (gamepad2.left_trigger > 0.10)) {
+            robot.sweeper.setCurrentMode(Sweeper.Mode.STOP);
         //    robot.swing_arm_and_lift.BumpLiftDown(gamepad2.left_trigger);
           //  robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE_VIOLET);
         }
@@ -400,7 +409,7 @@ public class Tele_Op extends OpMode {
         }else  if(b){
             return 135;
         }else {
-            return 180;
+            return 175;
         }
     }
     else if (b){

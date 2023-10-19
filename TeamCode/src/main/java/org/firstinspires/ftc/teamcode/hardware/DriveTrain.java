@@ -26,7 +26,7 @@ public class DriveTrain extends BaseHardware {
     private DcMotor RDM2 ;
 
     private CommonGyro Gyro = new CommonGyro();
-    private Vision vision = new Vision();
+   // private Vision vision = new Vision();
     /**
      * The {@link #telemetry} field contains an object in which a user may accumulate data which
      * is to be transmitted to the driver station. This data is automatically transmitted to the
@@ -54,8 +54,8 @@ public class DriveTrain extends BaseHardware {
 
     private static final String TAGChassis = "8492 ";
 
-    public static final double DTrain_NORMALSPEED = 0.5;
-    public static final double DTrain_SLOWSPEED = 0.3;
+    public static final double DTrain_NORMALSPEED = 0.4;
+    public static final double DTrain_SLOWSPEED = 0.2;
     public static final double DTrain_FASTSPEED = 0.7;
 
     private double Drive_Start;  //in inches
@@ -68,10 +68,10 @@ public class DriveTrain extends BaseHardware {
     private double speed_AA = 0;
     private int Target_Heading;
     private static final double driveTolAA = 0.25; //in inches
-    private static final double diaTurnRaid = 23; //in inches //was 23
+    private static final double diaTurnRaid = 19; //in inches //was 23
     private static final double turnDistPerDeg = ((3.14159 * diaTurnRaid)/360) * Ticks_Per_Inch; //inches per deg
     private static final double stagPos = 10;
-    private static final double stagPow = 0.60;
+    private static final double stagPow = 0.30;
     private final long visionThreshHold = 1000;
 
 
@@ -95,9 +95,9 @@ public class DriveTrain extends BaseHardware {
         Gyro.telemetry = telemetry;
         Gyro.hardwareMap = hardwareMap;
         Gyro.init();
-        vision.telemetry = telemetry;
-        vision.hardwareMap = hardwareMap;
-        vision.init();
+       // vision.telemetry = telemetry;
+        //vision.hardwareMap = hardwareMap;
+        //vision.init();
 
         RDM1 = hardwareMap.dcMotor.get("RDM1");
         LDM1 = hardwareMap.dcMotor.get("LDM1");
@@ -118,9 +118,9 @@ public class DriveTrain extends BaseHardware {
         }
 
         LDM1.setDirection(DcMotor.Direction.FORWARD);
-        LDM2.setDirection(DcMotor.Direction.FORWARD);
+        LDM2.setDirection(DcMotor.Direction.REVERSE);
         RDM1.setDirection(DcMotor.Direction.FORWARD);
-        RDM2.setDirection(DcMotor.Direction.REVERSE);
+        RDM2.setDirection(DcMotor.Direction.FORWARD);
 
         LDM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         LDM2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -132,7 +132,7 @@ public class DriveTrain extends BaseHardware {
         RDM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RDM2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        LDM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LDM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         LDM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RDM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         RDM2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -511,10 +511,10 @@ public class DriveTrain extends BaseHardware {
         return cmdComplete;
     }
     public void aprilDrive(){
-        if (vision.getDesiredTag_staleTime_mSec() < visionThreshHold){
+        /*if (vision.getDesiredTag_staleTime_mSec() < visionThreshHold){
 
         }
-
+*/
     }
 
 

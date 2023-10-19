@@ -10,7 +10,7 @@ public class Robot extends BaseHardware {
   //  public Lighting lighting = new Lighting();
     //public Sensors sensors = new Sensors();
     public Lift lift = new Lift();
-
+    public Sweeper sweeper = new Sweeper();
     @Override
     public void init() {
         // Must set Hardware Map and telemetry before calling init
@@ -30,6 +30,12 @@ public class Robot extends BaseHardware {
         lift.telemetry = this.telemetry;
         lift.init();
 
+
+
+        sweeper.hardwareMap = this.hardwareMap;
+        sweeper.telemetry = this.telemetry;
+        sweeper.init();
+
     }
 
     @Override
@@ -37,6 +43,8 @@ public class Robot extends BaseHardware {
         driveTrain.init_loop();
        // lighting.init_loop();
       //  sensors.init_loop();
+        lift.init_loop();
+        sweeper.init_loop();
     }
 
     @Override
@@ -44,6 +52,8 @@ public class Robot extends BaseHardware {
         driveTrain.start();
         //lighting.start();
         //sensors.start();
+        lift.start();
+        sweeper.start();
     }
 
     @Override
@@ -51,6 +61,8 @@ public class Robot extends BaseHardware {
         driveTrain.loop();
         //lighting.loop();
         //sensors.loop();
+        lift.loop();
+        sweeper.loop();
     }
 
 
@@ -59,6 +71,8 @@ public class Robot extends BaseHardware {
         driveTrain.stop();
         //lighting.stop();
         //sensors.stop();
+        lift.stop();
+        sweeper.stop();
     }
 
 

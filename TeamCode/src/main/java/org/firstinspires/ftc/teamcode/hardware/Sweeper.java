@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -11,7 +10,7 @@ import org.firstinspires.ftc.teamcode.common.CommonLogic;
 /**
  * Base class for FTC Team 8492 defined hardware
  */
-public class Lift extends BaseHardware {
+public class Sweeper extends BaseHardware {
 
     private ElapsedTime runtime = new ElapsedTime();
     /**
@@ -24,25 +23,22 @@ public class Lift extends BaseHardware {
     //private DistanceSensor RearLeftSensor;
     private boolean cmdComplete = true;
 
-    private DcMotor LF1;
-    private DcMotor LF2;
+    private DcMotor ITM1;
+
 
     /**
      * Hardware Mappings
      */
     public HardwareMap hardwareMap = null; // will be set in Child class
-    public final int minPos = 0;
-    public final int maxPos = 690;
-    public final int startPos = 5;
-    public final int carryPos = 15;
-    public final int climbStartPos = 685;
-    public final int climbEnd = 260;
-    private int targetPos = startPos;
+    private final double stopPow = 0.000;
+    private final double forwardPow = 0.65;
+    private final double reversePOW = -0.45;
+    private double targetPow = stopPow;
     private final double liftSpeed = 0.65;
     private final static double stagSpeed = 0.45;
     private final static int stagPos  = 30;
     private final static int tol = 10;
-    private Mode CurrentMode = Mode.START;
+    private Mode CurrentMode = Mode.STOP;
 
 
 
@@ -65,19 +61,18 @@ public class Lift extends BaseHardware {
     public void init(){
         //DeliverySensor = hardwareMap.get(ColorRangeSensor.class, "DeliveryS");
        // RearLeftSensor = hardwareMap.get(DistanceSensor.class, "RearLeftS");
-        LF1 = hardwareMap.dcMotor.get("LF1");
-        LF2 = hardwareMap.dcMotor.get("LF2");
-        LF1.setDirection(DcMotor.Direction.REVERSE);
-        LF2.setDirection(DcMotor.Direction.FORWARD);
+        ITM1 = hardwareMap.dcMotor.get("ITM1");
+        ITM1.setDirection(DcMotor.Direction.FORWARD);
 
-        LF1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        LF2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        LF1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        LF2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        ITM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        LF1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        LF2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        ITM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+        ITM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 
 
@@ -90,7 +85,7 @@ public class Lift extends BaseHardware {
      * This method is optional. By default this method takes no action.
      */
      public void init_loop() {
-         telemetry.addData("lift Pos " , Integer.toString(LF1.getCurrentPosition())) ;
+   //      telemetry.addData("lift Pos " , Integer.toString(ITM1.getCurrentPosition())) ;
      }
 
     /**
@@ -111,23 +106,15 @@ public class Lift extends BaseHardware {
      */
     public void loop(){
         //GoToPos
-        CommonLogic.goToPosStagint(LF1.getCurrentPosition(), targetPos,tol,liftSpeed,stagPos,stagSpeed);
-
         switch (CurrentMode){
-            case START:
-            targetPos = startPos;
+            case FORWARD:
+                targetPow = forwardPow;
                 break;
-            case CARRY:
-            targetPos = carryPos;
-                break;
-            case CLIMBPREP:
-                targetPos = climbStartPos;
-                break;
-            case CLIMBEND:
-                targetPos = climbEnd;
+            case REVERSE:
+                targetPow = reversePOW;
                 break;
             case STOP:
-
+                targetPow = stopPow;
                 break;
 
             default:
@@ -154,8 +141,7 @@ public class Lift extends BaseHardware {
 
 }
     private void setMPower(double newPower){
-        LF1.setPower(newPower);
-        LF2.setPower(newPower);
+        ITM1.setPower(newPower);
     }
 public void setCurrentMode (Mode newMode){
         CurrentMode = newMode;
@@ -163,10 +149,10 @@ public void setCurrentMode (Mode newMode){
 
 public enum Mode{
     STOP,
-    START,
-    CARRY,
-    CLIMBPREP,
-    CLIMBEND,
+    FORWARD,
+    REVERSE;
+
+
 
 
 }
