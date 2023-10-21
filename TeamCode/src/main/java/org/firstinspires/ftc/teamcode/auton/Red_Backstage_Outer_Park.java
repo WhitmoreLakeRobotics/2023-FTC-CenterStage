@@ -108,7 +108,7 @@ public class Red_Backstage_Outer_Park extends OpMode {
 
             case _20_Strafe_Left:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(22,90,0.35,-90);
+                    robot.driveTrain.CmdDrive(20,90,0.35,-90);
                     currentStage = stage._25_Eject;
 
                 }
