@@ -405,29 +405,29 @@ public class Tele_Op extends OpMode {
         boolean y = gamepad1.y;
     if(a){
         if(x){
-           return -135;
+           return 45;
         }else  if(b){
-            return 135;
+            return -45;
         }else {
-            return 175;
+            return 0;
         }
     }
     else if (b){
         if (y){
-            return 45;
+            return -135;
         }else {
-            return 90;
+            return -90;
         }
     }
     else if (y){
         if(x){
-            return -45;
+            return 135;
         }else{
-            return 0;
+            return 175;
         }
     }
     else if(x){
-       return -90;
+       return 90;
     }
     else {
         return tHeading;

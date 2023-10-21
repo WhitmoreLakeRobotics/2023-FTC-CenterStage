@@ -1,18 +1,18 @@
 package org.firstinspires.ftc.teamcode.auton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.Settings;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.hardware.Sweeper;
 
-@Disabled
-@Autonomous(name = "Blue_Frontstage_Inner_Park_With_Pixel", group = "Auton")
+//@Disabled
+@Autonomous(name = "Red_Backstage_Outer_Park", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class Blue_Frontstage_Inner_Park_With_Pixel extends OpMode {
+public class Red_Backstage_Outer_Park extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -31,7 +31,7 @@ public class Blue_Frontstage_Inner_Park_With_Pixel extends OpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-
+    private int sweepTime = 1000;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -100,51 +100,32 @@ public class Blue_Frontstage_Inner_Park_With_Pixel extends OpMode {
                 break;
 
             case _10_Drive_Out:
-                robot.driveTrain.CmdDrive(39,0,0.35,0);
-                currentStage = stage._20_Backup;
+                robot.driveTrain.CmdDrive(1,0,0.35,0);
+                currentStage = stage._20_Strafe_Left;
 
 
                 break;
 
-            case _20_Backup:
+            case _20_Strafe_Left:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(1,180,0.35,0);
-                    currentStage = stage._30_Strafe_Right;
+                    robot.driveTrain.CmdDrive(25,90,0.35,-90);
+                    currentStage = stage._25_Eject;
 
                 }
                 break;
 
+            case _25_Eject:
+                if(robot.driveTrain.getCmdComplete()){
+                    robot.sweeper.setCurrentMode(Sweeper.Mode.REVERSE);
+                    currentStage = stage._30_Strafe_Right;
+                    runtime.reset();
+                }
+                break;
 
             case _30_Strafe_Right:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(10,90,0.35,0);
-                    currentStage = stage._40_Turn_To_Backdrop;
-                }
-
-                break;
-            case _40_Turn_To_Backdrop:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(0,0,0,-90);
-                    currentStage = stage._50_Strafe_Right;
-                }
-
-                break;
-                case _50_Strafe_Right:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(10,90,0.35,-90);
-                    currentStage = stage._60_Drive_To_BackDrop;
-                }
-
-                break;
-                case _60_Drive_To_BackDrop:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(92,0,0.35,-90);
-                    currentStage = stage._70_Back_Off;
-                }
-
-                    break;case _70_Back_Off:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(2,180,0.35,-90);
+                if (runtime.milliseconds() > sweepTime)     {
+                    robot.sweeper.setCurrentMode(Sweeper.Mode.STOP);
+                    robot.driveTrain.CmdDrive(0,0,0,0);
                     currentStage = stage._100_End;
                 }
 
@@ -181,12 +162,9 @@ public class Blue_Frontstage_Inner_Park_With_Pixel extends OpMode {
         _unknown,
         _00_preStart,
         _10_Drive_Out,
-        _20_Backup,
+        _20_Strafe_Left,
+        _25_Eject,
         _30_Strafe_Right,
-        _40_Turn_To_Backdrop,
-        _50_Strafe_Right,
-        _60_Drive_To_BackDrop,
-        _70_Back_Off,
         _100_End
 
 

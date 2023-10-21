@@ -36,7 +36,7 @@ public class Lift extends BaseHardware {
     public final int startPos = 5;
     public final int carryPos = 15;
     public final int climbStartPos = 685;
-    public final int climbEnd = 260;
+    public final int climbEnd = 150;
     private int targetPos = startPos;
     private final double liftSpeed = 0.95;
     private final static double stagSpeed = 0.30;

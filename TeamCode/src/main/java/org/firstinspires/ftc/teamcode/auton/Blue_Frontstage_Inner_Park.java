@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.auton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -100,7 +101,7 @@ public class Blue_Frontstage_Inner_Park extends OpMode {
                 break;
 
             case _10_Drive_Out:
-                robot.driveTrain.CmdDrive(62,0,0.35,0);
+                robot.driveTrain.CmdDrive(53,0,0.35,0);
                 currentStage = stage._20_Strafe_Left;
 
 
@@ -108,7 +109,7 @@ public class Blue_Frontstage_Inner_Park extends OpMode {
 
             case _20_Strafe_Left:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(102,-90,0.35,90);
+                    robot.driveTrain.CmdDrive(75,-90,0.35,90);
                     currentStage = stage._25_Eject;
 
                 }
@@ -125,7 +126,7 @@ public class Blue_Frontstage_Inner_Park extends OpMode {
             case _30_Strafe_Right:
                 if (runtime.milliseconds() > sweepTime)     {
                     robot.sweeper.setCurrentMode(Sweeper.Mode.STOP);
-                    robot.driveTrain.CmdDrive(2,90,0.35,0);
+                    robot.driveTrain.CmdDrive(0,0,0,0);
                     currentStage = stage._100_End;
                 }
 

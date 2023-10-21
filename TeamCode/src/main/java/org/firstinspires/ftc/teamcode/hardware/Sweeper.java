@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -62,7 +63,7 @@ public class Sweeper extends BaseHardware {
         //DeliverySensor = hardwareMap.get(ColorRangeSensor.class, "DeliveryS");
        // RearLeftSensor = hardwareMap.get(DistanceSensor.class, "RearLeftS");
         ITM1 = hardwareMap.dcMotor.get("ITM1");
-        ITM1.setDirection(DcMotor.Direction.FORWARD);
+        ITM1.setDirection(DcMotor.Direction.REVERSE);
 
 
         ITM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
