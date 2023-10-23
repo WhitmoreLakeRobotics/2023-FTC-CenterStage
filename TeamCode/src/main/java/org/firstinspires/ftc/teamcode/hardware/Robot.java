@@ -11,6 +11,7 @@ public class Robot extends BaseHardware {
     public Sensors sensors = new Sensors();
     public Lift lift = new Lift();
     public Sweeper sweeper = new Sweeper();
+
     @Override
     public void init() {
         // Must set Hardware Map and telemetry before calling init
@@ -45,6 +46,7 @@ public class Robot extends BaseHardware {
         sensors.init_loop();
         lift.init_loop();
         sweeper.init_loop();
+
     }
 
     @Override
@@ -74,6 +76,23 @@ public class Robot extends BaseHardware {
         lift.stop();
         sweeper.stop();
     }
+    private void propCheck(){
 
+        boolean propISLeft = sensors.FLDS1Detect();
+        boolean propIsRight = sensors.FRDS1Detect();
+
+       if (propISLeft && ! propIsRight){
+           lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.RED);//detaced prop on left
+
+       } else if (propIsRight && ! propISLeft) {
+           lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE);//detaced prop on right
+       }
+       else if (propIsRight && propISLeft) {
+           lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.VIOLET);//detaced prop on center
+       }
+       else if (! propIsRight  && ! propISLeft) {
+           lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GREEN);//detaced prop on
+       }
+    }
 
 }
