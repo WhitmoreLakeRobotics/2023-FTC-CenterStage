@@ -170,6 +170,7 @@ public class Tele_Op extends OpMode {
         if (CommonLogic.oneShot(gamepad1.back, gp1_prev_back)){
             //Initialize Gyro
             robot.driveTrain.ResetGyro();
+            tHeading = 0;
         }
 
         // Bumpers high and lower Powers for the wheels,

@@ -33,7 +33,7 @@ public class Sweeper extends BaseHardware {
     public HardwareMap hardwareMap = null; // will be set in Child class
     private final double stopPow = 0.000;
     private final double forwardPow = 0.70;
-    private final double reversePOW = -0.45;
+    private final double reversePOW = -0.40;
     private double targetPow = stopPow;
     private final double liftSpeed = 0.65;
     private final static double stagSpeed = 0.45;

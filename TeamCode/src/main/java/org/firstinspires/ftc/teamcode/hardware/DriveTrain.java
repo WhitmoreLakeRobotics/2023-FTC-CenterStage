@@ -54,7 +54,7 @@ public class DriveTrain extends BaseHardware {
 
     private static final String TAGChassis = "8492 ";
 
-    public static final double DTrain_NORMALSPEED = 0.4;
+    public static final double DTrain_NORMALSPEED = 0.45;
     public static final double DTrain_SLOWSPEED = 0.2;
     public static final double DTrain_FASTSPEED = 0.7;
 
