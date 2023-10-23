@@ -100,7 +100,7 @@ public class Red_Frontstage_Inner_Park extends OpMode {
                 break;
 
             case _10_Drive_Out:
-                robot.driveTrain.CmdDrive(54,0,0.35,0);
+                robot.driveTrain.CmdDrive(55,0,0.35,0);
                 currentStage = stage._20_Strafe_Left;
 
 

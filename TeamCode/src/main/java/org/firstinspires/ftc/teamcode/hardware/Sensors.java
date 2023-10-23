@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.common.CommonLogic;
 
 /**
  * Base class for FTC Team 8492 defined hardware
@@ -21,7 +23,16 @@ public class Sensors extends BaseHardware {
      */
     public Telemetry telemetry = null;
     //private ColorRangeSensor IntakeSensor;
-    //private DistanceSensor RearLeftSensor;
+    //private DistanceSensor RearLeftSensor
+    private DistanceSensor FLDS1;
+    private DistanceSensor FRDS1;
+    private boolean leftSensor = false;
+    private boolean rightSensor = false;
+    private final double sideTarget = 24; // in inches
+    private final double sideTargetTol = 12; // in inches
+    private double centerTarget = 29; // in inches
+    private double centerTargetTol = 12; // in inches
+
     private boolean cmdComplete = true;
     private Mode CurrentMode = Mode.STOP;
 
@@ -52,6 +63,8 @@ public class Sensors extends BaseHardware {
     public void init(){
         //DeliverySensor = hardwareMap.get(ColorRangeSensor.class, "DeliveryS");
        // RearLeftSensor = hardwareMap.get(DistanceSensor.class, "RearLeftS");
+        FLDS1 = hardwareMap.get(Rev2mDistanceSensor.class,"FLDS1");
+        FRDS1 = hardwareMap.get(Rev2mDistanceSensor.class,"FRDS1");
     }
 
     /**
@@ -103,6 +116,12 @@ public class Sensors extends BaseHardware {
     void stop(){
 
 }
+public boolean FLDS1Detect(){
+        return CommonLogic.inRange(FLDS1.getDistance(DistanceUnit.INCH),sideTarget,sideTargetTol);
+}
+ public boolean FRDS1Detect(){
+        return CommonLogic.inRange(FRDS1.getDistance(DistanceUnit.INCH),centerTarget,centerTargetTol);
+ }
 
 
 
