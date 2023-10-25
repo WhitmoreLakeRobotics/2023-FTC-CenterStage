@@ -32,6 +32,7 @@ public class Red_Backstage_Outer_Park extends OpMode {
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
     private int sweepTime = 1000;
+    private Robot.SensorDetect ScanResults = Robot.SensorDetect.UNKNOWN;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -94,13 +95,30 @@ public class Red_Backstage_Outer_Park extends OpMode {
 
 
             case _00_preStart:
+                currentStage = stage._09_Scan;
+
+
+                break;
+            case _09_Scan:
+                ScanResults = robot.CurrentDetect;
                 currentStage = stage._10_Drive_Out;
-
-
                 break;
 
             case _10_Drive_Out:
                 robot.driveTrain.CmdDrive(1,0,0.35,0);
+                switch (ScanResults){
+                    case LEFT:
+                        currentStage = stage._30_DriveTo_spike_center;
+                        break;
+                    case RIGHT:
+                        currentStage = stage._20_DriveTo_spike_right;
+                        break;
+                    case NONE:
+                        currentStage = stage._40_DriveTo_spike_left;
+                        break;
+                    default:
+                        currentStage = stage._30_DriveTo_spike_center;
+                }
                 currentStage = stage._20_Strafe_Left;
 
 
@@ -161,10 +179,15 @@ public class Red_Backstage_Outer_Park extends OpMode {
     private enum stage {
         _unknown,
         _00_preStart,
+        _09_Scan,
         _10_Drive_Out,
-        _20_Strafe_Left,
-        _25_Eject,
-        _30_Strafe_Right,
+        _20_DriveTo_spike_right,
+        _30_DriveTo_spike_center,
+        _40_DriveTo_spike_left,
+        _50_Drive_Back,
+        _60_Strafe_Left,
+        _70_Eject,
+        _80_Strafe_Right,
         _100_End
 
 

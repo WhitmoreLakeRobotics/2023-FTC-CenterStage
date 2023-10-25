@@ -28,8 +28,8 @@ public class Lighting extends BaseHardware {
     private final static int GAMEPAD_LOCKOUT = 500;
 
    private RevBlinkinLedDriver blinkinLedDriver;
-   private RevBlinkinLedDriver.BlinkinPattern pattern;
-   private RevBlinkinLedDriver.BlinkinPattern baseColor;
+   private RevBlinkinLedDriver.BlinkinPattern pattern = RevBlinkinLedDriver.BlinkinPattern.BLACK;
+   private RevBlinkinLedDriver.BlinkinPattern baseColor = RevBlinkinLedDriver.BlinkinPattern.BLACK;
    private Telemetry.Item patternName;
    private Telemetry.Item display;
    //private RevBlinkinLedDriver.BlinkinPattern displayKind;

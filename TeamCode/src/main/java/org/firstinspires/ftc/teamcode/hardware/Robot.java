@@ -11,6 +11,7 @@ public class Robot extends BaseHardware {
     public Sensors sensors = new Sensors();
     public Lift lift = new Lift();
     public Sweeper sweeper = new Sweeper();
+    public SensorDetect CurrentDetect = SensorDetect.UNKNOWN;
 
     @Override
     public void init() {
@@ -47,6 +48,7 @@ public class Robot extends BaseHardware {
         lift.init_loop();
         sweeper.init_loop();
 
+        propCheck();
     }
 
     @Override
@@ -56,6 +58,8 @@ public class Robot extends BaseHardware {
         sensors.start();
         lift.start();
         sweeper.start();
+
+        lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
 
     @Override
@@ -75,24 +79,36 @@ public class Robot extends BaseHardware {
         sensors.stop();
         lift.stop();
         sweeper.stop();
+
+        lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
-    private void propCheck(){
+    public void propCheck(){
 
         boolean propISLeft = sensors.FLDS1Detect();
         boolean propIsRight = sensors.FRDS1Detect();
 
        if (propISLeft && ! propIsRight){
            lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.RED);//detaced prop on left
-
+            CurrentDetect = SensorDetect.LEFT;
        } else if (propIsRight && ! propISLeft) {
            lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE);//detaced prop on right
+           CurrentDetect = SensorDetect.RIGHT;
        }
        else if (propIsRight && propISLeft) {
            lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.VIOLET);//detaced prop on center
+           CurrentDetect = SensorDetect.BOTH;
        }
        else if (! propIsRight  && ! propISLeft) {
            lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GREEN);//detaced prop on
+           CurrentDetect = SensorDetect.NONE;
        }
+    }
+    public enum SensorDetect{
+        LEFT,
+        RIGHT,
+        BOTH,
+        NONE,
+        UNKNOWN;
     }
 
 }
