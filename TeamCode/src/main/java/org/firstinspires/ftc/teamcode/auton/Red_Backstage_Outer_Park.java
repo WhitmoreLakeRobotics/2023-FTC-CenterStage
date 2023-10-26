@@ -119,28 +119,87 @@ public class Red_Backstage_Outer_Park extends OpMode {
                     default:
                         currentStage = stage._30_DriveTo_spike_center;
                 }
-                currentStage = stage._20_Strafe_Left;
+
 
 
                 break;
 
-            case _20_Strafe_Left:
+            case _20_DriveTo_spike_right:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(18,90,0.35,-90);
-                    currentStage = stage._25_Eject;
+                    robot.driveTrain.CmdDrive(14,15,0.35,15);
+                currentStage = stage._22_Drive_Back;
+
+
+
+                }
+
+                break;
+            case _22_Drive_Back:;
+                if(robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(14, -165, 0.35, 15);
+                    currentStage = stage._50_Drive_Back;
+
+                }
+                    break;
+
+
+            case _30_DriveTo_spike_center:
+                if(robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(28, 0, 0.35, 0);
+                    currentStage = stage._32_Drive_Back;
+
+                }
+
+                break;
+            case _32_Drive_Back:
+                if(robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(28, -175, 0.35, 0);
+                    currentStage = stage._60_Strafe_Left; // already at heading zero
 
                 }
                 break;
 
-            case _25_Eject:
+            case _40_DriveTo_spike_left:
+                if(robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(18, -20, 0.35, -20);
+                    currentStage = stage._42_Drive_Back;
+
+                }
+
+                break;
+            case _42_Drive_Back:
+                if(robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(18, 160, 0.35, -20);
+                    currentStage = stage._50_Drive_Back;
+
+                }
+                break;
+
+
+            case _50_Drive_Back:
+              //  if(robot.driveTrain.getCmdComplete()) {
+                  //  robot.driveTrain.CmdDrive(0, 0, 0, -90);
+                    currentStage = stage._60_Strafe_Left;
+
+                //}
+                break;
+            case _60_Strafe_Left:
+                if(robot.driveTrain.getCmdComplete()){
+                    robot.driveTrain.CmdDrive(18,90,0.35,-90);
+                    currentStage = stage._70_Eject;
+
+                }
+                break;
+
+            case _70_Eject:
                 if(robot.driveTrain.getCmdComplete()){
                     robot.sweeper.setCurrentMode(Sweeper.Mode.REVERSE);
-                    currentStage = stage._30_Strafe_Right;
+                    currentStage = stage._80_Strafe_Right;
                     runtime.reset();
                 }
                 break;
 
-            case _30_Strafe_Right:
+            case _80_Strafe_Right:
                 if (runtime.milliseconds() > sweepTime)     {
                     robot.sweeper.setCurrentMode(Sweeper.Mode.STOP);
                     robot.driveTrain.CmdDrive(0,0,0,0);
@@ -182,8 +241,11 @@ public class Red_Backstage_Outer_Park extends OpMode {
         _09_Scan,
         _10_Drive_Out,
         _20_DriveTo_spike_right,
+        _22_Drive_Back,
         _30_DriveTo_spike_center,
+        _32_Drive_Back,
         _40_DriveTo_spike_left,
+        _42_Drive_Back,
         _50_Drive_Back,
         _60_Strafe_Left,
         _70_Eject,
