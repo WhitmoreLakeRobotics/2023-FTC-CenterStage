@@ -205,7 +205,7 @@ public class DriveTrain extends BaseHardware {
         Current_Mode = Mode.TELEOP;
         double Drive = Left_Y * Current_Speed;
         double Strafe = Left_X * Current_Speed;
-        double Turn = Right_X * (1.0 -Left_Y) * TURNSPEED_TELEOP ;
+        double Turn = Right_X * (1.0 - Drive) * TURNSPEED_TELEOP ;
         double Heading = Gyro.getGyroHeadingRadian();
         double NDrive = Strafe * Math.sin(Heading) + Drive * Math.cos(Heading);
         double NStrafe = Strafe * Math.cos(Heading) - Drive * Math.sin(Heading);
@@ -246,7 +246,7 @@ public class DriveTrain extends BaseHardware {
         Current_Mode = Mode.TELEOP;
         double Drive = Left_Y * Current_Speed;
         double Strafe = Left_X * Current_Speed;
-        double Turn = Right_X * (1.0 -Left_Y) * TURNSPEED_TELEOP ;
+        double Turn = Right_X * (1.0 -Drive) * TURNSPEED_TELEOP ;
         double Heading = Gyro.getGyroHeadingRadian();
        // double NDrive = Strafe * Math.sin(Heading) + Drive * Math.cos(Heading);
         //double NStrafe = Strafe * Math.cos(Heading) - Drive * Math.sin(Heading);
