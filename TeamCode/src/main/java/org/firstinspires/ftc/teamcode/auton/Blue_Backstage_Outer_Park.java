@@ -96,7 +96,7 @@ public class Blue_Backstage_Outer_Park extends OpMode {
 
 
             case _00_preStart:
-                currentStage = stage._10_Drive_Out;
+                currentStage = stage._09_Scan;
 
 
                 break;
@@ -172,7 +172,7 @@ public class Blue_Backstage_Outer_Park extends OpMode {
                 break;
             case _42_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(14, 165, 0.35, -15);
+                    robot.driveTrain.CmdDrive(16, 165, 0.35, -15);
                     currentStage = stage._50_Drive_Back;
 
                 }
@@ -189,7 +189,7 @@ public class Blue_Backstage_Outer_Park extends OpMode {
 
             case _60_Strafe_Left:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(18,-90,0.35,90);
+                    robot.driveTrain.CmdDrive(16,-90,0.35,90);
                     currentStage = stage._70_Eject;
 
                 }
