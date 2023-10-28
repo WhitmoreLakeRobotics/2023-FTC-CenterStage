@@ -128,7 +128,7 @@ public class Blue_Backstage_Outer_Park extends OpMode {
 
             case _20_DriveTo_spike_right:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(21,20,0.35,20);
+                    robot.driveTrain.CmdDrive(21,12,0.35,31);
                     currentStage = stage._22_Drive_Back;
 
 
@@ -138,7 +138,7 @@ public class Blue_Backstage_Outer_Park extends OpMode {
                 break;
             case _22_Drive_Back:;
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(21, -160, 0.35, 20);
+                    robot.driveTrain.CmdDrive(21, -168, 0.35, 20);
                     currentStage = stage._50_Drive_Back;
 
                 }
