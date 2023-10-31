@@ -12,6 +12,7 @@ public class Robot extends BaseHardware {
     public Lift lift = new Lift();
     public Sweeper sweeper = new Sweeper();
     public SensorDetect CurrentDetect = SensorDetect.UNKNOWN;
+    public Drone drone = new Drone();
 
     @Override
     public void init() {
@@ -32,11 +33,13 @@ public class Robot extends BaseHardware {
         lift.telemetry = this.telemetry;
         lift.init();
 
-
-
         sweeper.hardwareMap = this.hardwareMap;
         sweeper.telemetry = this.telemetry;
         sweeper.init();
+
+        drone.hardwareMap = this.hardwareMap;
+        drone.telemetry = this.telemetry;
+        drone.init();
 
     }
 
@@ -47,6 +50,7 @@ public class Robot extends BaseHardware {
         sensors.init_loop();
         lift.init_loop();
         sweeper.init_loop();
+        drone.init_loop();
 
         propCheck();
     }
@@ -58,6 +62,7 @@ public class Robot extends BaseHardware {
         sensors.start();
         lift.start();
         sweeper.start();
+        drone.start();
 
         lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }
@@ -69,6 +74,7 @@ public class Robot extends BaseHardware {
         sensors.loop();
         lift.loop();
         sweeper.loop();
+        drone.loop();
     }
 
 
@@ -79,6 +85,7 @@ public class Robot extends BaseHardware {
         sensors.stop();
         lift.stop();
         sweeper.stop();
+        drone.stop();
 
         lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE);
     }

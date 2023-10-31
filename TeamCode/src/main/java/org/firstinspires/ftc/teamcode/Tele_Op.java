@@ -253,11 +253,8 @@ public class Tele_Op extends OpMode {
      //       robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.FIRE_MEDIUM);
         }
         if (CommonLogic.oneShot(gamepad2.back, gp2_prev_back)){
-            //Initialize Gyro
-            //robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.STACKPICKUP);
-           // robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.STACKPICKUP);
-         //   robot.intake.doIntake();
-            //robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_FOREST_PALETTE);
+            robot.drone.launchDrone();
+            robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.TWINKLES_FOREST_PALETTE);
         }
 
         if (CommonLogic.oneShot(gamepad2.start, gp2_prev_start)){

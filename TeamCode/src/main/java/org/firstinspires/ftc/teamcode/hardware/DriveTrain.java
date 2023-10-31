@@ -62,7 +62,7 @@ public class DriveTrain extends BaseHardware {
     private double Drive_Target;  //in inches
     private static final double Distance_Per_Rev = 2.95*3.14159;
     private static final double Gear_Ratio = 1 / 10.4329;
-    private  static final int Gyro_Tol  = 2; //was 3
+    private  static final int Gyro_Tol  = 1; //was 3
     private static final double Ticks_Per_Inch = Settings.REV_HD_HEX_MOTOR_TICKS_PER_REV *  Gear_Ratio * Distance_Per_Rev;
     private double bearing_AA = 0;
     private double speed_AA = 0;
@@ -70,7 +70,7 @@ public class DriveTrain extends BaseHardware {
     private static final double driveTolAA = 0.25; //in inches
     private static final double diaTurnRaid = 19; //in inches //was 23
     private static final double turnDistPerDeg = ((3.14159 * diaTurnRaid)/360) * Ticks_Per_Inch; //inches per deg
-    private static final double stagPos = 10;
+    private static final double stagPos = 5;
     private static final double stagPow = 0.20;
     private final long visionThreshHold = 1000;
 
