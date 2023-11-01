@@ -161,7 +161,7 @@ public class Blue_Frontstage_Place_and_Park extends OpMode {
 
             case _40_DriveTo_spike_left:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(21, -12, 0.35, -31);
+                    robot.driveTrain.CmdDrive(20, -12, 0.35, -32);
                     currentStage = stage._42_Drive_Back;
 
                 }

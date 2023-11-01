@@ -54,7 +54,7 @@ public class DriveTrain extends BaseHardware {
 
     private static final String TAGChassis = "8492 ";
 
-    public static final double DTrain_NORMALSPEED = 0.45;
+    public static final double DTrain_NORMALSPEED = 0.5;
     public static final double DTrain_SLOWSPEED = 0.2;
     public static final double DTrain_FASTSPEED = 0.7;
 
@@ -70,8 +70,8 @@ public class DriveTrain extends BaseHardware {
     private static final double driveTolAA = 0.25; //in inches
     private static final double diaTurnRaid = 19; //in inches //was 23
     private static final double turnDistPerDeg = ((3.14159 * diaTurnRaid)/360) * Ticks_Per_Inch; //inches per deg
-    private static final double stagPos = 5;
-    private static final double stagPow = 0.20;
+    private static final double stagPos = 7;
+    private static final double stagPow = 0.22;
     private final long visionThreshHold = 1000;
 
 

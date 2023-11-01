@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.hardware;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -26,7 +27,10 @@ public class Lift extends BaseHardware {
 
     private DcMotor LF1;
     private DcMotor LF2;
+    private DcMotor ARM1;
 
+    private Servo WRIST1;
+    private Servo BOX;
     /**
      * Hardware Mappings
      */
@@ -43,8 +47,14 @@ public class Lift extends BaseHardware {
     private final static int stagPos  = 30;
     private final static int tol = 10;
     private Mode CurrentMode = Mode.START;
-
-
+    private final double boxOpen = 1;
+    private final double boxClose = 0;
+    private final double wristPickup = 0;
+    private final double wristDelivery = 1;
+    private final int armPickup = 5;
+    private final int armDelivery = 120;
+    private final int armMinPos = 0;
+    private final int armMaxPos = 200;
 
 
     /**
