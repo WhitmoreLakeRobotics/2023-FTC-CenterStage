@@ -17,7 +17,20 @@ public class CommonLogic extends Object {
 
         return retValue;
     }
+    public static int CapValueint(int TargetValue, int negCapValue, int posCapValue) {
+        // logic to cap the motor power between a good range
+        int retValue = TargetValue;
 
+        if (TargetValue < negCapValue) {
+            retValue = negCapValue;
+        }
+
+        if (TargetValue > posCapValue) {
+            retValue = posCapValue;
+        }
+
+        return retValue;
+    }
     //*********************************************************************************************
     public static double joyStickMath(double joyValue) {
         int sign = 1;

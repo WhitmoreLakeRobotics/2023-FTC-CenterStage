@@ -37,6 +37,7 @@ public class Lift extends BaseHardware {
     public HardwareMap hardwareMap = null; // will be set in Child class
     public final int minPos = 0;
     public final int maxPos = 690;
+    public final int liftDeliveyPos = 300;
     public final int startPos = 5;
     public final int carryPos = 15;
     public final int climbStartPos = 685;
@@ -55,6 +56,7 @@ public class Lift extends BaseHardware {
     private final int armDelivery = 120;
     private final int armMinPos = 0;
     private final int armMaxPos = 200;
+    private int ArmTargetPos = armMinPos;
 
 
     /**
@@ -90,7 +92,7 @@ public class Lift extends BaseHardware {
         LF2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-
+/////////////////// intizilze arm, wrist, and box
     }
 
     /**
@@ -129,6 +131,7 @@ public class Lift extends BaseHardware {
                 break;
             case CARRY:
             targetPos = carryPos;
+            closeDoor();
                 break;
             case CLIMBPREP:
                 targetPos = climbStartPos;
@@ -139,7 +142,19 @@ public class Lift extends BaseHardware {
             case STOP:
 
                 break;
+            case INTAKE:
+                openDoor();
+                ArmgotoPos(armPickup);
+                gotoPosWrist(wristPickup);
+                liftgotoPos(startPos);
 
+                break;
+            case  DELIVER:
+              //  openDoor();
+                ArmgotoPos(armDelivery);
+                gotoPosWrist(wristDelivery);
+                liftgotoPos(liftDeliveyPos);
+                break;
             default:
         }
 
@@ -150,7 +165,6 @@ public class Lift extends BaseHardware {
 
         cmdComplete = true;
     }
-
 
 
     /**
@@ -170,13 +184,21 @@ public class Lift extends BaseHardware {
 public void setCurrentMode (Mode newMode){
         CurrentMode = newMode;
 }
-
-public enum Mode{
+    private void gotoPosWrist( double newPos ){WRIST1.setPosition(newPos);}
+    public void openDoor(){BOX.setPosition(boxOpen);}
+    public void closeDoor(){BOX.setPosition(boxClose);}
+    private void ArmgotoPos( int newPos){ArmTargetPos = CommonLogic.CapValueint(newPos,armMinPos,armMaxPos);
+    }
+    private void liftgotoPos( int newPos) {targetPos = CommonLogic.CapValueint(newPos,minPos,maxPos);
+    }
+    public enum Mode{
     STOP,
     START,
     CARRY,
     CLIMBPREP,
     CLIMBEND,
+        INTAKE,
+        DELIVER;
 
 
 }
