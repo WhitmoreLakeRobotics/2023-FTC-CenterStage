@@ -75,6 +75,8 @@ public class Robot extends BaseHardware {
         lift.loop();
         sweeper.loop();
         drone.loop();
+
+        updateDriveSensor();
     }
 
 
@@ -109,6 +111,11 @@ public class Robot extends BaseHardware {
            lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GREEN);//detaced prop on
            CurrentDetect = SensorDetect.NONE;
        }
+    }
+
+    public void updateDriveSensor(){
+        driveTrain.updateRange(sensors.GetSensorDistance());
+
     }
     public enum SensorDetect{
         LEFT,

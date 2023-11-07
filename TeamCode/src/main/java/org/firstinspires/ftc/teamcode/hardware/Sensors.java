@@ -32,6 +32,10 @@ public class Sensors extends BaseHardware {
     private final double sideTargetTol = 12; // in inches
     private double centerTarget = 29; // in inches
     private double centerTargetTol = 12; // in inches
+    ////////private double autonBackWallTarget = 13 // in inches
+  //  private double autonBackWallTargetTol = 1 // in inches
+
+
 
     private boolean cmdComplete = true;
     private Mode CurrentMode = Mode.STOP;
@@ -124,7 +128,9 @@ public boolean FLDS1Detect(){
  public boolean FRDS1Detect(){
         return CommonLogic.inRange(FRDS1.getDistance(DistanceUnit.INCH),centerTarget,centerTargetTol);
  }
-
+public double GetSensorDistance(){
+        return (FRDS1.getDistance(DistanceUnit.INCH)+ FLDS1.getDistance(DistanceUnit.INCH))/2;
+}
 
 
 private enum Mode{

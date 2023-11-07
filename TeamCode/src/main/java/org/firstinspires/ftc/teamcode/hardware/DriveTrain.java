@@ -73,7 +73,8 @@ public class DriveTrain extends BaseHardware {
     private static final double stagPos = 7;
     private static final double stagPow = 0.22;
     private final long visionThreshHold = 1000;
-
+    private double sensorRange = 4000.0;
+    private final double sensorTol = 1.0;
 
     /**
      * BaseHardware constructor
@@ -182,6 +183,9 @@ public class DriveTrain extends BaseHardware {
                 break;
             case VISION:
                 aprilDrive();
+                break;
+            case DRIVE_BY_SENSOR:
+                doDriveBySensor();
                 break;
         }
 
@@ -328,6 +332,10 @@ public class DriveTrain extends BaseHardware {
             scalePower(MaxValue);
         }
     }
+    public void updateRange(double newRange){
+        sensorRange = newRange;
+    }
+
     private  void scalePower(double ScalePower){
         LDM1Power=LDM1Power/ScalePower;
         LDM2Power=LDM2Power/ScalePower;
@@ -379,6 +387,25 @@ public class DriveTrain extends BaseHardware {
                1.0, stagPos, stagPow);
         telemetry.addData(TAGChassis,"turn power " + turn);
         return turn;
+    }
+
+    public void cmdDriveBySensors(double TargetDist,double Bearing, double speed, int Heading){
+        //drive target needs to account turn distance
+
+        Target_Heading = Heading;
+
+        Drive_Target = (TargetDist) + ((Math.abs(Gyro.getGyroHeading() - Target_Heading)*Math.sqrt(2))/turnDistPerDeg);
+
+        // reset encoders
+        resetEncoders();
+        // store Bearing
+        bearing_AA = Bearing;
+        //store speed
+        speed_AA = speed;
+
+        cmdComplete = false;
+        Current_Mode = Mode.DRIVE_BY_SENSOR;
+        startDrive();
     }
 
 
@@ -458,6 +485,25 @@ public class DriveTrain extends BaseHardware {
 
     }
 
+    private void doDriveBySensor(){
+       // double distance = sensorRange;
+        telemetry.addData(TAGChassis,"distance driven " + distance);
+        startDrive();
+        //check to see if we have driven the target distance
+        if(CommonLogic.inRange(sensorRange,Drive_Target,sensorTol)) {
+            //if we have reached our target distance
+            //stop drive
+            stopMotors();
+            //mark command complete
+            cmdComplete = true;
+            //set current mode stop
+            Current_Mode = Mode.STOPPED;
+        }
+
+        //if not keep driving
+
+    }
+
 
     private void resetEncoders(){
         LDM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -525,6 +571,7 @@ public class DriveTrain extends BaseHardware {
         COMMAND_AA,
     STOPPED,
     TELEOP,
+        DRIVE_BY_SENSOR,
 VISION;
 }
 }
