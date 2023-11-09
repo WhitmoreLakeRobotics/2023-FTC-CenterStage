@@ -51,17 +51,18 @@ public class Lift extends BaseHardware {
     private Mode CurrentMode = Mode.START;
     private final double boxOpen = 1;
     private final double boxClose = 0.5;
-    private final double wristPickup = 0.5;
-    private final double wristDelivery = 0;
+    private final double wristPickup = 1;
+    private final double wristDelivery = 0.5;
     private final int armPickup = 5;
     private final int armDelivery = 360;
     private final int armMinPos = 0;
     private final int armMaxPos = 400;
     private int ArmTargetPos = armMinPos;
-    private final double armSpeed = 0.4;
-    private final double armStagSpeed = 0.2;
-    private final int armStagPos = 20;
-    private final int armTol = 5;
+    private final double armSpeed = 0.3;
+    private final double armStagSpeed = 0.15;
+    private final int armStagPos = 100; //15
+    private  final double armHoldPow = -0.05;
+    private final int armTol = 3;
 
 
     /**
@@ -138,7 +139,10 @@ BOX = hardwareMap.get(Servo.class,"BOX");
     public void loop(){
         //GoToPos
        setMPower(CommonLogic.goToPosStagint(LF1.getCurrentPosition(), targetPos,tol,liftSpeed,stagPos,stagSpeed));
-        ARM1.setPower(CommonLogic.goToPosStag(ARM1.getCurrentPosition(),ArmTargetPos,armTol,armSpeed,armStagPos,armStagSpeed));
+        //ARM1.setPower(CommonLogic.goToPosStag(ARM1.getCurrentPosition(),ArmTargetPos,armTol,armSpeed,armStagPos,armStagSpeed));
+
+        ARM1.setPower(CommonLogic.CapValue( CommonLogic.PIDcalc(armStagPos,armHoldPow,ARM1.getCurrentPosition(),ArmTargetPos),-armSpeed,armSpeed));
+
         switch (CurrentMode){
             case START:
             targetPos = startPos;
@@ -171,7 +175,7 @@ BOX = hardwareMap.get(Servo.class,"BOX");
               //  openDoor();
                 ArmgotoPos(armDelivery);
                 gotoPosWrist(wristDelivery);
-                liftgotoPos(liftDeliveyPos);
+               // liftgotoPos(liftDeliveyPos);
                 break;
             default:
         }

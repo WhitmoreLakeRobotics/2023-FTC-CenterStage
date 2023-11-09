@@ -394,7 +394,7 @@ public class DriveTrain extends BaseHardware {
 
         Target_Heading = Heading;
 
-        Drive_Target = (TargetDist) + ((Math.abs(Gyro.getGyroHeading() - Target_Heading)*Math.sqrt(2))/turnDistPerDeg);
+        Drive_Target = (TargetDist); //((Math.abs(Gyro.getGyroHeading() - Target_Heading)*Math.sqrt(2))/turnDistPerDeg);
 
         // reset encoders
         resetEncoders();

@@ -143,5 +143,11 @@ public class CommonLogic extends Object {
         }
     }
 
+    public static double PIDcalc(double P, double F_hold,int currentPos, int targetPos){
+        int delta = targetPos - currentPos;
+
+        return (delta / P) + F_hold;
+
+    }
 
 }
