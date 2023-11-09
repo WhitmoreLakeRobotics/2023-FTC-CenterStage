@@ -78,8 +78,9 @@ public class Sensors extends BaseHardware {
      * This method is optional. By default this method takes no action.
      */
      public void init_loop() {
-         telemetry.addData("lift Pos " , FLDS1.getDistance(DistanceUnit.INCH)) ;
-         telemetry.addData("lift Pos " , FRDS1.getDistance(DistanceUnit.INCH)) ;
+         telemetry.addData("FLDS1 Pos " , FLDS1.getDistance(DistanceUnit.INCH)) ;
+         telemetry.addData("FRDS1 Pos " , FRDS1.getDistance(DistanceUnit.INCH)) ;
+
      }
 
     /**

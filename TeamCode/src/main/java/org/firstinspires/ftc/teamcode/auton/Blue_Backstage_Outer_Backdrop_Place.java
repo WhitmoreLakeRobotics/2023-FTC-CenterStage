@@ -36,6 +36,7 @@ public class Blue_Backstage_Outer_Backdrop_Place extends OpMode {
      * Code to run ONCE when the driver hits INIT
      */
     private Robot.SensorDetect ScanResults = Robot.SensorDetect.UNKNOWN;
+    private int PlaceDistance = 0;
     @Override
     public void init() {
         //----------------------------------------------------------------------------------------------
@@ -110,15 +111,19 @@ public class Blue_Backstage_Outer_Backdrop_Place extends OpMode {
                 switch (ScanResults){
                     case LEFT:
                         currentStage = stage._40_DriveTo_spike_left;
+                        PlaceDistance = 22;
                         break;
                     case RIGHT:
                         currentStage = stage._30_DriveTo_spike_center;
+                        PlaceDistance = 28;
                         break;
                     case NONE:
                         currentStage = stage._20_DriveTo_spike_right;
+                        PlaceDistance = 34;
                         break;
                     default:
                         currentStage = stage._30_DriveTo_spike_center;
+                        PlaceDistance = 28;
                 }
 
 
@@ -188,27 +193,34 @@ public class Blue_Backstage_Outer_Backdrop_Place extends OpMode {
 
             case _60_Strafe_Left:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(16,-90,0.35,-90);
+                    robot.driveTrain.cmdDriveBySensors(13,-90,0.35,-90);   //.CmdDrive(16,-90,0.35,-90);
                     currentStage = stage._70_Strafe_Left_Wall;
 
                 }
                 break;
 
-            case _70_Eject:
+            case _70_Strafe_Left_Wall:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.sweeper.setCurrentMode(Sweeper.Mode.REVERSE);
+                    robot.driveTrain.CmdDrive(4, -179, 0.35, -90);
                     currentStage = stage._80_Strafe_Right;
-                    runtime.reset();
                 }
                 break;
 
             case _80_Strafe_Right:
-                if (runtime.milliseconds() > sweepTime)     {
-                    robot.sweeper.setCurrentMode(Sweeper.Mode.STOP);
-                    robot.driveTrain.CmdDrive(0,0,0,0);
-                    currentStage = stage._100_End;
+                  if(robot.driveTrain.getCmdComplete())     {
+
+                    robot.driveTrain.CmdDrive(PlaceDistance,0,0.35,-90);
+                    currentStage = stage._90_Place;
                 }
 
+                break;
+            case _90_Place:
+
+
+
+
+                break;
+            case _95_Park_And_Turn:
                 break;
             case _100_End:
                 if(robot.driveTrain.getCmdComplete()){
@@ -254,7 +266,7 @@ public class Blue_Backstage_Outer_Backdrop_Place extends OpMode {
         _70_Strafe_Left_Wall,
         _80_Strafe_Right,
         _90_Place,
-        _95_Park,
+        _95_Park_And_Turn,
         _100_End
 
 

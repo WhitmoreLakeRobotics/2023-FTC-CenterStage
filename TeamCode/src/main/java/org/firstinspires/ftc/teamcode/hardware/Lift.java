@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.common.CommonLogic;
 
@@ -49,14 +50,18 @@ public class Lift extends BaseHardware {
     private final static int tol = 10;
     private Mode CurrentMode = Mode.START;
     private final double boxOpen = 1;
-    private final double boxClose = 0;
-    private final double wristPickup = 0;
-    private final double wristDelivery = 1;
+    private final double boxClose = 0.5;
+    private final double wristPickup = 0.5;
+    private final double wristDelivery = 0;
     private final int armPickup = 5;
-    private final int armDelivery = 120;
+    private final int armDelivery = 360;
     private final int armMinPos = 0;
-    private final int armMaxPos = 200;
+    private final int armMaxPos = 400;
     private int ArmTargetPos = armMinPos;
+    private final double armSpeed = 0.4;
+    private final double armStagSpeed = 0.2;
+    private final int armStagPos = 20;
+    private final int armTol = 5;
 
 
     /**
@@ -92,7 +97,15 @@ public class Lift extends BaseHardware {
         LF2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-/////////////////// intizilze arm, wrist, and box
+//                  intizilze arm, wrist, and box
+ARM1 = hardwareMap.dcMotor.get("ARM1");
+ARM1.setDirection(DcMotorSimple.Direction.REVERSE);
+ARM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+ARM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+ARM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+WRIST1 = hardwareMap.get(Servo.class,"WRIST1");
+BOX = hardwareMap.get(Servo.class,"BOX");
+
     }
 
     /**
@@ -103,6 +116,7 @@ public class Lift extends BaseHardware {
      */
      public void init_loop() {
          telemetry.addData("lift Pos " , Integer.toString(LF1.getCurrentPosition())) ;
+         telemetry.addData("Arm Pos " , Integer.toString(ARM1.getCurrentPosition())) ;
      }
 
     /**
@@ -124,16 +138,20 @@ public class Lift extends BaseHardware {
     public void loop(){
         //GoToPos
        setMPower(CommonLogic.goToPosStagint(LF1.getCurrentPosition(), targetPos,tol,liftSpeed,stagPos,stagSpeed));
-
+        ARM1.setPower(CommonLogic.goToPosStag(ARM1.getCurrentPosition(),ArmTargetPos,armTol,armSpeed,armStagPos,armStagSpeed));
         switch (CurrentMode){
             case START:
             targetPos = startPos;
+            closeDoor();
+            gotoPosWrist(wristPickup);
                 break;
             case CARRY:
             targetPos = carryPos;
             closeDoor();
                 break;
             case CLIMBPREP:
+                ArmgotoPos(armPickup);
+                gotoPosWrist(wristPickup);
                 targetPos = climbStartPos;
                 break;
             case CLIMBEND:
@@ -143,7 +161,7 @@ public class Lift extends BaseHardware {
 
                 break;
             case INTAKE:
-                openDoor();
+               // openDoor();
                 ArmgotoPos(armPickup);
                 gotoPosWrist(wristPickup);
                 liftgotoPos(startPos);

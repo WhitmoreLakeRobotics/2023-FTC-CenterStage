@@ -487,7 +487,7 @@ public class DriveTrain extends BaseHardware {
 
     private void doDriveBySensor(){
        // double distance = sensorRange;
-        telemetry.addData(TAGChassis,"distance driven " + distance);
+      //  telemetry.addData(TAGChassis,"distance driven " + distance);
         startDrive();
         //check to see if we have driven the target distance
         if(CommonLogic.inRange(sensorRange,Drive_Target,sensorTol)) {

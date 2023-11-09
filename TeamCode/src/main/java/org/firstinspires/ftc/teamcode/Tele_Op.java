@@ -239,18 +239,14 @@ public class Tele_Op extends OpMode {
          //   robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.LIME);
 
             RobotLog.aa(TAGTeleop, " gp2_prev_left_bumper : " + gp2_prev_left_bumper);
-
+        robot.lift.closeDoor();
         }
 
 
 
 
         if (CommonLogic.oneShot(gamepad2.right_bumper, gp2_prev_right_bumper)) {
-            //if (robot.subGripper.getIsClosed()) {
-            //    robot.subGripper.cmd_open();
-            // }
-       //     robot.intake.cmdDelivery();
-     //       robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.FIRE_MEDIUM);
+           robot.lift.openDoor();
         }
         if (CommonLogic.oneShot(gamepad2.back, gp2_prev_back)){
             robot.drone.launchDrone();
@@ -271,15 +267,11 @@ public class Tele_Op extends OpMode {
 
 
         if (CommonLogic.oneShot(gamepad2.a, gp2_prev_a)) {
-    //        robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.GNDJCN);
-      //      robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-            //robot.subExtender.decPositionIndex();
+    robot.lift.setCurrentMode(Lift.Mode.INTAKE);
         }
 
         if (CommonLogic.oneShot(gamepad2.b, gp2_prev_b)) {
-          //  robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.LOWJCN);
-        //    robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.RED);
-            //robot.subLeg.pick();
+robot.lift.setCurrentMode(Lift.Mode.DELIVER);
         }
 
         if (CommonLogic.oneShot(gamepad2.y, gp2_prev_y)) {
