@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -28,7 +29,7 @@ public class Lift extends BaseHardware {
 
     private DcMotor LF1;
     private DcMotor LF2;
-    private DcMotor ARM1;
+    private DcMotorEx ARM1;
 
     private Servo WRIST1;
     private Servo BOX;
@@ -37,16 +38,16 @@ public class Lift extends BaseHardware {
      */
     public HardwareMap hardwareMap = null; // will be set in Child class
     public final int minPos = 0;
-    public final int maxPos = 690;
-    public final int liftDeliveyPos = 300;
+    public final int maxPos = 710;
+    public final int liftDeliveyPos = 320;
     public final int startPos = 5;
     public final int carryPos = 15;
-    public final int climbStartPos = 685;
-    public final int climbEnd = 150;
+    public final int climbStartPos = 705;
+    public final int climbEnd = 140;
     private int targetPos = startPos;
     private final double liftSpeed = 0.95;
-    private final static double stagSpeed = 0.30;
-    private final static int stagPos  = 30;
+    private final static double stagSpeed = 0.22;
+    private final static int stagPos  = 40;
     private final static int tol = 10;
     private Mode CurrentMode = Mode.START;
     private final double boxOpen = 1;
@@ -58,10 +59,10 @@ public class Lift extends BaseHardware {
     private final int armMinPos = 0;
     private final int armMaxPos = 400;
     private int ArmTargetPos = armMinPos;
-    private final double armSpeed = 0.3;
+    private final double armSpeed = 0.4;
     private final double armStagSpeed = 0.15;
-    private final int armStagPos = 100; //15
-    private  final double armHoldPow = -0.05;
+    private final int armStagPos = 280; //15
+    private  final double armHoldPow = -0.07;
     private final int armTol = 3;
 
 
@@ -99,11 +100,13 @@ public class Lift extends BaseHardware {
 
 
 //                  intizilze arm, wrist, and box
-ARM1 = hardwareMap.dcMotor.get("ARM1");
+//ARM1 = hardwareMap.dcMotor.get("ARM1");
+ARM1 =hardwareMap.get(DcMotorEx.class, "ARM1");
 ARM1.setDirection(DcMotorSimple.Direction.REVERSE);
 ARM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 ARM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 ARM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+ARM1.setVelocityPIDFCoefficients(20,0,0,0);
 WRIST1 = hardwareMap.get(Servo.class,"WRIST1");
 BOX = hardwareMap.get(Servo.class,"BOX");
 
@@ -137,6 +140,8 @@ BOX = hardwareMap.get(Servo.class,"BOX");
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop(){
+        telemetry.addData("lift Pos " , Integer.toString(LF1.getCurrentPosition())) ;
+        telemetry.addData("Arm Pos " , Integer.toString(ARM1.getCurrentPosition())) ;
         //GoToPos
        setMPower(CommonLogic.goToPosStagint(LF1.getCurrentPosition(), targetPos,tol,liftSpeed,stagPos,stagSpeed));
         //ARM1.setPower(CommonLogic.goToPosStag(ARM1.getCurrentPosition(),ArmTargetPos,armTol,armSpeed,armStagPos,armStagSpeed));
@@ -175,7 +180,7 @@ BOX = hardwareMap.get(Servo.class,"BOX");
               //  openDoor();
                 ArmgotoPos(armDelivery);
                 gotoPosWrist(wristDelivery);
-               // liftgotoPos(liftDeliveyPos);
+               liftgotoPos(liftDeliveyPos);
                 break;
             default:
         }
