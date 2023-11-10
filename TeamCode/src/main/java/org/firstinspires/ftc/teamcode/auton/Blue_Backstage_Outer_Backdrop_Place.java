@@ -194,11 +194,20 @@ public class Blue_Backstage_Outer_Backdrop_Place extends OpMode {
 
             case _60_Strafe_Left:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.cmdDriveBySensors(20,-90,0.35,-90);
+                    //robot.driveTrain.cmdDriveBySensors(20,-90,0.35,-90);
+                    robot.driveTrain.CmdDrive(40, -90, 0.35, -90);
 
-                    currentStage = stage._70_Strafe_Left_Wall;
-
+                    currentStage = stage._65_Drive_Back; //stage._70_Strafe_Left_Wall;
                 }
+                break;
+
+            case _65_Drive_Back:
+
+                if (robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(15, 90, 0.35, -90);
+                    currentStage = stage._70_Strafe_Left_Wall;
+                }
+
                 break;
 
             case _70_Strafe_Left_Wall:
@@ -302,6 +311,7 @@ public class Blue_Backstage_Outer_Backdrop_Place extends OpMode {
         _42_Drive_Back,
         _50_Turn_To_Backdrop,
         _60_Strafe_Left,
+        _65_Drive_Back,
         _70_Strafe_Left_Wall,
         _80_Strafe_Right,
         _85_Arm_To_Position,

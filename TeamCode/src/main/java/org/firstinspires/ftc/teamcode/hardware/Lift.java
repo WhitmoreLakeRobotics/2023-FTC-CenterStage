@@ -47,7 +47,7 @@ public class Lift extends BaseHardware {
     private int targetPos = startPos;
     private final double liftSpeed = 0.95;
     private final static double stagSpeed = 0.22;
-    private final static int stagPos  = 40;
+    private final static int stagPos  = 20;
     private final static int tol = 10;
     private Mode CurrentMode = Mode.START;
     private final double boxOpen = 1;
