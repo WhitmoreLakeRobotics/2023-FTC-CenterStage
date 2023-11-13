@@ -38,31 +38,33 @@ public class Lift extends BaseHardware {
      */
     public HardwareMap hardwareMap = null; // will be set in Child class
     public final int minPos = 0;
-    public final int maxPos = 710;
+    public final int maxPos = 747;
     public final int liftDeliveyPos = 320;
     public final int startPos = 5;
     public final int carryPos = 15;
-    public final int climbStartPos = 705;
+    public final int climbStartPos = 747;
     public final int climbEnd = 140;
     private int targetPos = startPos;
-    private final double liftSpeed = 0.95;
-    private final static double stagSpeed = 0.22;
-    private final static int stagPos  = 20;
-    private final static int tol = 10;
+    private final double liftSpeed = 1.0;
+    private final static double stagSpeed = 0.30;
+    private final static int stagPos  = 40;
+    private final static int tol =15;
     private Mode CurrentMode = Mode.START;
     private final double boxOpen = 1;
     private final double boxClose = 0.5;
     private final double wristPickup = 1;
-    private final double wristDelivery = 0.5;
+    private final double wristDelivery = 0.35;
     private final int armPickup = 5;
-    private final int armDelivery = 360;
+    private final int armDelivery = 300;
     private final int armMinPos = 0;
     private final int armMaxPos = 400;
     private int ArmTargetPos = armMinPos;
     private final double armSpeed = 0.4;
     private final double armStagSpeed = 0.15;
     private final int armStagPos = 280; //15
-    private  final double armHoldPow = -0.07;
+    private  double armHoldPow = -0.08;
+    private final  double armHoldDeliver = -0.08;
+    private  final double armHoldIntake = 0.05;
     private final int armTol = 3;
 
 
@@ -174,6 +176,7 @@ BOX = hardwareMap.get(Servo.class,"BOX");
                 ArmgotoPos(armPickup);
                 gotoPosWrist(wristPickup);
                 liftgotoPos(startPos);
+                armHoldPow = armHoldIntake;
 
                 break;
             case  DELIVER:
@@ -181,6 +184,7 @@ BOX = hardwareMap.get(Servo.class,"BOX");
                 ArmgotoPos(armDelivery);
                 gotoPosWrist(wristDelivery);
                liftgotoPos(liftDeliveyPos);
+                armHoldPow = armHoldDeliver;
                 break;
             default:
         }

@@ -70,8 +70,8 @@ public class DriveTrain extends BaseHardware {
     private static final double driveTolAA = 0.25; //in inches
     private static final double diaTurnRaid = 19; //in inches //was 23
     private static final double turnDistPerDeg = ((3.14159 * diaTurnRaid)/360) * Ticks_Per_Inch; //inches per deg
-    private static final double stagPos = 7;
-    private static final double stagPow = 0.22;
+    private static final double stagPos = 10;
+    private static final double stagPow = 0.16;
     private final long visionThreshHold = 1000;
     private double sensorRange = 4000.0;
     private final double sensorTol = 1.0;
