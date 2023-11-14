@@ -57,6 +57,7 @@ public class DriveTrain extends BaseHardware {
     public static final double DTrain_NORMALSPEED = 0.5;
     public static final double DTrain_SLOWSPEED = 0.2;
     public static final double DTrain_FASTSPEED = 0.7;
+    private double SensorDrive = 0.35;
 
     private double Drive_Start;  //in inches
     private double Drive_Target;  //in inches
@@ -70,8 +71,8 @@ public class DriveTrain extends BaseHardware {
     private static final double driveTolAA = 0.25; //in inches
     private static final double diaTurnRaid = 19; //in inches //was 23
     private static final double turnDistPerDeg = ((3.14159 * diaTurnRaid)/360) * Ticks_Per_Inch; //inches per deg
-    private static final double stagPos = 7;
-    private static final double stagPow = 0.22;
+    private static final double stagPos = 10;
+    private static final double stagPow = 0.16;
     private final long visionThreshHold = 1000;
     private double sensorRange = 4000.0;
     private final double sensorTol = 1.0;
@@ -402,6 +403,7 @@ public class DriveTrain extends BaseHardware {
         bearing_AA = Bearing;
         //store speed
         speed_AA = speed;
+        SensorDrive = speed;
 
         cmdComplete = false;
         Current_Mode = Mode.DRIVE_BY_SENSOR;
@@ -487,13 +489,14 @@ public class DriveTrain extends BaseHardware {
 
     private void doDriveBySensor(){
        // double distance = sensorRange;
-
+        // update speed_aa ;
+        speed_AA = (CommonLogic.goToPosStag(sensorRange, Drive_Target,sensorTol,SensorDrive,stagPos,stagPow));
         //telemetry.addData(TAGChassis,"sensor range " + sensorRange);
         //telemetry.addData(TAGChassis,"drive target " + Drive_Target);
         startDrive();
         //check to see if we have driven the target distance
-        if (sensorRange < Drive_Target) {
-        //if(CommonLogic.inRange(sensorRange,Drive_Target,sensorTol)) {
+        //if (sensorRange < Drive_Target) {
+        if(CommonLogic.inRange(sensorRange,Drive_Target,sensorTol)) {
             //telemetry.addData(TAGChassis,"drive by sensor in range ");
             //if we have reached our target distance
             //stop drive

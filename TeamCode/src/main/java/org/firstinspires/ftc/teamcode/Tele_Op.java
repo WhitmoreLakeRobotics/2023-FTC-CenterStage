@@ -281,9 +281,7 @@ robot.lift.setCurrentMode(Lift.Mode.DELIVER);
         }
 
         if (CommonLogic.oneShot(gamepad2.x, gp2_prev_x)) {
-    //        robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.MEDJCN);
-  //          robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE);
-            //robot.subLeg.place();
+            robot.sweeper.setCurrentMode(Sweeper.Mode.STOP);
         }
 
         //robot.swing_arm_and_lift.SwingPos(robot.swing_arm_and_lift.LASTSWINGPOSITION + (int)(gamepad2.left_stick_x) * 5);
