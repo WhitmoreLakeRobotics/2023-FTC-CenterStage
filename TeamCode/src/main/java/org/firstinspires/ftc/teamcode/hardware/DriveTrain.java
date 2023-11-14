@@ -57,6 +57,7 @@ public class DriveTrain extends BaseHardware {
     public static final double DTrain_NORMALSPEED = 0.5;
     public static final double DTrain_SLOWSPEED = 0.2;
     public static final double DTrain_FASTSPEED = 0.7;
+    private double SensorDrive = 0.35;
 
     private double Drive_Start;  //in inches
     private double Drive_Target;  //in inches
@@ -402,6 +403,7 @@ public class DriveTrain extends BaseHardware {
         bearing_AA = Bearing;
         //store speed
         speed_AA = speed;
+        SensorDrive = speed;
 
         cmdComplete = false;
         Current_Mode = Mode.DRIVE_BY_SENSOR;
@@ -487,13 +489,14 @@ public class DriveTrain extends BaseHardware {
 
     private void doDriveBySensor(){
        // double distance = sensorRange;
-
+        // update speed_aa ;
+        speed_AA = (CommonLogic.goToPosStag(sensorRange, Drive_Target,sensorTol,SensorDrive,stagPos,stagPow));
         //telemetry.addData(TAGChassis,"sensor range " + sensorRange);
         //telemetry.addData(TAGChassis,"drive target " + Drive_Target);
         startDrive();
         //check to see if we have driven the target distance
-        if (sensorRange < Drive_Target) {
-        //if(CommonLogic.inRange(sensorRange,Drive_Target,sensorTol)) {
+        //if (sensorRange < Drive_Target) {
+        if(CommonLogic.inRange(sensorRange,Drive_Target,sensorTol)) {
             //telemetry.addData(TAGChassis,"drive by sensor in range ");
             //if we have reached our target distance
             //stop drive
