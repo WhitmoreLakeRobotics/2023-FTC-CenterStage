@@ -27,8 +27,8 @@ public class Lift extends BaseHardware {
     //private DistanceSensor RearLeftSensor;
     private boolean cmdComplete = true;
 
-    private DcMotor LF1;
-    private DcMotor LF2;
+    private DcMotorEx LF1;
+    private DcMotorEx LF2;
     private DcMotorEx ARM1;
 
     private Servo WRIST1;
@@ -46,7 +46,9 @@ public class Lift extends BaseHardware {
     public final int climbEnd = 140;
     private int targetPos = startPos;
     private final double liftSpeed = 1.0;
-    private final static double stagSpeed = 0.30;
+    private double stagSpeed = 0.30;
+    private static final double holdDefalt = 0.30;
+    private static  final double holdClimb = 0.40;
     private final static int stagPos  = 40;
     private final static int tol =15;
     private Mode CurrentMode = Mode.START;
@@ -86,8 +88,8 @@ public class Lift extends BaseHardware {
     public void init(){
         //DeliverySensor = hardwareMap.get(ColorRangeSensor.class, "DeliveryS");
        // RearLeftSensor = hardwareMap.get(DistanceSensor.class, "RearLeftS");
-        LF1 = hardwareMap.dcMotor.get("LF1");
-        LF2 = hardwareMap.dcMotor.get("LF2");
+        LF1 = hardwareMap.get(DcMotorEx.class, "LF1");
+        LF2 = hardwareMap.get(DcMotorEx.class, "LF2");
         LF1.setDirection(DcMotor.Direction.REVERSE);
         LF2.setDirection(DcMotor.Direction.FORWARD);
 
@@ -145,7 +147,8 @@ BOX = hardwareMap.get(Servo.class,"BOX");
         telemetry.addData("lift Pos " , Integer.toString(LF1.getCurrentPosition())) ;
         telemetry.addData("Arm Pos " , Integer.toString(ARM1.getCurrentPosition())) ;
         //GoToPos
-       setMPower(CommonLogic.goToPosStagint(LF1.getCurrentPosition(), targetPos,tol,liftSpeed,stagPos,stagSpeed));
+       //setMPower(CommonLogic.goToPosStagint(LF1.getCurrentPosition(), targetPos,tol,liftSpeed,stagPos,stagSpeed));
+       setMPower(CommonLogic.CapValue(CommonLogic.PIDcalc(100, stagSpeed, LF1.getCurrentPosition(), targetPos),minPos, maxPos));
         //ARM1.setPower(CommonLogic.goToPosStag(ARM1.getCurrentPosition(),ArmTargetPos,armTol,armSpeed,armStagPos,armStagSpeed));
 
         ARM1.setPower(CommonLogic.CapValue( CommonLogic.PIDcalc(armStagPos,armHoldPow,ARM1.getCurrentPosition(),ArmTargetPos),-armSpeed,armSpeed));
@@ -153,20 +156,24 @@ BOX = hardwareMap.get(Servo.class,"BOX");
         switch (CurrentMode){
             case START:
             targetPos = startPos;
+            stagSpeed = 0;
             closeDoor();
             gotoPosWrist(wristPickup);
                 break;
             case CARRY:
             targetPos = carryPos;
+            stagSpeed = holdDefalt;
             closeDoor();
                 break;
             case CLIMBPREP:
                 ArmgotoPos(armPickup);
                 gotoPosWrist(wristPickup);
                 targetPos = climbStartPos;
+                stagSpeed = holdDefalt;
                 break;
             case CLIMBEND:
                 targetPos = climbEnd;
+                stagSpeed = holdClimb;
                 break;
             case STOP:
 
