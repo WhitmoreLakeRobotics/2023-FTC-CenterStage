@@ -75,7 +75,12 @@ public class DriveTrain extends BaseHardware {
     private static final double stagPow = 0.16;
     private final long visionThreshHold = 1000;
     private double sensorRange = 4000.0;
+    private double sensorRangeLeftFront = 4000.0;
+    private double sensorRangeRightFront = 4000.0;
+    private double sensorRangeLeftSide = 4000.0;
+    private double sensorRangeRightSide = 4000.0;
     private final double sensorTol = 1.0;
+    private SensorSel sensorSelection = SensorSel.UNKNOWN;
 
     /**
      * BaseHardware constructor
@@ -186,7 +191,7 @@ public class DriveTrain extends BaseHardware {
                 aprilDrive();
                 break;
             case DRIVE_BY_SENSOR:
-                doDriveBySensor();
+                doDriveBySensor(sensorSelection);
                 break;
         }
 
@@ -333,8 +338,13 @@ public class DriveTrain extends BaseHardware {
             scalePower(MaxValue);
         }
     }
-    public void updateRange(double newRange){
-        sensorRange = newRange;
+    public void updateRange(double leftFrontRange,double rightFrontRange, double leftSideRange, double rightSideRange){
+        sensorRange = (leftFrontRange + rightFrontRange + leftSideRange + rightSideRange)/4;
+        sensorRangeLeftFront = leftFrontRange;
+        sensorRangeRightFront = rightFrontRange;
+        sensorRangeLeftSide = leftSideRange;
+        sensorRangeRightSide = rightSideRange;
+
     }
 
     private  void scalePower(double ScalePower){
@@ -391,6 +401,10 @@ public class DriveTrain extends BaseHardware {
     }
 
     public void cmdDriveBySensors(double TargetDist,double Bearing, double speed, int Heading){
+        cmdDriveBySensors(TargetDist,Bearing,speed,Heading,SensorSel.BOTH);
+    }
+    public void cmdDriveBySensors(double TargetDist,double Bearing, double speed, int Heading,SensorSel sel){
+        sensorSelection = sel;
         //drive target needs to account turn distance
 
         Target_Heading = Heading;
@@ -487,16 +501,16 @@ public class DriveTrain extends BaseHardware {
 
     }
 
-    private void doDriveBySensor(){
+    private void doDriveBySensor(SensorSel sel  ){
        // double distance = sensorRange;
         // update speed_aa ;
-        speed_AA = (CommonLogic.goToPosStag(sensorRange, Drive_Target,sensorTol,SensorDrive,stagPos,stagPow));
+        speed_AA = (CommonLogic.goToPosStag(GetSensorRange(sel), Drive_Target,sensorTol,SensorDrive,stagPos,stagPow));
         //telemetry.addData(TAGChassis,"sensor range " + sensorRange);
         //telemetry.addData(TAGChassis,"drive target " + Drive_Target);
         startDrive();
         //check to see if we have driven the target distance
         //if (sensorRange < Drive_Target) {
-        if(CommonLogic.inRange(sensorRange,Drive_Target,sensorTol)) {
+        if(CommonLogic.inRange(GetSensorRange(sel),Drive_Target,sensorTol)) {
             //telemetry.addData(TAGChassis,"drive by sensor in range ");
             //if we have reached our target distance
             //stop drive
@@ -510,6 +524,39 @@ public class DriveTrain extends BaseHardware {
         //if not keep driving
 
     }
+
+    private double GetSensorRange(SensorSel sel){
+        double range = 0.0;
+        switch (sel){
+            case BOTH:
+                range = sensorRange;
+                break;
+            case RIGHT_FRONT:
+                range = sensorRangeRightFront;
+                break;
+            case LEFT_FRONT:
+                range = sensorRangeLeftFront;
+                break;
+            case LEFT_SIDE:
+                range = sensorRangeLeftSide;
+                break;
+            case RIGHT_SIDE:
+                range = sensorRangeRightSide;
+                break;
+            default:
+                range = sensorRange;
+                break;
+        }
+
+
+
+        return range;
+
+    }
+
+
+
+
 
 
     private void resetEncoders(){
@@ -570,7 +617,15 @@ public class DriveTrain extends BaseHardware {
 */
     }
 
+    public enum SensorSel{
+        RIGHT_FRONT,
+        LEFT_FRONT,
+        RIGHT_SIDE,
+        LEFT_SIDE,
+        BOTH,
+        UNKNOWN;
 
+    }
 
 
     public enum Mode{
@@ -580,5 +635,6 @@ public class DriveTrain extends BaseHardware {
     TELEOP,
         DRIVE_BY_SENSOR,
 VISION;
+
 }
 }

@@ -26,6 +26,8 @@ public class Sensors extends BaseHardware {
     //private DistanceSensor RearLeftSensor
     private DistanceSensor FLDS1;
     private DistanceSensor FRDS1;
+    private DistanceSensor SLDS1;
+    private DistanceSensor SRDS1;
     private boolean leftSensor = false;
     private boolean rightSensor = false;
     private final double sideTarget = 24; // in inches
@@ -69,6 +71,8 @@ public class Sensors extends BaseHardware {
        // RearLeftSensor = hardwareMap.get(DistanceSensor.class, "RearLeftS");
         FLDS1 = hardwareMap.get(Rev2mDistanceSensor.class,"FLDS1");
         FRDS1 = hardwareMap.get(Rev2mDistanceSensor.class,"FRDS1");
+        SLDS1 = hardwareMap.get(Rev2mDistanceSensor.class,"SLDS1");
+        SRDS1 = hardwareMap.get(Rev2mDistanceSensor.class,"SRDS1");
     }
 
     /**
@@ -80,6 +84,9 @@ public class Sensors extends BaseHardware {
      public void init_loop() {
          telemetry.addData("FLDS1 Pos " , FLDS1.getDistance(DistanceUnit.INCH)) ;
          telemetry.addData("FRDS1 Pos " , FRDS1.getDistance(DistanceUnit.INCH)) ;
+
+         telemetry.addData("SLDS1 Pos " , SLDS1.getDistance(DistanceUnit.INCH)) ;
+         telemetry.addData("SRDS1 Pos " , SRDS1.getDistance(DistanceUnit.INCH)) ;
 
      }
 
@@ -103,6 +110,8 @@ public class Sensors extends BaseHardware {
         telemetry.addData("FLDS1 Pos " , FLDS1.getDistance(DistanceUnit.INCH)) ;
         telemetry.addData("FRDS1 Pos " , FRDS1.getDistance(DistanceUnit.INCH)) ;
 
+        telemetry.addData("SLDS1 Pos " , SLDS1.getDistance(DistanceUnit.INCH)) ;
+        telemetry.addData("SRDS1 Pos " , SRDS1.getDistance(DistanceUnit.INCH)) ;
 
     }
 
@@ -129,11 +138,29 @@ public boolean FLDS1Detect(){
 }
  public boolean FRDS1Detect(){
         return CommonLogic.inRange(FRDS1.getDistance(DistanceUnit.INCH),centerTarget,centerTargetTol);
+
  }
-public double GetSensorDistance(){
-        return (FRDS1.getDistance(DistanceUnit.INCH)+ FLDS1.getDistance(DistanceUnit.INCH))/2;
+
+    /*public boolean SLDS1Detect(){
+        return CommonLogic.inRange(SLDS1.getDistance(DistanceUnit.INCH),sideTarget,sideTargetTol);
+    }
+    public boolean SRDS1Detect(){
+        return CommonLogic.inRange(SRDS1.getDistance(DistanceUnit.INCH),centerTarget,centerTargetTol);
+    }*/
+
+public double GetSensorDistanceLeftFront(){
+        return FLDS1.getDistance(DistanceUnit.INCH);
+}
+    public double GetSensorDistanceRightFront(){
+        return FRDS1.getDistance(DistanceUnit.INCH);
 }
 
+    public double GetSensorDistanceLeftSide(){
+        return SLDS1.getDistance(DistanceUnit.INCH);
+    }
+    public double GetSensorDistanceRightSide(){
+        return SRDS1.getDistance(DistanceUnit.INCH);
+    }
 
 private enum Mode{
     STOP,
