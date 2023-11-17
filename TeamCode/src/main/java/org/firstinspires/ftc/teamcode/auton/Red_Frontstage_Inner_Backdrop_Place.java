@@ -220,7 +220,7 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
 
             case _60_Drive_To_Backdrop_Wall:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.cmdDriveBySensors(19,-90,0.35,90);
+                    robot.driveTrain.cmdDriveBySensors(15,-90,0.35,90);
                     //robot.driveTrain.CmdDrive(40, -93, 0.35, -90);
 
                     currentStage = stage._65_Strafe_BackDrop_Edge; //stage._70_Strafe_Left_Wall;

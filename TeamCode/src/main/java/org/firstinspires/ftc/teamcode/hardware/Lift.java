@@ -52,7 +52,7 @@ public class Lift extends BaseHardware {
     private double stagSpeed = 0.30;
     private static final double holdDefalt = 0.30;
     private static  final double holdClimb = 0.40;
-    private final static int stagPos  = 40;
+    private final static int stagPos  = 100;
     private final static int tol =15;
     private Mode CurrentMode = Mode.START;
     private final double boxOpen = 1;
@@ -60,18 +60,18 @@ public class Lift extends BaseHardware {
     private final double wristPickup = 0;
     private final double wristDelivery = 0.6;
     private final double wristIntake = 0.1;
-    private final int armPickup = 5;
-    private final int armDelivery = 300;
+    private final int armPickup = 0;
+    private final int armDelivery = 340;
     private final int armMinPos = 0;
     private final int armMaxPos = 400;
     private int ArmTargetPos = armMinPos;
-    private final double armSpeed = 0.4;
+    private final double armSpeed = 0.7;
     private final double armStagSpeed = 0.15;
     private final int armStagPos = 280; //15
-    private  double armHoldPow = -0.08;
+    private  double armHoldPow = 0.0;
     private final  double armHoldDeliver = -0.08;
     private  final double armHoldIntake = 0.05;
-    private final int armTol = 3;
+    private final int armTol = 15;
 private final double boxEmpty = 7; // in inches
     private final double boxOne = 3.5;
     private final double boxTwo = 0;
@@ -156,7 +156,7 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
         telemetry.addData("Arm Pos " , Integer.toString(ARM1.getCurrentPosition())) ;
         //GoToPos
        //setMPower(CommonLogic.goToPosStagint(LF1.getCurrentPosition(), targetPos,tol,liftSpeed,stagPos,stagSpeed));
-       setMPower(CommonLogic.CapValue(CommonLogic.PIDcalc(100, stagSpeed, LF1.getCurrentPosition(), targetPos),minPos, maxPos));
+       setMPower(CommonLogic.CapValue(CommonLogic.PIDcalc(stagPos, stagSpeed, LF1.getCurrentPosition(), targetPos),-liftSpeed, liftSpeed));
         //ARM1.setPower(CommonLogic.goToPosStag(ARM1.getCurrentPosition(),ArmTargetPos,armTol,armSpeed,armStagPos,armStagSpeed));
 
         ARM1.setPower(CommonLogic.CapValue( CommonLogic.PIDcalc(armStagPos,armHoldPow,ARM1.getCurrentPosition(),ArmTargetPos),-armSpeed,armSpeed));
@@ -192,6 +192,9 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
                 gotoPosWrist(wristPickup);
                 liftgotoPos(startPos);
                 armHoldPow = armHoldIntake;
+                if(CommonLogic.inRange(ARM1.getCurrentPosition(),armPickup,armTol)){
+                    gotoPosWrist(wristIntake);
+                }
 
                 break;
             case  DELIVER:
