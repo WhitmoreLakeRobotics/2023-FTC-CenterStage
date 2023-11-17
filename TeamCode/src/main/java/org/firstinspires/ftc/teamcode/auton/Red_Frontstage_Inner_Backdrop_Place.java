@@ -197,7 +197,7 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
 
             case _50_Drive_Straight_To_Pivot:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(37, 0, 0.35, 0);
+                    robot.driveTrain.CmdDrive(41, 0, 0.35, 0);
                     currentStage = stage._55_Turn_to_BackDrop;
 
                 }
