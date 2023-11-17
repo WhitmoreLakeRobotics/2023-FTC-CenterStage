@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.common.CommonLogic;
 
 /**
@@ -33,6 +35,7 @@ public class Lift extends BaseHardware {
 
     private Servo WRIST1;
     private Servo BOX;
+    private ColorRangeSensor BOXS;
     /**
      * Hardware Mappings
      */
@@ -54,8 +57,9 @@ public class Lift extends BaseHardware {
     private Mode CurrentMode = Mode.START;
     private final double boxOpen = 1;
     private final double boxClose = 0.5;
-    private final double wristPickup = 1;
-    private final double wristDelivery = 0.35;
+    private final double wristPickup = 0;
+    private final double wristDelivery = 0.6;
+    private final double wristIntake = 0.1;
     private final int armPickup = 5;
     private final int armDelivery = 300;
     private final int armMinPos = 0;
@@ -68,7 +72,10 @@ public class Lift extends BaseHardware {
     private final  double armHoldDeliver = -0.08;
     private  final double armHoldIntake = 0.05;
     private final int armTol = 3;
-
+private final double boxEmpty = 7; // in inches
+    private final double boxOne = 3.5;
+    private final double boxTwo = 0;
+    private final double boxTol = 0.25;
 
     /**
      * BaseHardware constructor
@@ -113,6 +120,7 @@ ARM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 ARM1.setVelocityPIDFCoefficients(20,0,0,0);
 WRIST1 = hardwareMap.get(Servo.class,"WRIST1");
 BOX = hardwareMap.get(Servo.class,"BOX");
+BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
 
     }
 
@@ -229,6 +237,18 @@ public void setCurrentMode (Mode newMode){
     }
     private void liftgotoPos( int newPos) {targetPos = CommonLogic.CapValueint(newPos,minPos,maxPos);
     }
+    public int boxCount(){
+        if (CommonLogic.inRange(BOXS.getDistance(DistanceUnit.INCH),boxEmpty, boxTol)){
+            return 0;
+        }else if (CommonLogic.inRange(BOXS.getDistance(DistanceUnit.INCH),boxOne, boxTol)){
+            return 1;
+        }else if (CommonLogic.inRange(BOXS.getDistance(DistanceUnit.INCH),boxTwo, boxTol)){
+          return 2;
+        }else {
+            return -1;
+        }
+    }
+
     public enum Mode{
     STOP,
     START,
