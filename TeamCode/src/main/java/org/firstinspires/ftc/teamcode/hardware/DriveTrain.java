@@ -530,7 +530,7 @@ public class DriveTrain extends BaseHardware {
         double range = 0.0;
         switch (sel){
             case BOTH:
-                range = (sensorRangeRightFront+ sensorRangeLeftFront)/2;
+                range = Math.min(sensorRangeRightFront,sensorRangeLeftFront); //(sensorRangeRightFront+ sensorRangeLeftFront)/2;
                 break;
             case RIGHT_FRONT:
                 range = sensorRangeRightFront;
