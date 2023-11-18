@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.auton;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -8,7 +9,7 @@ import org.firstinspires.ftc.teamcode.common.Settings;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.hardware.Sweeper;
 
-//@Disabled
+@Disabled
 @Autonomous(name = "Blue_Frontstage_Place", group = "Auton")
 // @Autonomous(...) is the other common choice
 

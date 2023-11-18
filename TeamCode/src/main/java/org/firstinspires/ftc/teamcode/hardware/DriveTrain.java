@@ -180,6 +180,7 @@ public class DriveTrain extends BaseHardware {
                 break;
             case STOPPED:
                 stopMotors();
+                cmdComplete = true;
                 break;
             case COMMAND_AA:
 

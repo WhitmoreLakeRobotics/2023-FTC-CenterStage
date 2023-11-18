@@ -194,6 +194,7 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
                 armHoldPow = armHoldIntake;
                 if(CommonLogic.inRange(ARM1.getCurrentPosition(),armPickup,armTol)){
                     gotoPosWrist(wristIntake);
+                    armHoldPow = armHoldDeliver;
                 }
 
                 break;
@@ -225,6 +226,23 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
      */
     void stop(){
 
+
+}
+
+public void resetLiftPos(){
+    LF1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    LF2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+    LF1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    LF2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    LF1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+    LF2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+}
+
+public void liftCoast(){
+    LF1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+    LF2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 }
     private void setMPower(double newPower){
         LF1.setPower(newPower);
