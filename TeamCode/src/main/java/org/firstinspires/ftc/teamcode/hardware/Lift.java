@@ -114,10 +114,10 @@ private final double boxEmpty = 7; // in inches
 //ARM1 = hardwareMap.dcMotor.get("ARM1");
 ARM1 =hardwareMap.get(DcMotorEx.class, "ARM1");
 ARM1.setDirection(DcMotorSimple.Direction.REVERSE);
-ARM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//ARM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 ARM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 ARM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-ARM1.setVelocityPIDFCoefficients(20,0,0,0);
+ARM1.setVelocityPIDFCoefficients(18,0,0,0);
 WRIST1 = hardwareMap.get(Servo.class,"WRIST1");
 BOX = hardwareMap.get(Servo.class,"BOX");
 BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
@@ -227,6 +227,11 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
     void stop(){
 
 
+}
+public void resetArmPos(){
+       ARM1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+       ARM1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       ARM1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 }
 
 public void resetLiftPos(){

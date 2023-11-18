@@ -63,6 +63,7 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
 
         //Initialize Gyro
         robot.driveTrain.ResetGyro();
+        robot.lift.resetArmPos();
     }
 
     /*
@@ -157,7 +158,7 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
 
             case _30_DriveTo_spike_center:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(22, 0, 0.35, 0);
+                    robot.driveTrain.CmdDrive(20, 0, 0.35, 0);
                     currentStage = stage._32_Drive_Back;
 
                 }
@@ -289,7 +290,7 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
 
             case _95_Park_And_Turn:
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(PlaceDistance-10,0,0.35,0);
+                    robot.driveTrain.CmdDrive(PlaceDistance-12,0,0.35,0);
                     robot.lift.setCurrentMode(Lift.Mode.INTAKE);
                     currentStage = stage._97_Strafe_To_Wall;
                 }
@@ -298,7 +299,7 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
             case _97_Strafe_To_Wall:
 
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(4,-90,0.35,0);
+                    robot.driveTrain.CmdDrive(4,90,0.35,0);
                     currentStage = stage._100_End;
                 }
 

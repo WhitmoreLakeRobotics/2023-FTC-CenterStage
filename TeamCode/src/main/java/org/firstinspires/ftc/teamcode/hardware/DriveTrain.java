@@ -72,7 +72,7 @@ public class DriveTrain extends BaseHardware {
     private static final double diaTurnRaid = 19; //in inches //was 23
     private static final double turnDistPerDeg = ((3.14159 * diaTurnRaid)/360) * Ticks_Per_Inch; //inches per deg
     private static final double stagPos = 10;
-    private static final double stagPow = 0.16;
+    private static final double stagPow = 0.18;
     private final long visionThreshHold = 1000;
     private double sensorRange = 4000.0;
     private double sensorRangeLeftFront = 4000.0;
@@ -430,7 +430,7 @@ public class DriveTrain extends BaseHardware {
         double Left_Y = Math.cos(Math.toRadians(bearing_AA));
         double Drive = Left_Y * speed_AA;
         double Strafe = Math.sin(Math.toRadians(bearing_AA)) * speed_AA;
-        double Turn = calcTurn(Target_Heading) * (1.01 -Drive) * TURNSPEED_TELEOP ;
+        double Turn = calcTurn(Target_Heading) * (0.8 -Drive) * TURNSPEED_TELEOP ;
         double Heading = Gyro.getGyroHeadingRadian();
         double NDrive = Strafe * Math.sin(Heading) + Drive * Math.cos(Heading);
         double NStrafe = Strafe * Math.cos(Heading) - Drive * Math.sin(Heading);

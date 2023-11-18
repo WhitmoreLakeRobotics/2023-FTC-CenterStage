@@ -59,6 +59,7 @@ public class Blue_Backstage_Outer_Backdrop_Place extends OpMode {
 
         //Initialize Gyro
         robot.driveTrain.ResetGyro();
+        robot.lift.resetArmPos();
     }
 
     /*

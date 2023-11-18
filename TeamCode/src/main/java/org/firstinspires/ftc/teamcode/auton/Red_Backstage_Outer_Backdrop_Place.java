@@ -67,6 +67,7 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
     public void init_loop() {
         // initialize robot
         robot.init_loop();
+        robot.lift.resetArmPos();
 
     }
 
