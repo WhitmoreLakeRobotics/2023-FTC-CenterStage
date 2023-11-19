@@ -43,6 +43,7 @@ public class Lift extends BaseHardware {
     public final int minPos = 0;
     public final int maxPos = 747;
     public final int liftDeliveyPos = 320;
+    public final int liftDeliveryPosTel = 400;
     public final int startPos = 5;
     public final int carryPos = 15;
     public final int climbStartPos = 747;
@@ -69,13 +70,14 @@ public class Lift extends BaseHardware {
     private final double armStagSpeed = 0.15;
     private final int armStagPos = 280; //15
     private  double armHoldPow = 0.0;
-    private final  double armHoldDeliver = -0.08;
+    private final  double armHoldDeliver = -0.10;
     private  final double armHoldIntake = 0.05;
     private final int armTol = 15;
 private final double boxEmpty = 7; // in inches
     private final double boxOne = 3.5;
     private final double boxTwo = 0;
     private final double boxTol = 0.25;
+    private final double armTimeout = 800;
 
     /**
      * BaseHardware constructor
@@ -173,6 +175,13 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
             stagSpeed = holdDefalt;
             closeDoor();
                 break;
+            case DELIVERTEL:
+                //  openDoor();
+                ArmgotoPos(armDelivery);
+                gotoPosWrist(wristDelivery);
+                liftgotoPos(liftDeliveryPosTel);
+                armHoldPow = armHoldDeliver;
+                break;
             case CLIMBPREP:
                 ArmgotoPos(armPickup);
                 gotoPosWrist(wristPickup);
@@ -192,7 +201,8 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
                 gotoPosWrist(wristPickup);
                 liftgotoPos(startPos);
                 armHoldPow = armHoldIntake;
-                if(CommonLogic.inRange(ARM1.getCurrentPosition(),armPickup,armTol)){
+                //if(CommonLogic.inRange(ARM1.getCurrentPosition(),armPickup,armTol)){
+                  if (runtime.milliseconds()> armTimeout){
                     gotoPosWrist(wristIntake);
                     armHoldPow = armHoldDeliver;
                 }
@@ -255,6 +265,7 @@ public void liftCoast(){
     }
 public void setCurrentMode (Mode newMode){
         CurrentMode = newMode;
+        runtime.reset();
 }
     private void gotoPosWrist( double newPos ){WRIST1.setPosition(newPos);}
     public void openDoor(){BOX.setPosition(boxOpen);}
@@ -263,6 +274,10 @@ public void setCurrentMode (Mode newMode){
     }
     private void liftgotoPos( int newPos) {targetPos = CommonLogic.CapValueint(newPos,minPos,maxPos);
     }
+    public void liftPosOverRide(int posChange){
+        targetPos = targetPos + (posChange * 1);
+    }
+
     public int boxCount(){
         if (CommonLogic.inRange(BOXS.getDistance(DistanceUnit.INCH),boxEmpty, boxTol)){
             return 0;
@@ -279,6 +294,7 @@ public void setCurrentMode (Mode newMode){
     STOP,
     START,
     CARRY,
+        DELIVERTEL,
     CLIMBPREP,
     CLIMBEND,
         INTAKE,

@@ -254,9 +254,7 @@ public class Tele_Op extends OpMode {
         }
 
         if (CommonLogic.oneShot(gamepad2.start, gp2_prev_start)){
-            //Initialize Gyro
-            //robot.cmdExcecuteBumpStack();   // this was SetPOS() not setting the mode
-            //robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.AQUA);
+           robot.lift.resetArmPos();
         }
         if (gamepad2.start){
 //            robot.cmdExcecuteBumpStack();   // this was SetPOS() not setting the mode
@@ -271,7 +269,7 @@ public class Tele_Op extends OpMode {
         }
 
         if (CommonLogic.oneShot(gamepad2.b, gp2_prev_b)) {
-robot.lift.setCurrentMode(Lift.Mode.DELIVER);
+robot.lift.setCurrentMode(Lift.Mode.DELIVERTEL);
         }
 
         if (CommonLogic.oneShot(gamepad2.y, gp2_prev_y)) {

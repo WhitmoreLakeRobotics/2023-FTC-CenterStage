@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auton;
+package org.firstinspires.ftc.teamcode.auton.Completed;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -10,10 +10,10 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.hardware.Sweeper;
 
 @Disabled
-@Autonomous(name = "Blue_Frontstage_Outer_Park", group = "Auton")
+@Autonomous(name = "Red_Frontstage_Inner_Park", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class Blue_Frontstage_Outer_Park extends OpMode {
+public class Red_Frontstage_Inner_Park extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -101,7 +101,7 @@ public class Blue_Frontstage_Outer_Park extends OpMode {
                 break;
 
             case _10_Drive_Out:
-                robot.driveTrain.CmdDrive(1,0,0.35,0);
+                robot.driveTrain.CmdDrive(55,0,0.35,0);
                 currentStage = stage._20_Strafe_Left;
 
 
@@ -109,7 +109,7 @@ public class Blue_Frontstage_Outer_Park extends OpMode {
 
             case _20_Strafe_Left:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(82,-90,0.35,90);
+                    robot.driveTrain.CmdDrive(75,90,0.35,-90);
                     currentStage = stage._25_Eject;
 
                 }

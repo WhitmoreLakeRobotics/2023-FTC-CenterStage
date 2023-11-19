@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auton;
+package org.firstinspires.ftc.teamcode.auton.Completed;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -10,10 +10,10 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.hardware.Sweeper;
 
 @Disabled
-@Autonomous(name = "Blue_Frontstage_Place", group = "Auton")
+@Autonomous(name = "Blue_Frontstage_Place_and_Park", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class Blue_FrontStage_Place_And_Park_ extends OpMode {
+public class Blue_Frontstage_Place_and_Park extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -127,7 +127,7 @@ public class Blue_FrontStage_Place_And_Park_ extends OpMode {
 
             case _20_DriveTo_spike_right:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(14,15,0.35,10);
+                    robot.driveTrain.CmdDrive(14,15,0.35,15);
                 currentStage = stage._22_Drive_Back;
 
 
@@ -137,7 +137,7 @@ public class Blue_FrontStage_Place_And_Park_ extends OpMode {
                 break;
             case _22_Drive_Back:;
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(16, -165, 0.35, 10);
+                    robot.driveTrain.CmdDrive(12, -165, 0.35, 15);
                     currentStage = stage._50_Drive_Back;
 
                 }
@@ -154,7 +154,7 @@ public class Blue_FrontStage_Place_And_Park_ extends OpMode {
                 break;
             case _32_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(28, -175, 0.35, 0);
+                    robot.driveTrain.CmdDrive(12, -175, 0.35, 0);
                     currentStage = stage._50_Drive_Back; // already at heading zero
 
                 }
@@ -162,7 +162,7 @@ public class Blue_FrontStage_Place_And_Park_ extends OpMode {
 
             case _40_DriveTo_spike_left:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(18, -12, 0.35, -31);
+                    robot.driveTrain.CmdDrive(20, -12, 0.35, -32);
                     currentStage = stage._42_Drive_Back;
 
                 }
@@ -170,7 +170,7 @@ public class Blue_FrontStage_Place_And_Park_ extends OpMode {
                 break;
             case _42_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(19, 168, 0.35, -31);
+                    robot.driveTrain.CmdDrive(12, 168, 0.35, -20);
                     currentStage = stage._50_Drive_Back;
 
                 }
@@ -178,11 +178,11 @@ public class Blue_FrontStage_Place_And_Park_ extends OpMode {
 
 
             case _50_Drive_Back:
-              //  if(robot.driveTrain.getCmdComplete()) {
-                  //  robot.driveTrain.CmdDrive(0, 0, 0, -90);
+               if(robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(0, 0, 0, 0);
                     currentStage = stage._100_End;
 
-                //}
+                }
                 break;
             case _60_Strafe_Left:
                 if(robot.driveTrain.getCmdComplete()){

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auton;
+package org.firstinspires.ftc.teamcode.auton.Completed;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -7,12 +7,13 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.Settings;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.hardware.Sweeper;
 
 @Disabled
-@Autonomous(name = "Blue_Frontstage_Inner_Park_With_Pixel", group = "Auton")
+@Autonomous(name = "Blue_Frontstage_Place", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class Blue_Frontstage_Inner_Park_With_Pixel extends OpMode {
+public class Blue_FrontStage_Place_And_Park_ extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -31,7 +32,8 @@ public class Blue_Frontstage_Inner_Park_With_Pixel extends OpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
-
+    private int sweepTime = 1000;
+    private Robot.SensorDetect ScanResults = Robot.SensorDetect.UNKNOWN;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -94,57 +96,114 @@ public class Blue_Frontstage_Inner_Park_With_Pixel extends OpMode {
 
 
             case _00_preStart:
+                currentStage = stage._09_Scan;
+
+
+                break;
+            case _09_Scan:
+                ScanResults = robot.CurrentDetect;
                 currentStage = stage._10_Drive_Out;
-
-
                 break;
 
             case _10_Drive_Out:
-                robot.driveTrain.CmdDrive(39,0,0.35,0);
-                currentStage = stage._20_Backup;
+                robot.driveTrain.CmdDrive(1,0,0.35,0);
+                switch (ScanResults){
+                    case LEFT:
+                        currentStage = stage._30_DriveTo_spike_center;
+                        break;
+                    case RIGHT:
+                        currentStage = stage._20_DriveTo_spike_right;
+                        break;
+                    case NONE:
+                        currentStage = stage._40_DriveTo_spike_left;
+                        break;
+                    default:
+                        currentStage = stage._30_DriveTo_spike_center;
+                }
+
 
 
                 break;
 
-            case _20_Backup:
+            case _20_DriveTo_spike_right:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(1,180,0.35,0);
-                    currentStage = stage._30_Strafe_Right;
+                    robot.driveTrain.CmdDrive(14,15,0.35,10);
+                currentStage = stage._22_Drive_Back;
+
+
+
+                }
+
+                break;
+            case _22_Drive_Back:;
+                if(robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(16, -165, 0.35, 10);
+                    currentStage = stage._50_Drive_Back;
+
+                }
+                    break;
+
+
+            case _30_DriveTo_spike_center:
+                if(robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(28, 0, 0.35, 0);
+                    currentStage = stage._32_Drive_Back;
+
+                }
+
+                break;
+            case _32_Drive_Back:
+                if(robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(28, -175, 0.35, 0);
+                    currentStage = stage._50_Drive_Back; // already at heading zero
+
+                }
+                break;
+
+            case _40_DriveTo_spike_left:
+                if(robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(18, -12, 0.35, -31);
+                    currentStage = stage._42_Drive_Back;
+
+                }
+
+                break;
+            case _42_Drive_Back:
+                if(robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(19, 168, 0.35, -31);
+                    currentStage = stage._50_Drive_Back;
 
                 }
                 break;
 
 
-            case _30_Strafe_Right:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(10,90,0.35,0);
-                    currentStage = stage._40_Turn_To_Backdrop;
-                }
+            case _50_Drive_Back:
+              //  if(robot.driveTrain.getCmdComplete()) {
+                  //  robot.driveTrain.CmdDrive(0, 0, 0, -90);
+                    currentStage = stage._100_End;
 
+                //}
                 break;
-            case _40_Turn_To_Backdrop:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(0,0,0,-90);
-                    currentStage = stage._50_Strafe_Right;
-                }
+            case _60_Strafe_Left:
+                if(robot.driveTrain.getCmdComplete()){
+                    robot.driveTrain.CmdDrive(18,90,0.35,-90);
+                    currentStage = stage._70_Eject;
 
+                }
                 break;
-                case _50_Strafe_Right:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(10,90,0.35,-90);
-                    currentStage = stage._60_Drive_To_BackDrop;
-                }
 
+            case _70_Eject:
+                if(robot.driveTrain.getCmdComplete()){
+                    robot.sweeper.setCurrentMode(Sweeper.Mode.REVERSE);
+                    currentStage = stage._80_Strafe_Right;
+                    runtime.reset();
+                }
                 break;
-                case _60_Drive_To_BackDrop:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(92,0,0.35,-90);
-                    currentStage = stage._70_Back_Off;
-                }
 
-                    break;case _70_Back_Off:
-                if (robot.driveTrain.getCmdComplete())     {
-                    robot.driveTrain.CmdDrive(2,180,0.35,-90);
+            case _80_Strafe_Right:
+                if (runtime.milliseconds() > sweepTime)     {
+                    robot.sweeper.setCurrentMode(Sweeper.Mode.STOP);
+                    robot.driveTrain.CmdDrive(0,0,0,0);
                     currentStage = stage._100_End;
                 }
 
@@ -180,13 +239,18 @@ public class Blue_Frontstage_Inner_Park_With_Pixel extends OpMode {
     private enum stage {
         _unknown,
         _00_preStart,
+        _09_Scan,
         _10_Drive_Out,
-        _20_Backup,
-        _30_Strafe_Right,
-        _40_Turn_To_Backdrop,
-        _50_Strafe_Right,
-        _60_Drive_To_BackDrop,
-        _70_Back_Off,
+        _20_DriveTo_spike_right,
+        _22_Drive_Back,
+        _30_DriveTo_spike_center,
+        _32_Drive_Back,
+        _40_DriveTo_spike_left,
+        _42_Drive_Back,
+        _50_Drive_Back,
+        _60_Strafe_Left,
+        _70_Eject,
+        _80_Strafe_Right,
         _100_End
 
 
