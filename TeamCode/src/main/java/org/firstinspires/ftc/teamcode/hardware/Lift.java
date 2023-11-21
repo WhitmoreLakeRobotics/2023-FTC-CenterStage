@@ -43,7 +43,7 @@ public class Lift extends BaseHardware {
     public final int minPos = 0;
     public final int maxPos = 747;
     public final int liftDeliveyPos = 320;
-    public final int liftDeliveryPosTel = 400;
+    public final int liftDeliveryPosTel = 747;
     public final int startPos = 5;
     public final int carryPos = 15;
     public final int climbStartPos = 747;

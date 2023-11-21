@@ -168,7 +168,7 @@ public class Blue_Frontstage_Inner_Backdrop_Place extends OpMode {
                 break;
             case _32_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(10, -175, 0.35, 0);
+                    robot.driveTrain.CmdDrive(7, -175, 0.35, 0);
                     currentStage = stage._48_Strafe_To_Side_Wall; // already at heading zero
 
 
