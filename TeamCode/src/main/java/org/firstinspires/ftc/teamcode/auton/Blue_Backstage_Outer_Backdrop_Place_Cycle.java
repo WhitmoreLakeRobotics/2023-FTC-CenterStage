@@ -5,14 +5,15 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.common.Settings;
+import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.hardware.Lift;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 
 //@Disabled
-@Autonomous(name = "Red_Backstage_Outer_Backdrop_Place", group = "Auton")
+@Autonomous(name = "Blue_Backstage_Outer_Backdrop_Place_Cycle", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
+public class Blue_Backstage_Outer_Backdrop_Place_Cycle extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -58,6 +59,7 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
 
         //Initialize Gyro
         robot.driveTrain.ResetGyro();
+        robot.lift.resetArmPos();
     }
 
     /*
@@ -67,7 +69,6 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
     public void init_loop() {
         // initialize robot
         robot.init_loop();
-        robot.lift.resetArmPos();
 
     }
 
@@ -110,30 +111,30 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
             case _10_Drive_Out:
                 robot.driveTrain.CmdDrive(3,0,0.35,0);
                 switch (ScanResults){
-                    case NONE:
-                        currentStage = stage._20_DriveTo_spike_left;
-                        PlaceDistance = 41;
-                        break;
                     case LEFT:
-                        currentStage = stage._30_DriveTo_spike_center;
-                        PlaceDistance = 31;
+                        currentStage = stage._40_DriveTo_spike_left;
+                        PlaceDistance = 23;
                         break;
                     case RIGHT:
-                        currentStage = stage._40_DriveTo_spike_right;
-                        PlaceDistance = 23;
+                        currentStage = stage._30_DriveTo_spike_center;
+                        PlaceDistance = 29;
+                        break;
+                    case NONE:
+                        currentStage = stage._20_DriveTo_spike_right;
+                        PlaceDistance = 34;
                         break;
                     default:
                         currentStage = stage._30_DriveTo_spike_center;
-                        PlaceDistance = 31;
+                        PlaceDistance = 29;
                 }
 
 
 
                 break;
 
-            case _20_DriveTo_spike_left:
+            case _20_DriveTo_spike_right:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(16,-14,0.35,-31);
+                    robot.driveTrain.CmdDrive(16,14,0.35,31);
                     currentStage = stage._22_Drive_Back;
 
 
@@ -143,7 +144,7 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
                 break;
             case _22_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(14.5, 166, 0.35, -31);
+                    robot.driveTrain.CmdDrive(14.5, -166, 0.35, 31);
                     currentStage = stage._50_Turn_To_Backdrop;
 
                 }
@@ -167,9 +168,9 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
                 }
                 break;
 
-            case _40_DriveTo_spike_right:
+            case _40_DriveTo_spike_left:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(13, 15, 0.35, 10);
+                    robot.driveTrain.CmdDrive(13, -15, 0.35, -10);
                     currentStage = stage._42_Drive_Back;
 
                 }
@@ -177,7 +178,7 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
                 break;
             case _42_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(12, -165, 0.35, 10);
+                    robot.driveTrain.CmdDrive(12, 165, 0.35, -10);
                     currentStage = stage._50_Turn_To_Backdrop;
 
                 }
@@ -186,7 +187,7 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
 
             case _50_Turn_To_Backdrop:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(1, 90, 0.35, 90);
+                    robot.driveTrain.CmdDrive(1, -90, 0.35, -90);
                     currentStage = stage._60_Strafe_Left;
 
                 }
@@ -194,41 +195,51 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
 
             case _60_Strafe_Left:
                 if(robot.driveTrain.getCmdComplete()){
-                    //robot.driveTrain.cmdDriveBySensors(20,90,0.35,90);
-                    robot.driveTrain.CmdDrive(40, 93, 0.35, 90);
+                    robot.driveTrain.cmdDriveBySensors(17,90,0.35,-90);
+                    //robot.driveTrain.CmdDrive(40, -93, 0.35, -90);
 
                     currentStage = stage._65_Drive_Back; //stage._70_Strafe_Left_Wall;
-
                 }
                 break;
 
             case _65_Drive_Back:
 
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(15, -90, 0.35, 90);
-                    currentStage = stage._70_Strafe_Left_Wall;
-                }
-
-                break;
-
-            case _70_Strafe_Left_Wall:
-                if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(6, -179, 0.35, 90);
-                    currentStage = stage._80_Strafe_Right;
-                }
-                break;
-
-            case _80_Strafe_Right:
-                  if(robot.driveTrain.getCmdComplete())     {
-                    //
-                    robot.driveTrain.CmdDrive(PlaceDistance,0,0.35,90);
+                    robot.driveTrain.cmdDriveBySensors(PlaceDistance, 0, 0.35, -90,
+                            DriveTrain.SensorSel.LEFT_SIDE);
                     currentStage = stage._85_Arm_To_Position;
                 }
 
                 break;
 
+            case _68_Drive_To_Edge_Of_Backdrop:
+                if (robot.sensors.GetSensorDistanceRightFront() < 10) {
+                    robot.driveTrain.Current_Mode = DriveTrain.Mode.STOPPED;
+                    currentStage = stage._80_Strafe_Right;
+                }
+
+                break;
+
+        /*   case _70_Strafe_Left_Wall:
+                if(robot.driveTrain.getCmdComplete()){
+                    robot.driveTrain.CmdDrive(6, -179, 0.35, -90);
+                    currentStage = stage._80_Strafe_Right;
+                }
+                break;
+*/
+            case _80_Strafe_Right:
+                  if(robot.driveTrain.getCmdComplete())     {
+                    //
+                    robot.driveTrain.CmdDrive(30,0,0.35,-90);
+                      //robot.driveTrain.cmdDriveBySensors(PlaceDistance,-179,0.35,-90);
+
+                      currentStage = stage._85_Arm_To_Position;
+                }
+
+                break;
+
             case _85_Arm_To_Position:
-                if (robot.driveTrain.getCmdComplete()) {
+                if(robot.driveTrain.getCmdComplete())     {
                     robot.lift.setCurrentMode(Lift.Mode.DELIVER);
                     runtime.reset();
                     currentStage = stage._87_Drive_To_Backdrop;
@@ -238,7 +249,7 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
 
             case _87_Drive_To_Backdrop:
                 if (runtime.milliseconds() > 1750) {
-                    robot.driveTrain.CmdDrive(3,90,0.35,90);
+                    robot.driveTrain.CmdDrive(3,-90,0.35,-90);
                     currentStage = stage._90_Place;
                 }
 
@@ -256,7 +267,7 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
             case _92_Drive_Away_From_Backdrop:
 
                 if (runtime.milliseconds() > 1000) {
-                    robot.driveTrain.CmdDrive(2.5,-90,0.35,90);
+                    robot.driveTrain.CmdDrive(2.5,90,0.35,-90);
                     currentStage = stage._95_Park_And_Turn;
                 }
 
@@ -264,22 +275,66 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
 
             case _95_Park_And_Turn:
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(PlaceDistance-9,-179,0.35,0);
+                    robot.driveTrain.cmdDriveBySensors(5,0,0.35,-90);
                     robot.lift.setCurrentMode(Lift.Mode.INTAKE);
-                    currentStage = stage._100_End;
+                    currentStage = stage._200_End;
                 }
                 break;
 
+            case _100_Drive_To_Wing:
+                if (robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.CmdDrive(84,90,0.35,-90);
+                    currentStage = stage._110_Drive_By_Sensor_To_Wing;
+                }
+
+
+                break;
+
+
+            case _110_Drive_By_Sensor_To_Wing:
+                if (robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.cmdDriveBySensors(7,-90,0.35,-90);
+                    currentStage = stage._120_Drive_By_Sensor_To_Stack;
+                }
+
+                break;
+
+            case _120_Drive_By_Sensor_To_Stack:
+                if (robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.cmdDriveBySensors(29,0,0.35,-90);
+                    currentStage = stage._130_Open_And_Start_Intake;
+                }
+
+                break;
+
+            case _130_Open_And_Start_Intake:
+                if (robot.driveTrain.getCmdComplete()) {
+                //    robot.driveTrain.cmdDriveBySensors(29,0,0.35,-90);
+                    currentStage = stage._140_Drive_To_Stack;
+                }
+
+                break;
+
+            case _140_Drive_To_Stack:
+                if (robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.cmdDriveBySensors(29,0,0.35,-90);
+                    currentStage = stage._150_Close_And_Stop_Intake;
+                }
+
+                break;
             /*case _97_Drive_To_Corner:
 
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(14,90,0.35,0);
+                    robot.driveTrain.CmdDrive(14,-90,0.35,0);
                     currentStage = stage._100_End;
                 }
 
                 break;*/
 
-            case _100_End:
+
+
+
+            case _200_End:
                 if(robot.driveTrain.getCmdComplete()){
                     robot.stop();
                 }
@@ -304,15 +359,16 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
         _00_preStart,
         _09_Scan,
         _10_Drive_Out,
-        _20_DriveTo_spike_left,
+        _20_DriveTo_spike_right,
         _22_Drive_Back,
         _30_DriveTo_spike_center,
         _32_Drive_Back,
-        _40_DriveTo_spike_right,
+        _40_DriveTo_spike_left,
         _42_Drive_Back,
         _50_Turn_To_Backdrop,
         _60_Strafe_Left,
         _65_Drive_Back,
+        _68_Drive_To_Edge_Of_Backdrop,
         _70_Strafe_Left_Wall,
         _80_Strafe_Right,
         _85_Arm_To_Position,
@@ -321,7 +377,18 @@ public class Red_Backstage_Outer_Backdrop_Place extends OpMode {
         _92_Drive_Away_From_Backdrop,
         _95_Park_And_Turn,
         _97_Drive_To_Corner,
-        _100_End
+        _100_Drive_To_Wing,
+        _110_Drive_By_Sensor_To_Wing,
+        _120_Drive_By_Sensor_To_Stack,
+        _130_Open_And_Start_Intake,
+        _140_Drive_To_Stack,
+        _150_Close_And_Stop_Intake,
+        _160_Drive_To_Side_Wall,
+        _170_Start_Backstage_Drive,
+        _180_Drive_By_Sensor_To_Backstage,
+        _190_Deliver,
+        _195_Turn,
+        _200_End
 
 
     }
