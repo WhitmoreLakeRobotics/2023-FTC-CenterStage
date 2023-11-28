@@ -46,6 +46,8 @@ public class Tele_Op extends OpMode {
     private double RightMotorPower = 0;
     private boolean gp2_prev_start = false;
     private int tHeading = 0;
+    private int boxCount = 0;
+    private int preBoxCount = 0;
 
 
     //*********************************************************************************************
@@ -117,6 +119,19 @@ public class Tele_Op extends OpMode {
         robot.loop();
         write2Log();
         tHeading = getTurnDirection();
+        boxCount = robot.lift.boxCount();
+        if (robot.lift.getCurrentMode() == Lift.Mode.INTAKE){
+            if (robot.lift.boxCount()== 0){
+                robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BREATH_GRAY);
+            }
+            else if (robot.lift.boxCount()== 1){
+                robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_LAVA_PALETTE);
+            }
+            else if (robot.lift.boxCount() == 2){
+                robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_FOREST_PALETTE);
+            }
+        }
+
         //***********   Gamepad 1 controls ********
         if (gamepad1.right_trigger < 0.6){
             if (gamepad1.right_bumper) {
@@ -370,6 +385,7 @@ robot.lift.setCurrentMode(Lift.Mode.DELIVERTEL);
         gp2_prev_dpad_right = gamepad2.dpad_right;
         gp2_prev_back = gamepad2.back;
         gp2_prev_start = gamepad2.start;
+        preBoxCount = robot.lift.boxCount();
 
     }
 

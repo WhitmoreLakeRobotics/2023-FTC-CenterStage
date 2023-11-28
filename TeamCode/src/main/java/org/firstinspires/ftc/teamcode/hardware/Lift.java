@@ -289,6 +289,9 @@ public void setCurrentMode (Mode newMode){
             return -1;
         }
     }
+public Mode getCurrentMode(){
+        return CurrentMode;
+}
 
     public enum Mode{
     STOP,
