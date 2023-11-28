@@ -28,6 +28,7 @@ public class Sensors extends BaseHardware {
     private DistanceSensor FRDS1;
     private DistanceSensor SLDS1;
     private DistanceSensor SRDS1;
+    private DistanceSensor RDS1;
     private boolean leftSensor = false;
     private boolean rightSensor = false;
     private final double sideTarget = 24; // in inches
@@ -73,6 +74,7 @@ public class Sensors extends BaseHardware {
         FRDS1 = hardwareMap.get(Rev2mDistanceSensor.class,"FRDS1");
         SLDS1 = hardwareMap.get(Rev2mDistanceSensor.class,"SLDS1");
         SRDS1 = hardwareMap.get(Rev2mDistanceSensor.class,"SRDS1");
+        RDS1 = hardwareMap.get(Rev2mDistanceSensor.class,"RDS1");
     }
 
     /**
@@ -87,7 +89,7 @@ public class Sensors extends BaseHardware {
 
          telemetry.addData("SLDS1 Pos " , SLDS1.getDistance(DistanceUnit.INCH)) ;
          telemetry.addData("SRDS1 Pos " , SRDS1.getDistance(DistanceUnit.INCH)) ;
-
+         telemetry.addData("RDS1 Pos " , RDS1.getDistance(DistanceUnit.INCH)) ;
      }
 
     /**
@@ -112,6 +114,7 @@ public class Sensors extends BaseHardware {
 
         telemetry.addData("SLDS1 Pos " , SLDS1.getDistance(DistanceUnit.INCH)) ;
         telemetry.addData("SRDS1 Pos " , SRDS1.getDistance(DistanceUnit.INCH)) ;
+        telemetry.addData("RDS1 Pos " , RDS1.getDistance(DistanceUnit.INCH)) ;
 
     }
 
@@ -160,6 +163,9 @@ public double GetSensorDistanceLeftFront(){
     }
     public double GetSensorDistanceRightSide(){
         return SRDS1.getDistance(DistanceUnit.INCH);
+    }
+    public double GetSensorDistanceRear(){
+        return RDS1.getDistance(DistanceUnit.INCH);
     }
 
 private enum Mode{

@@ -71,7 +71,7 @@ public class DriveTrain extends BaseHardware {
     private static final double driveTolAA = 0.25; //in inches
     private static final double diaTurnRaid = 19; //in inches //was 23
     private static final double turnDistPerDeg = ((3.14159 * diaTurnRaid)/360) * Ticks_Per_Inch; //inches per deg
-    private static final double stagPos = 10;
+    private static final double stagPos = 35;
     private static final double stagPow = 0.18;
     private final long visionThreshHold = 1000;
     private double sensorRange = 4000.0;
@@ -79,6 +79,7 @@ public class DriveTrain extends BaseHardware {
     private double sensorRangeRightFront = 4000.0;
     private double sensorRangeLeftSide = 4000.0;
     private double sensorRangeRightSide = 4000.0;
+    private double sensorRangeRear = 4000.0;
     private final double sensorTol = 1.0;
     private SensorSel sensorSelection = SensorSel.UNKNOWN;
 
@@ -216,7 +217,7 @@ public class DriveTrain extends BaseHardware {
         Current_Mode = Mode.TELEOP;
         double Drive = Left_Y * Current_Speed;
         double Strafe = Left_X * Current_Speed;
-        double Turn = Right_X * (1.0 - Drive) * TURNSPEED_TELEOP ;
+        double Turn = Right_X * (0.8- Drive) * TURNSPEED_TELEOP ;
         double Heading = Gyro.getGyroHeadingRadian();
         double NDrive = Strafe * Math.sin(Heading) + Drive * Math.cos(Heading);
         double NStrafe = Strafe * Math.cos(Heading) - Drive * Math.sin(Heading);
@@ -339,12 +340,14 @@ public class DriveTrain extends BaseHardware {
             scalePower(MaxValue);
         }
     }
-    public void updateRange(double leftFrontRange,double rightFrontRange, double leftSideRange, double rightSideRange){
+    public void updateRange(double leftFrontRange,double rightFrontRange, double leftSideRange,
+                            double rightSideRange , double rearRange){
         sensorRange = (leftFrontRange + rightFrontRange + leftSideRange + rightSideRange)/4;
         sensorRangeLeftFront = leftFrontRange;
         sensorRangeRightFront = rightFrontRange;
         sensorRangeLeftSide = leftSideRange;
         sensorRangeRightSide = rightSideRange;
+        sensorRangeRear = rearRange;
 
     }
 
@@ -544,6 +547,9 @@ public class DriveTrain extends BaseHardware {
             case RIGHT_SIDE:
                 range = sensorRangeRightSide;
                 break;
+            case REAR:
+                range = sensorRangeRear;
+                break;
             default:
                 range = sensorRange;
                 break;
@@ -624,6 +630,7 @@ public class DriveTrain extends BaseHardware {
         RIGHT_SIDE,
         LEFT_SIDE,
         BOTH,
+        REAR,
         UNKNOWN;
 
     }

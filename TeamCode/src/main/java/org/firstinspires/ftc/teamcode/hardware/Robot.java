@@ -115,7 +115,8 @@ public class Robot extends BaseHardware {
 
     public void updateDriveSensor(){
         driveTrain.updateRange(sensors.GetSensorDistanceLeftFront(),sensors.GetSensorDistanceRightFront(),
-                sensors.GetSensorDistanceLeftSide(),sensors.GetSensorDistanceRightSide());
+                sensors.GetSensorDistanceLeftSide(),sensors.GetSensorDistanceRightSide(),
+                sensors.GetSensorDistanceRear());
 
     }
     public enum SensorDetect{

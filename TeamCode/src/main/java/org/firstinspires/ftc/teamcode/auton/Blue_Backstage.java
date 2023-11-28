@@ -10,10 +10,10 @@ import org.firstinspires.ftc.teamcode.hardware.Lift;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 
 //@Disabled
-@Autonomous(name = "Red_Frontstage_Inner_Backdrop_Place", group = "Auton")
+@Autonomous(name = "Blue_Backstage", group = "Auton")
 // @Autonomous(...) is the other common choice
 
-public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
+public class Blue_Backstage extends OpMode {
 
     //RobotComp robot = new RobotComp();
     Robot robot = new Robot();
@@ -38,10 +38,6 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
      */
     private Robot.SensorDetect ScanResults = Robot.SensorDetect.UNKNOWN;
     private int PlaceDistance = 0;
-    private final int LeftDistance =6 ;
-    private final int RightDistance =18 ;
-    private final int CenterDistance= 12 ;
-    private int StrafeDistance = 0;
     @Override
     public void init() {
         //----------------------------------------------------------------------------------------------
@@ -117,20 +113,19 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
                 switch (ScanResults){
                     case LEFT:
                         currentStage = stage._40_DriveTo_spike_left;
-                        PlaceDistance = LeftDistance;
-
+                        PlaceDistance = 23;
                         break;
                     case RIGHT:
                         currentStage = stage._30_DriveTo_spike_center;
-                        PlaceDistance = CenterDistance;
+                        PlaceDistance = 29;
                         break;
                     case NONE:
                         currentStage = stage._20_DriveTo_spike_right;
-                        PlaceDistance = RightDistance;
+                        PlaceDistance = 34;
                         break;
                     default:
                         currentStage = stage._30_DriveTo_spike_center;
-                        PlaceDistance = CenterDistance;
+                        PlaceDistance = 29;
                 }
 
 
@@ -149,8 +144,8 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
                 break;
             case _22_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(17.5, -166, 0.35, 31);
-                    currentStage = stage._50_Drive_Straight_To_Pivot;
+                    robot.driveTrain.CmdDrive(14.5, -166, 0.35, 31);
+                    currentStage = stage._50_Turn_To_Backdrop;
 
                 }
                 break;
@@ -158,7 +153,7 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
 
             case _30_DriveTo_spike_center:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(20, 0, 0.35, 0);
+                    robot.driveTrain.CmdDrive(22, 0, 0.35, 0);
                     currentStage = stage._32_Drive_Back;
 
                 }
@@ -166,8 +161,8 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
                 break;
             case _32_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(7, -175, 0.35, 0);
-                    currentStage = stage._48_Strafe_To_Side_Wall; // already at heading zero
+                    robot.driveTrain.CmdDrive(18, -175, 0.35, 0);
+                    currentStage = stage._50_Turn_To_Backdrop; // already at heading zero
 
 
                 }
@@ -183,95 +178,85 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
                 break;
             case _42_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(13, 140, 0.35, -10);
-                    currentStage = stage._50_Drive_Straight_To_Pivot;
+                    robot.driveTrain.CmdDrive(12, 165, 0.35, -10);
+                    currentStage = stage._50_Turn_To_Backdrop;
 
                 }
                 break;
-            case _48_Strafe_To_Side_Wall:
+
+
+            case _50_Turn_To_Backdrop:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(12, -90, 0.35, 0);
-                    currentStage = stage._50_Drive_Straight_To_Pivot;
+                    robot.driveTrain.CmdDrive(1, -90, 0.35, -90);
+                    currentStage = stage._60_Strafe_Left;
 
                 }
                 break;
 
-            case _50_Drive_Straight_To_Pivot:
-                if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(41, 0, 0.35, 0);
-                    currentStage = stage._55_Turn_to_BackDrop;
-
-                }
-                break;
-
-                case _55_Turn_to_BackDrop:
-                if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(2, 90, 0.35, 90);
-                    currentStage = stage._57_Drive_Toward_BackDrop;
-
-                }
-                break;
-            case _57_Drive_Toward_BackDrop:
-                if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(60, 90, 0.35, 90);
-                    currentStage = stage._60_Drive_To_Backdrop_Wall;
-
-                }
-                break;
-
-            case _60_Drive_To_Backdrop_Wall:
+            case _60_Strafe_Left:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.cmdDriveBySensors(17,-90,0.35,90);
+                    robot.driveTrain.cmdDriveBySensors(17,90,0.35,-90);
                     //robot.driveTrain.CmdDrive(40, -93, 0.35, -90);
 
-                    currentStage = stage._65_Strafe_BackDrop_Edge; //stage._70_Strafe_Left_Wall;
+                    currentStage = stage._65_Drive_Back; //stage._70_Strafe_Left_Wall;
                 }
                 break;
 
-            case _65_Strafe_BackDrop_Edge:
+            case _65_Drive_Back:
 
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(15, -179, 0.35, 90);
-                    //robot.driveTrain.cmdDriveBySensors(6,0,0.35,90, DriveTrain.SensorSel.RIGHT_FRONT);
-                    currentStage = stage._68_Drive_To_Edge_Of_Backdrop;
+                    robot.driveTrain.cmdDriveBySensors(PlaceDistance, 0, 0.35, -90,
+                            DriveTrain.SensorSel.LEFT_SIDE);
+                    currentStage = stage._85_Arm_To_Position;
                 }
 
                 break;
+
             case _68_Drive_To_Edge_Of_Backdrop:
                 if (robot.sensors.GetSensorDistanceRightFront() < 10) {
                     robot.driveTrain.Current_Mode = DriveTrain.Mode.STOPPED;
-                    currentStage = stage._70_Strafe_To_Pos;
+                    currentStage = stage._80_Strafe_Right;
                 }
 
                 break;
 
-            case _70_Strafe_To_Pos:
+        /*   case _70_Strafe_Left_Wall:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(PlaceDistance, -179, 0.35, 90);
-                    currentStage = stage._85_Drive_To_Backdrop;
+                    robot.driveTrain.CmdDrive(6, -179, 0.35, -90);
+                    currentStage = stage._80_Strafe_Right;
                 }
                 break;
-
-            case _85_Drive_To_Backdrop:
+*/
+            case _80_Strafe_Right:
                   if(robot.driveTrain.getCmdComplete())     {
                     //
-                    robot.driveTrain.cmdDriveBySensors(3.5,-90,0.35,90);
-                    currentStage = stage._87_Arm_To_Position;
+                    robot.driveTrain.CmdDrive(30,0,0.35,-90);
+                      //robot.driveTrain.cmdDriveBySensors(PlaceDistance,-179,0.35,-90);
+
+                      currentStage = stage._85_Arm_To_Position;
                 }
 
                 break;
 
-            case _87_Arm_To_Position:
-                if (robot.driveTrain.getCmdComplete()) {
+            case _85_Arm_To_Position:
+                if(robot.driveTrain.getCmdComplete())     {
                     robot.lift.setCurrentMode(Lift.Mode.DELIVER);
                     runtime.reset();
+                    currentStage = stage._87_Drive_To_Backdrop;
+                }
+
+                break;
+
+            case _87_Drive_To_Backdrop:
+                if (runtime.milliseconds() > 1750) {
+                    robot.driveTrain.CmdDrive(3,-90,0.35,-90);
                     currentStage = stage._90_Place;
                 }
 
                 break;
 
             case _90_Place:
-                if (runtime.milliseconds() > 1750) {
+                if (robot.driveTrain.getCmdComplete()) {
                     robot.lift.openDoor();
                     runtime.reset();
                     currentStage = stage._92_Drive_Away_From_Backdrop;
@@ -282,7 +267,7 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
             case _92_Drive_Away_From_Backdrop:
 
                 if (runtime.milliseconds() > 1000) {
-                    robot.driveTrain.CmdDrive(2.5,-90,0.35,90);
+                    robot.driveTrain.CmdDrive(2.5,90,0.35,-90);
                     currentStage = stage._95_Park_And_Turn;
                 }
 
@@ -290,20 +275,20 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
 
             case _95_Park_And_Turn:
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(PlaceDistance-12,0,0.35,0);
+                    robot.driveTrain.CmdDrive(PlaceDistance-15,-179,0.35,0);
                     robot.lift.setCurrentMode(Lift.Mode.INTAKE);
-                    currentStage = stage._97_Strafe_To_Wall;
+                    currentStage = stage._100_End;
                 }
                 break;
 
-            case _97_Strafe_To_Wall:
+            /*case _97_Drive_To_Corner:
 
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(4,90,0.35,0);
+                    robot.driveTrain.CmdDrive(14,-90,0.35,0);
                     currentStage = stage._100_End;
                 }
 
-                break;
+                break;*/
 
             case _100_End:
                 if(robot.driveTrain.getCmdComplete()){
@@ -336,21 +321,18 @@ public class Red_Frontstage_Inner_Backdrop_Place extends OpMode {
         _32_Drive_Back,
         _40_DriveTo_spike_left,
         _42_Drive_Back,
-        _48_Strafe_To_Side_Wall,
-        _50_Drive_Straight_To_Pivot,
-        _55_Turn_to_BackDrop,
-        _57_Drive_Toward_BackDrop,
-        _60_Drive_To_Backdrop_Wall,
-        _65_Strafe_BackDrop_Edge,
+        _50_Turn_To_Backdrop,
+        _60_Strafe_Left,
+        _65_Drive_Back,
         _68_Drive_To_Edge_Of_Backdrop,
-        _70_Strafe_To_Pos,
+        _70_Strafe_Left_Wall,
         _80_Strafe_Right,
-        _85_Drive_To_Backdrop,
-        _87_Arm_To_Position,
+        _85_Arm_To_Position,
+        _87_Drive_To_Backdrop,
         _90_Place,
         _92_Drive_Away_From_Backdrop,
         _95_Park_And_Turn,
-        _97_Strafe_To_Wall,
+        _97_Drive_To_Corner,
         _100_End
 
 
