@@ -8,9 +8,10 @@ import org.firstinspires.ftc.teamcode.common.Settings;
 import org.firstinspires.ftc.teamcode.hardware.DriveTrain;
 import org.firstinspires.ftc.teamcode.hardware.Lift;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.hardware.Sweeper;
 
 //@Disabled
-@Autonomous(name = "Blue_Backstage_Outer_Backdrop_Place_Cycle", group = "Auton")
+@Autonomous(name = "Blue_Backstage_WITH_CYCLE", group = "Auton")
 // @Autonomous(...) is the other common choice
 
 public class Blue_Backstage_WITH_CYCLE extends OpMode {
@@ -250,7 +251,7 @@ public class Blue_Backstage_WITH_CYCLE extends OpMode {
 
             case _95_Park_And_Turn:
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.cmdDriveBySensors(5,0,0.35,-90);
+                    robot.driveTrain.cmdDriveBySensors(5,0,0.35,-90, DriveTrain.SensorSel.LEFT_SIDE);
                     robot.lift.setCurrentMode(Lift.Mode.INTAKE);
                     currentStage = stage._100_Drive_To_Wing;
                 }
@@ -277,7 +278,7 @@ public class Blue_Backstage_WITH_CYCLE extends OpMode {
 
             case _120_Drive_By_Sensor_To_Stack:
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.cmdDriveBySensors(29,0,0.35,-90);
+                    robot.driveTrain.cmdDriveBySensors(27,0,0.35,-90, DriveTrain.SensorSel.LEFT_SIDE);
                     currentStage = stage._130_Open_And_Start_Intake;
                 }
 
@@ -286,7 +287,7 @@ public class Blue_Backstage_WITH_CYCLE extends OpMode {
             case _130_Open_And_Start_Intake:
                 if (robot.driveTrain.getCmdComplete()) {
                     robot.lift.openDoor();
-                    robot.sweeper.start();
+                    robot.sweeper.setCurrentMode(Sweeper.Mode.FORWARD);
                     runtime.reset();
                 //    robot.driveTrain.cmdDriveBySensors(29,0,0.35,-90);
                     currentStage = stage._140_Drive_To_Stack;
@@ -308,7 +309,7 @@ public class Blue_Backstage_WITH_CYCLE extends OpMode {
 
                 if ((robot.lift.boxCount() == 2) || (runtime.milliseconds() > 4000)) {
                     robot.lift.closeDoor();
-                    robot.sweeper.doStop();
+                    robot.sweeper.setCurrentMode(Sweeper.Mode.STOP);
                     runtime.reset();
                     currentStage = stage._160_Drive_To_Side_Wall;
                 }
@@ -317,7 +318,7 @@ public class Blue_Backstage_WITH_CYCLE extends OpMode {
             case _160_Drive_To_Side_Wall:
 
                 if(runtime.milliseconds() > 250){
-                    robot.driveTrain.cmdDriveBySensors(5,0,0.35,-90);
+                    robot.driveTrain.cmdDriveBySensors(5,0,0.35,-90, DriveTrain.SensorSel.LEFT_SIDE);
                     currentStage = stage._170_Start_Backstage_Drive;
                 }
 
