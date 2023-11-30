@@ -213,7 +213,7 @@ public class Blue_Backstage extends OpMode {
                 break;
 
             case _68_Drive_To_Edge_Of_Backdrop:
-                if (robot.sensors.GetSensorDistanceRightFront() < 10) {
+                if (robot.sensors.GetSensorDistanceRightFront() < 12) {
                     robot.driveTrain.Current_Mode = DriveTrain.Mode.STOPPED;
                     currentStage = stage._80_Strafe_Right;
                 }
@@ -267,7 +267,8 @@ public class Blue_Backstage extends OpMode {
             case _92_Drive_Away_From_Backdrop:
 
                 if (runtime.milliseconds() > 1000) {
-                    robot.driveTrain.CmdDrive(2.5,90,0.35,-90);
+                    //robot.driveTrain.CmdDrive(2.5,90,0.35,-90);
+                    robot.driveTrain.cmdDriveBySensors(3,-90,0.35,-90);
                     currentStage = stage._95_Park_And_Turn;
                 }
 

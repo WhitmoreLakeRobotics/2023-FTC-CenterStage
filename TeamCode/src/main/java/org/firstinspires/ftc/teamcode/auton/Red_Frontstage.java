@@ -38,7 +38,7 @@ public class Red_Frontstage extends OpMode {
      */
     private Robot.SensorDetect ScanResults = Robot.SensorDetect.UNKNOWN;
     private int PlaceDistance = 0;
-    private final int LeftDistance =6 ;
+    private final int LeftDistance =4 ;
     private final int RightDistance =18 ;
     private final int CenterDistance= 12 ;
     private int StrafeDistance = 0;
@@ -139,7 +139,7 @@ public class Red_Frontstage extends OpMode {
 
             case _20_DriveTo_spike_right:
                 if(robot.driveTrain.getCmdComplete()){
-                    robot.driveTrain.CmdDrive(16,14,0.35,31);
+                    robot.driveTrain.CmdDrive(15,18,0.35,31);
                     currentStage = stage._22_Drive_Back;
 
 
@@ -149,7 +149,7 @@ public class Red_Frontstage extends OpMode {
                 break;
             case _22_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(17.5, -166, 0.35, 31);
+                    robot.driveTrain.CmdDrive(18, -170, 0.35, 31);
                     currentStage = stage._50_Drive_Straight_To_Pivot;
 
                 }
@@ -158,7 +158,7 @@ public class Red_Frontstage extends OpMode {
 
             case _30_DriveTo_spike_center:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(20, 0, 0.35, 0);
+                    robot.driveTrain.CmdDrive(21, 0, 0.35, 0);
                     currentStage = stage._32_Drive_Back;
 
                 }
@@ -175,7 +175,7 @@ public class Red_Frontstage extends OpMode {
 
             case _40_DriveTo_spike_left:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(13, -15, 0.35, -10);
+                    robot.driveTrain.CmdDrive(13, -19, 0.35, -12);
                     currentStage = stage._42_Drive_Back;
 
                 }
@@ -183,7 +183,7 @@ public class Red_Frontstage extends OpMode {
                 break;
             case _42_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(13, 140, 0.35, -10);
+                    robot.driveTrain.CmdDrive(12, 140, 0.35, -10);
                     currentStage = stage._50_Drive_Straight_To_Pivot;
 
                 }
@@ -206,14 +206,14 @@ public class Red_Frontstage extends OpMode {
 
                 case _55_Turn_to_BackDrop:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(2, 90, 0.35, 90);
+                    robot.driveTrain.CmdDrive(2, 90, 0.35, 85);
                     currentStage = stage._57_Drive_Toward_BackDrop;
 
                 }
                 break;
             case _57_Drive_Toward_BackDrop:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(60, 90, 0.35, 90);
+                    robot.driveTrain.CmdDrive(70, 90, 0.35, 90);
                     currentStage = stage._60_Drive_To_Backdrop_Wall;
 
                 }
@@ -231,14 +231,14 @@ public class Red_Frontstage extends OpMode {
             case _65_Strafe_BackDrop_Edge:
 
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(15, -179, 0.35, 90);
+                    robot.driveTrain.CmdDrive(20, -179, 0.35, 90);
                     //robot.driveTrain.cmdDriveBySensors(6,0,0.35,90, DriveTrain.SensorSel.RIGHT_FRONT);
                     currentStage = stage._68_Drive_To_Edge_Of_Backdrop;
                 }
 
                 break;
             case _68_Drive_To_Edge_Of_Backdrop:
-                if (robot.sensors.GetSensorDistanceRightFront() < 10) {
+                if (robot.sensors.GetSensorDistanceRightFront() < 12) {
                     robot.driveTrain.Current_Mode = DriveTrain.Mode.STOPPED;
                     currentStage = stage._70_Strafe_To_Pos;
                 }
@@ -255,7 +255,7 @@ public class Red_Frontstage extends OpMode {
             case _85_Drive_To_Backdrop:
                   if(robot.driveTrain.getCmdComplete())     {
                     //
-                    robot.driveTrain.cmdDriveBySensors(3.5,-90,0.35,90);
+                    robot.driveTrain.cmdDriveBySensors(3,-90,0.35,90);
                     currentStage = stage._87_Arm_To_Position;
                 }
 
