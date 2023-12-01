@@ -94,7 +94,7 @@ public class Red_Frontstage extends OpMode {
 
         telemetry.addData("Auton_Current_Stage ", currentStage);
         robot.loop();
-
+        robot.updateDriveSensor();
         switch (currentStage){
             case  _unknown:
                 currentStage = stage._00_preStart;
@@ -255,7 +255,7 @@ public class Red_Frontstage extends OpMode {
             case _85_Drive_To_Backdrop:
                   if(robot.driveTrain.getCmdComplete())     {
                     //
-                    robot.driveTrain.cmdDriveBySensors(3,-90,0.35,90);
+                    robot.driveTrain.cmdDriveBySensors(2,-90,0.35,90);
                     currentStage = stage._87_Arm_To_Position;
                 }
 

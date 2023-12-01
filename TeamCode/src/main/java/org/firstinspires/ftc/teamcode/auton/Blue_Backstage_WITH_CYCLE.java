@@ -91,7 +91,7 @@ public class Blue_Backstage_WITH_CYCLE extends OpMode {
 
         telemetry.addData("Auton_Current_Stage ", currentStage);
         robot.loop();
-
+        robot.updateDriveSensor();
         switch (currentStage){
             case  _unknown:
                 currentStage = stage._00_preStart;

@@ -90,7 +90,7 @@ public class Red_Backstage extends OpMode {
 
         telemetry.addData("Auton_Current_Stage ", currentStage);
         robot.loop();
-
+robot.updateDriveSensor();
         switch (currentStage){
             case  _unknown:
                 currentStage = stage._00_preStart;
@@ -170,7 +170,7 @@ public class Red_Backstage extends OpMode {
 
             case _40_DriveTo_spike_left:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(16,-14,0.35,-31);
+                    robot.driveTrain.CmdDrive(15,-18,0.35,-31);
                     currentStage = stage._42_Drive_Back;
 
                 }
@@ -179,7 +179,7 @@ public class Red_Backstage extends OpMode {
             case _42_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
 
-                    robot.driveTrain.CmdDrive(14.5, 166, 0.35, -31);
+                    robot.driveTrain.CmdDrive(18, 170, 0.35, -31);
                     currentStage = stage._50_Turn_To_Backdrop;
 
                 }
@@ -189,6 +189,14 @@ public class Red_Backstage extends OpMode {
             case _50_Turn_To_Backdrop:
                 if(robot.driveTrain.getCmdComplete()) {
                     robot.driveTrain.CmdDrive(1, 90, 0.35, 90);
+                    currentStage = stage._55_Strafe_To_Wall;
+
+                }
+                break;
+
+            case _55_Strafe_To_Wall:
+                if(robot.driveTrain.getCmdComplete()) {
+                    robot.driveTrain.cmdDriveBySensors(2, 0, 0.35, 90, DriveTrain.SensorSel.RIGHT_SIDE);
                     currentStage = stage._60_Strafe_Left;
 
                 }
@@ -250,7 +258,7 @@ public class Red_Backstage extends OpMode {
 
             case _87_Drive_To_Backdrop:
                 if (runtime.milliseconds() > 1750) {
-                    robot.driveTrain.CmdDrive(3,90,0.35,90);
+                    robot.driveTrain.cmdDriveBySensors(2,-90,0.35,90);
                     currentStage = stage._90_Place;
                 }
 
@@ -276,7 +284,8 @@ public class Red_Backstage extends OpMode {
 
             case _95_Park_And_Turn:
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(PlaceDistance-15,-179,0.35,0);
+                    //robot.driveTrain.CmdDrive(PlaceDistance-15,-179,0.35,0);
+                    robot.driveTrain.cmdDriveBySensors(1,0,0.35,0, DriveTrain.SensorSel.REAR);
                     robot.lift.setCurrentMode(Lift.Mode.INTAKE);
                     currentStage = stage._100_End;
                 }
@@ -323,6 +332,7 @@ public class Red_Backstage extends OpMode {
         _40_DriveTo_spike_left,
         _42_Drive_Back,
         _50_Turn_To_Backdrop,
+        _55_Strafe_To_Wall,
         _60_Strafe_Left,
         _65_Drive_Back,
         _68_Drive_To_Edge_Of_Backdrop,

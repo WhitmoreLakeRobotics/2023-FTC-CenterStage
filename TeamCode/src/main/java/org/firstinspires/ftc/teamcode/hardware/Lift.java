@@ -42,7 +42,7 @@ public class Lift extends BaseHardware {
     public HardwareMap hardwareMap = null; // will be set in Child class
     public final int minPos = 0;
     public final int maxPos = 747;
-    public final int liftDeliveyPos = 320;
+    public final int liftDeliveyPos = 300;
     public final int liftDeliveryPosTel = 747;
     public final int startPos = 5;
     public final int carryPos = 15;
@@ -183,8 +183,8 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
                 armHoldPow = armHoldDeliver;
                 break;
             case CLIMBPREP:
-                ArmgotoPos(armPickup);
-                gotoPosWrist(wristPickup);
+            //    ArmgotoPos(armPickup);
+              //  gotoPosWrist(wristPickup);
                 targetPos = climbStartPos;
                 stagSpeed = holdDefalt;
                 break;
