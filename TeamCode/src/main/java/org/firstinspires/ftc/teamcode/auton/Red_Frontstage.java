@@ -213,7 +213,7 @@ public class Red_Frontstage extends OpMode {
                 break;
             case _57_Drive_Toward_BackDrop:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(70, 90, 0.35, 90);
+                    robot.driveTrain.CmdDrive(90, 90, 0.35, 90);
                     currentStage = stage._60_Drive_To_Backdrop_Wall;
 
                 }

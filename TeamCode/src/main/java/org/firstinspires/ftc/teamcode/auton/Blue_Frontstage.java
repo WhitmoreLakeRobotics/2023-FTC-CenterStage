@@ -160,7 +160,7 @@ public class Blue_Frontstage extends OpMode {
 
             case _30_DriveTo_spike_center:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(20, 0, 0.35, 0);
+                    robot.driveTrain.CmdDrive(21, 0, 0.35, 0);
                     currentStage = stage._32_Drive_Back;
 
                 }
@@ -217,7 +217,7 @@ public class Blue_Frontstage extends OpMode {
                 break;
             case _57_Drive_Toward_BackDrop:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(70, -90, 0.35, -90);
+                    robot.driveTrain.CmdDrive(90, -90, 0.35, -90);
                     currentStage = stage._60_Drive_To_Backdrop_Wall;
 
                 }

@@ -97,10 +97,10 @@ public class Robot extends BaseHardware {
         boolean propIsRight = sensors.FRDS1Detect();
 
        if (propISLeft && ! propIsRight){
-           lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.RED);//detaced prop on left
+           lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.YELLOW);//detaced prop on left
             CurrentDetect = SensorDetect.LEFT;
        } else if (propIsRight && ! propISLeft) {
-           lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BLUE);//detaced prop on right
+           lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.WHITE    );//detaced prop on right
            CurrentDetect = SensorDetect.RIGHT;
        }
        else if (propIsRight && propISLeft) {

@@ -80,7 +80,7 @@ public class DriveTrain extends BaseHardware {
     private double sensorRangeLeftSide = 4000.0;
     private double sensorRangeRightSide = 4000.0;
     private double sensorRangeRear = 4000.0;
-    private final double sensorTol = 1.0;
+    private final double sensorTol = 0.5;
     private SensorSel sensorSelection = SensorSel.UNKNOWN;
 
     /**

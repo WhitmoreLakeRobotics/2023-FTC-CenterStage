@@ -154,6 +154,7 @@ public class Blue_Backstage extends OpMode {
             case _30_DriveTo_spike_center:
                 if(robot.driveTrain.getCmdComplete()) {
                     robot.driveTrain.CmdDrive(22, 0, 0.35, 0);
+                    //robot.driveTrain.cmdDriveBySensors(31,0,0.35,0, DriveTrain.SensorSel.REAR);
                     currentStage = stage._32_Drive_Back;
 
                 }
@@ -257,7 +258,7 @@ public class Blue_Backstage extends OpMode {
 
             case _87_Drive_To_Backdrop:
                 if (runtime.milliseconds() > 1750) {
-                    robot.driveTrain.cmdDriveBySensors(2,90,0.35,-90);
+                    robot.driveTrain.cmdDriveBySensors(2.75,90,0.35,-90);
                     currentStage = stage._90_Place;
                 }
 

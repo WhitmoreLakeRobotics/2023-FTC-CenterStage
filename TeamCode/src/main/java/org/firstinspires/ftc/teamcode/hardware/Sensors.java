@@ -112,8 +112,8 @@ public class Sensors extends BaseHardware {
         telemetry.addData("FLDS1 Pos " , FLDS1.getDistance(DistanceUnit.INCH)) ;
         telemetry.addData("FRDS1 Pos " , FRDS1.getDistance(DistanceUnit.INCH)) ;
 
-        telemetry.addData("SLDS1 Pos " , SLDS1.getDistance(DistanceUnit.INCH)) ;
-        telemetry.addData("SRDS1 Pos " , SRDS1.getDistance(DistanceUnit.INCH)) ;
+       // telemetry.addData("SLDS1 Pos " , SLDS1.getDistance(DistanceUnit.INCH)) ;
+        //telemetry.addData("SRDS1 Pos " , SRDS1.getDistance(DistanceUnit.INCH)) ;
         telemetry.addData("RDS1 Pos " , RDS1.getDistance(DistanceUnit.INCH)) ;
 
     }

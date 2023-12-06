@@ -122,13 +122,13 @@ public class Tele_Op extends OpMode {
         boxCount = robot.lift.boxCount();
         if (robot.lift.getCurrentMode() == Lift.Mode.INTAKE){
             if (robot.lift.boxCount()== 0){
-                robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.BREATH_GRAY);
+                robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.RED);
             }
             else if (robot.lift.boxCount()== 1){
-                robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_LAVA_PALETTE);
+                robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.YELLOW);
             }
             else if (robot.lift.boxCount() == 2){
-                robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.COLOR_WAVES_FOREST_PALETTE);
+                robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.GREEN);
             }
         }
 
@@ -334,7 +334,7 @@ robot.lift.setCurrentMode(Lift.Mode.DELIVERTEL);
         }
 
         if (CommonLogic.oneShot(gamepad2.dpad_left, gp2_prev_dpad_left)) {
-
+            robot.lift.setCurrentMode(Lift.Mode.DELIVER);
 //            robot.swing_arm_and_lift.SetPOS(Swing_Arm_And_Lift.Mode.CARRY);
   //          robot.lighting.UpdateBaseColor(RevBlinkinLedDriver.BlinkinPattern.ORANGE);
             //robot.subLifter.decPositionIndex();

@@ -42,7 +42,7 @@ public class Lift extends BaseHardware {
     public HardwareMap hardwareMap = null; // will be set in Child class
     public final int minPos = 0;
     public final int maxPos = 747;
-    public final int liftDeliveyPos = 300;
+    public final int liftDeliveyPos = 200;
     public final int liftDeliveryPosTel = 747;
     public final int startPos = 5;
     public final int carryPos = 15;
@@ -52,15 +52,17 @@ public class Lift extends BaseHardware {
     private final double liftSpeed = 1.0;
     private double stagSpeed = 0.30;
     private static final double holdDefalt = 0.30;
-    private static  final double holdClimb = 0.40;
+    private static  final double holdClimb = 0.65;
     private final static int stagPos  = 100;
     private final static int tol =15;
     private Mode CurrentMode = Mode.START;
     private final double boxOpen = 1;
     private final double boxClose = 0.5;
     private final double wristPickup = 0;
-    private final double wristDelivery = 0.6;
-    private final double wristIntake = 0.1;
+    private final double wristDelivery = 0.63;
+    private final double wristDeliveryTel = 0.63;
+
+    private final double wristIntake = 0.2;
     private final int armPickup = 0;
     private final int armDelivery = 550;
     private final int armMinPos = 0;
@@ -73,10 +75,10 @@ public class Lift extends BaseHardware {
     private final  double armHoldDeliver = -0.10;
     private  final double armHoldIntake = 0.05;
     private final int armTol = 15;
-private final double boxEmpty = 7; // in inches
-    private final double boxOne = 3.5;
-    private final double boxTwo = 0;
-    private final double boxTol = 0.25;
+private final double boxEmpty = 9; // in inches
+    private final double boxOne = 7;
+    private final double boxTwo = 2;
+    private final double boxTol = 0.5;
     private final double armTimeout = 1000;
 
     /**
@@ -156,6 +158,8 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
     public void loop(){
         telemetry.addData("lift Pos " , Integer.toString(LF1.getCurrentPosition())) ;
         telemetry.addData("Arm Pos " , Integer.toString(ARM1.getCurrentPosition())) ;
+        telemetry.addData("BOX " , (BOXS.getDistance(DistanceUnit.INCH))) ;
+
         //GoToPos
        //setMPower(CommonLogic.goToPosStagint(LF1.getCurrentPosition(), targetPos,tol,liftSpeed,stagPos,stagSpeed));
        setMPower(CommonLogic.CapValue(CommonLogic.PIDcalc(stagPos, stagSpeed, LF1.getCurrentPosition(), targetPos),-liftSpeed, liftSpeed));
@@ -168,7 +172,7 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
             targetPos = startPos;
             stagSpeed = 0;
             closeDoor();
-            gotoPosWrist(wristPickup);
+            //gotoPosWrist(wristPickup);
                 break;
             case CARRY:
             targetPos = carryPos;
@@ -178,7 +182,7 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
             case DELIVERTEL:
                 //  openDoor();
                 ArmgotoPos(armDelivery);
-                gotoPosWrist(wristDelivery);
+                gotoPosWrist(wristDeliveryTel);
                 liftgotoPos(liftDeliveryPosTel);
                 armHoldPow = armHoldDeliver;
                 break;
@@ -202,7 +206,10 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
                 liftgotoPos(startPos);
                 armHoldPow = armHoldIntake;
                 //if(CommonLogic.inRange(ARM1.getCurrentPosition(),armPickup,armTol)){
-                  if (runtime.milliseconds()> armTimeout){
+                if (runtime.milliseconds()> armTimeout -250){
+                    ArmgotoPos(armPickup -20);
+                }
+                if (runtime.milliseconds()> armTimeout){
                     gotoPosWrist(wristIntake);
                     armHoldPow = armHoldDeliver;
                 }
