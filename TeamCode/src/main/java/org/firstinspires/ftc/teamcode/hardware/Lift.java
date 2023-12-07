@@ -64,7 +64,7 @@ public class Lift extends BaseHardware {
 
     private final double wristIntake = 0.2;
     private final int armPickup = 0;
-    private final int armDelivery = 550;
+    private final int armDelivery = 570;
     private final int armMinPos = 0;
     private final int armMaxPos = 624;
     private int ArmTargetPos = armMinPos;
@@ -72,7 +72,7 @@ public class Lift extends BaseHardware {
     private final double armStagSpeed = 0.15;
     private final int armStagPos = 436; //15
     private  double armHoldPow = 0.0;
-    private final  double armHoldDeliver = -0.10;
+    private final  double armHoldDeliver = -0.09;
     private  final double armHoldIntake = 0.05;
     private final int armTol = 15;
 private final double boxEmpty = 9; // in inches

@@ -258,7 +258,7 @@ robot.updateDriveSensor();
 
             case _87_Drive_To_Backdrop:
                 if (runtime.milliseconds() > 1750) {
-                    robot.driveTrain.cmdDriveBySensors(2,-90,0.35,90);
+                    robot.driveTrain.cmdDriveBySensors(2.75,-90,0.35,90);
                     currentStage = stage._90_Place;
                 }
 
