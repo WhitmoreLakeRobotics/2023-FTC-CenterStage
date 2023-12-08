@@ -40,7 +40,7 @@ public class Red_Frontstage extends OpMode {
     private int PlaceDistance = 0;
     private final int LeftDistance =4 ;
     private final int RightDistance =18 ;
-    private final int CenterDistance= 12 ;
+    private final int CenterDistance= 13 ;
     private int StrafeDistance = 0;
     @Override
     public void init() {
@@ -158,7 +158,7 @@ public class Red_Frontstage extends OpMode {
 
             case _30_DriveTo_spike_center:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(21, 0, 0.35, 0);
+                    robot.driveTrain.CmdDrive(21, 0, 0.30, 0);
                     currentStage = stage._32_Drive_Back;
 
                 }
@@ -213,7 +213,7 @@ public class Red_Frontstage extends OpMode {
                 break;
             case _57_Drive_Toward_BackDrop:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(90, 90, 0.35, 90);
+                    robot.driveTrain.CmdDrive(70, 90, 0.45, 90);
                     currentStage = stage._60_Drive_To_Backdrop_Wall;
 
                 }
@@ -282,7 +282,7 @@ public class Red_Frontstage extends OpMode {
             case _92_Drive_Away_From_Backdrop:
 
                 if (runtime.milliseconds() > 1000) {
-                    robot.driveTrain.CmdDrive(2.5,-90,0.35,90);
+                    robot.driveTrain.CmdDrive(3,-90,0.35,90);
                     currentStage = stage._95_Park_And_Turn;
                 }
 

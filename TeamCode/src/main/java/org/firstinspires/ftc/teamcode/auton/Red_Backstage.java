@@ -153,7 +153,7 @@ robot.updateDriveSensor();
 
             case _30_DriveTo_spike_center:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(20, 0, 0.35, 0);
+                    robot.driveTrain.CmdDrive(21, 0, 0.30, 0);
                     currentStage = stage._32_Drive_Back;
 
                 }
@@ -276,7 +276,7 @@ robot.updateDriveSensor();
             case _92_Drive_Away_From_Backdrop:
 
                 if (runtime.milliseconds() > 1000) {
-                    robot.driveTrain.CmdDrive(2.5,-90,0.35,90);
+                    robot.driveTrain.CmdDrive(3,-90,0.35,90);
                     currentStage = stage._95_Park_And_Turn;
                 }
 

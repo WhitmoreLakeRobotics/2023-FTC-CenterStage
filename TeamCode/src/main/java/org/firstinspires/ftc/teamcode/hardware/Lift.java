@@ -52,7 +52,7 @@ public class Lift extends BaseHardware {
     private final double liftSpeed = 1.0;
     private double stagSpeed = 0.30;
     private static final double holdDefalt = 0.30;
-    private static  final double holdClimb = 0.65;
+    private static  final double holdClimb = 0.75;
     private final static int stagPos  = 100;
     private final static int tol =15;
     private Mode CurrentMode = Mode.START;
@@ -62,7 +62,7 @@ public class Lift extends BaseHardware {
     private final double wristDelivery = 0.63;
     private final double wristDeliveryTel = 0.63;
 
-    private final double wristIntake = 0.2;
+    private final double wristIntake = 0.15;
     private final int armPickup = 0;
     private final int armDelivery = 570;
     private final int armMinPos = 0;
@@ -76,10 +76,10 @@ public class Lift extends BaseHardware {
     private  final double armHoldIntake = 0.05;
     private final int armTol = 15;
 private final double boxEmpty = 9; // in inches
-    private final double boxOne = 7;
+    private final double boxOne = 7.5;
     private final double boxTwo = 2;
     private final double boxTol = 0.5;
-    private final double armTimeout = 1000;
+    private final double armTimeout = 1250;
 
     /**
      * BaseHardware constructor
@@ -181,6 +181,7 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
                 break;
             case DELIVERTEL:
                 //  openDoor();
+                //  closeDoor();
                 ArmgotoPos(armDelivery);
                 gotoPosWrist(wristDeliveryTel);
                 liftgotoPos(liftDeliveryPosTel);
