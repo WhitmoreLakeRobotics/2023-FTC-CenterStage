@@ -183,7 +183,7 @@ public class Red_Frontstage extends OpMode {
                 break;
             case _42_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(13.5, 140, 0.35, -10);
+                    robot.driveTrain.CmdDrive(13, 130, 0.35, -10);
                     currentStage = stage._50_Drive_Straight_To_Pivot;
 
                 }

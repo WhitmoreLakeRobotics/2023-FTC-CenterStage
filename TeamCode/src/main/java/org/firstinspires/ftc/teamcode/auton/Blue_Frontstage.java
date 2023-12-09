@@ -150,7 +150,7 @@ public class Blue_Frontstage extends OpMode {
                 break;
             case _22_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(13.5, -140, 0.35, 10);
+                    robot.driveTrain.CmdDrive(13, -130, 0.35, 10);
 
                     currentStage = stage._50_Drive_Straight_To_Pivot;
 
@@ -228,6 +228,7 @@ public class Blue_Frontstage extends OpMode {
                     runtime.reset();
                     currentStage = stage._60_Drive_To_Backdrop_Wall;
                 }
+                break;
 
             case _60_Drive_To_Backdrop_Wall:
                 if(runtime.milliseconds() > 5000) {
