@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.hardware.Lift;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 
 //@Disabled
-@Autonomous(name = "Blue_Frontstage", group = "Auton")
+@Autonomous(name = "Blue_Frontstage1", group = "Auton")
 // @Autonomous(...) is the other common choice
 
 public class Blue_Frontstage extends OpMode {
@@ -150,7 +150,7 @@ public class Blue_Frontstage extends OpMode {
                 break;
             case _22_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(13, -140, 0.35, 10);
+                    robot.driveTrain.CmdDrive(13.5, -140, 0.35, 10);
 
                     currentStage = stage._50_Drive_Straight_To_Pivot;
 
@@ -160,7 +160,7 @@ public class Blue_Frontstage extends OpMode {
 
             case _30_DriveTo_spike_center:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(21, 0, 0.30, 0);
+                    robot.driveTrain.CmdDrive(22.5, 0, 0.30, 0);
                     currentStage = stage._32_Drive_Back;
 
                 }
@@ -186,7 +186,7 @@ public class Blue_Frontstage extends OpMode {
                 break;
             case _42_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(18, 170, 0.35, -31);
+                    robot.driveTrain.CmdDrive(21, 170, 0.35, -31);
 
                     currentStage = stage._50_Drive_Straight_To_Pivot;
 
@@ -217,14 +217,20 @@ public class Blue_Frontstage extends OpMode {
                 break;
             case _57_Drive_Toward_BackDrop:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(70, -90, 0.45, -90);
-                    currentStage = stage._60_Drive_To_Backdrop_Wall;
+                    robot.driveTrain.CmdDrive(95, -90, 0.45, -90);
+                    currentStage = stage._58_Pause;
 
                 }
                 break;
 
+            case _58_Pause:
+                if (robot.driveTrain.getCmdComplete()) {
+                    runtime.reset();
+                    currentStage = stage._60_Drive_To_Backdrop_Wall;
+                }
+
             case _60_Drive_To_Backdrop_Wall:
-                if(robot.driveTrain.getCmdComplete()){
+                if(runtime.milliseconds() > 5000) {
                     robot.driveTrain.cmdDriveBySensors(17,90,0.35,-90);
                     //robot.driveTrain.CmdDrive(40, -93, 0.35, -90);
 
@@ -294,7 +300,7 @@ public class Blue_Frontstage extends OpMode {
 
             case _95_Park_And_Turn:
                 if (robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(PlaceDistance-15,0,0.35,0);
+                    robot.driveTrain.CmdDrive(PlaceDistance-17,0,0.35,0);
                     robot.lift.setCurrentMode(Lift.Mode.INTAKE);
                     currentStage = stage._97_Strafe_To_Wall;
                 }
@@ -344,6 +350,7 @@ public class Blue_Frontstage extends OpMode {
         _50_Drive_Straight_To_Pivot,
         _55_Turn_to_BackDrop,
         _57_Drive_Toward_BackDrop,
+        _58_Pause,
         _60_Drive_To_Backdrop_Wall,
         _65_Strafe_BackDrop_Edge,
         _68_Drive_To_Edge_Of_Backdrop,

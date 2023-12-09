@@ -29,8 +29,8 @@ public class Lift extends BaseHardware {
     //private DistanceSensor RearLeftSensor;
     private boolean cmdComplete = true;
 
-    private DcMotorEx LF1;
-    private DcMotorEx LF2;
+    private DcMotor LF1;
+    private DcMotor LF2;
     private DcMotorEx ARM1;
 
     private Servo WRIST1;
@@ -52,7 +52,7 @@ public class Lift extends BaseHardware {
     private final double liftSpeed = 1.0;
     private double stagSpeed = 0.30;
     private static final double holdDefalt = 0.30;
-    private static  final double holdClimb = 0.75;
+    private static  final double holdClimb = -0.65;
     private final static int stagPos  = 100;
     private final static int tol =15;
     private Mode CurrentMode = Mode.START;
@@ -99,8 +99,10 @@ private final double boxEmpty = 9; // in inches
     public void init(){
         //DeliverySensor = hardwareMap.get(ColorRangeSensor.class, "DeliveryS");
        // RearLeftSensor = hardwareMap.get(DistanceSensor.class, "RearLeftS");
-        LF1 = hardwareMap.get(DcMotorEx.class, "LF1");
-        LF2 = hardwareMap.get(DcMotorEx.class, "LF2");
+     //   LF1 = hardwareMap.get(DcMotorEx.class, "LF1");
+     //   LF2 = hardwareMap.get(DcMotorEx.class, "LF2");
+        LF1 = hardwareMap.dcMotor.get("LF1");
+        LF2 = hardwareMap.dcMotor.get("LF2");
         LF1.setDirection(DcMotor.Direction.REVERSE);
         LF2.setDirection(DcMotor.Direction.FORWARD);
 
@@ -156,9 +158,11 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop(){
-        telemetry.addData("lift Pos " , Integer.toString(LF1.getCurrentPosition())) ;
-        telemetry.addData("Arm Pos " , Integer.toString(ARM1.getCurrentPosition())) ;
-        telemetry.addData("BOX " , (BOXS.getDistance(DistanceUnit.INCH))) ;
+        //telemetry.addData("lift Pos " , Integer.toString(LF1.getCurrentPosition())) ;
+        //telemetry.addData("Arm Pos " , Integer.toString(ARM1.getCurrentPosition())) ;
+        //telemetry.addData("Lift1 Pow " , (LF1.getPower() )) ;
+        //telemetry.addData("Lift2 Pow " , (LF2.getPower() )) ;
+        //telemetry.addData("BOX " , (BOXS.getDistance(DistanceUnit.INCH))) ;
 
         //GoToPos
        //setMPower(CommonLogic.goToPosStagint(LF1.getCurrentPosition(), targetPos,tol,liftSpeed,stagPos,stagSpeed));
@@ -209,10 +213,12 @@ BOXS = hardwareMap.get(ColorRangeSensor.class, "BOXS");
                 //if(CommonLogic.inRange(ARM1.getCurrentPosition(),armPickup,armTol)){
                 if (runtime.milliseconds()> armTimeout -250){
                     ArmgotoPos(armPickup -20);
+                    stagSpeed=0;
                 }
                 if (runtime.milliseconds()> armTimeout){
                     gotoPosWrist(wristIntake);
                     armHoldPow = armHoldDeliver;
+
                 }
 
                 break;

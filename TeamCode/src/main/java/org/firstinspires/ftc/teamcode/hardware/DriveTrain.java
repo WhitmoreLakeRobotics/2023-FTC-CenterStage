@@ -174,7 +174,13 @@ public class DriveTrain extends BaseHardware {
      * This method will be called repeatedly in a loop while this op mode is running
      */
     public void loop() {
-        telemetry.addData("Gyro","Gyro "+Gyro.getGyroHeading());
+        //telemetry.addData("Gyro","Gyro "+Gyro.getGyroHeading());
+        //telemetry.addData("LDM1 CP","LDM1 CP "+LDM1.getCurrentPosition());
+        //telemetry.addData("LDM2 CP","LDM2 CP "+LDM2.getCurrentPosition());
+
+        //telemetry.addData("RDM1 CP","RDM1 CP "+RDM1.getCurrentPosition());
+        //telemetry.addData("RDM2 CP","RDM2 CP "+RDM2.getCurrentPosition());
+
         switch(Current_Mode){
             case TELEOP:
 
@@ -234,8 +240,8 @@ public class DriveTrain extends BaseHardware {
         RobotLog.aa(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
                 + " Right_X: " + Right_X + " Heading " + Heading);
 
-        telemetry.addData(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
-                + " Right_X: " + Right_X + " Heading " + Heading);
+        //telemetry.addData(TAGChassis, "Left_X: " + Left_X +" Left_Y: " + Left_Y
+        //        + " Right_X: " + Right_X + " Heading " + Heading);
 
 
 

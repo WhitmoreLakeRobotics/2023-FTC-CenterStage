@@ -153,7 +153,7 @@ public class Blue_Backstage extends OpMode {
 
             case _30_DriveTo_spike_center:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(21, 0, 0.30, 0);
+                    robot.driveTrain.CmdDrive(22.5, 0, 0.30, 0);
                     //robot.driveTrain.cmdDriveBySensors(31,0,0.35,0, DriveTrain.SensorSel.REAR);
                     currentStage = stage._32_Drive_Back;
 

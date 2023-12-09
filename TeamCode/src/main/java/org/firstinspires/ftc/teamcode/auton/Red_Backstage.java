@@ -153,7 +153,7 @@ robot.updateDriveSensor();
 
             case _30_DriveTo_spike_center:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(21, 0, 0.30, 0);
+                    robot.driveTrain.CmdDrive(22.5, 0, 0.30, 0);
                     currentStage = stage._32_Drive_Back;
 
                 }
