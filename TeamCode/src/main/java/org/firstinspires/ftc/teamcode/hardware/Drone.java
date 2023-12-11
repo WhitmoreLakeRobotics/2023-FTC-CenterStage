@@ -28,8 +28,8 @@ public class Drone extends BaseHardware {
      */
     public HardwareMap hardwareMap = null; // will be set in Child class
     private final double preLaunch  = 0.000;
-    private final double launch  = 0.70;
-    private final double holdTime = 500; // in milliseconds
+    private final double launch  = 1;
+    private final double holdTime = 1500; // in milliseconds
     private Mode CurrentMode = Mode.STOP;
 
 

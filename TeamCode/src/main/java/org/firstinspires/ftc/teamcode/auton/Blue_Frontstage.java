@@ -39,7 +39,7 @@ public class Blue_Frontstage extends OpMode {
     private Robot.SensorDetect ScanResults = Robot.SensorDetect.UNKNOWN;
     private int PlaceDistance = 0;
     private final int LeftDistance =18 ;
-    private final int RightDistance =4 ;
+    private final int RightDistance =7 ;
     private final int CenterDistance= 13 ;
     private int StrafeDistance = 0;
     @Override
@@ -150,7 +150,7 @@ public class Blue_Frontstage extends OpMode {
                 break;
             case _22_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(13, -130, 0.35, 10);
+                    robot.driveTrain.CmdDrive(13, -135, 0.35, 10);
 
                     currentStage = stage._50_Drive_Straight_To_Pivot;
 
@@ -232,7 +232,7 @@ public class Blue_Frontstage extends OpMode {
 
             case _60_Drive_To_Backdrop_Wall:
                 if(runtime.milliseconds() > 5000) {
-                    robot.driveTrain.cmdDriveBySensors(17,90,0.35,-90);
+                    robot.driveTrain.cmdDriveBySensors(15.5,90,0.35,-90);
                     //robot.driveTrain.CmdDrive(40, -93, 0.35, -90);
 
                     currentStage = stage._65_Strafe_BackDrop_Edge; //stage._70_Strafe_Left_Wall;

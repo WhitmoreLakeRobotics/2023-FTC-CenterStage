@@ -183,7 +183,7 @@ public class Red_Frontstage extends OpMode {
                 break;
             case _42_Drive_Back:
                 if(robot.driveTrain.getCmdComplete()) {
-                    robot.driveTrain.CmdDrive(13, 130, 0.35, -10);
+                    robot.driveTrain.CmdDrive(13, 135, 0.35, -10);
                     currentStage = stage._50_Drive_Straight_To_Pivot;
 
                 }
@@ -229,8 +229,8 @@ public class Red_Frontstage extends OpMode {
 
             case _60_Drive_To_Backdrop_Wall:
                 //if(robot.driveTrain.getCmdComplete()){
-                if (runtime.milliseconds() > 5000) {
-                    robot.driveTrain.cmdDriveBySensors(17,-90,0.35,90);
+                if (runtime.milliseconds() > 7000) {
+                    robot.driveTrain.cmdDriveBySensors(15.5,-90,0.35,90);
                     //robot.driveTrain.CmdDrive(40, -93, 0.35, -90);
 
                     currentStage = stage._65_Strafe_BackDrop_Edge; //stage._70_Strafe_Left_Wall;
